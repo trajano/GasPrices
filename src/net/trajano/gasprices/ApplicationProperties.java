@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 public final class ApplicationProperties {
@@ -51,9 +52,9 @@ public final class ApplicationProperties {
 		}
 	}
 
-	public JSONObject getClosestCityData(final double currentLatitude,
-			final double currentLongitude) throws JSONException {
-		double currentDistance = Double.MAX_VALUE;
+	public JSONObject getClosestCityData(final Location location)
+			throws JSONException {
+		float currentDistance = Float.MAX_VALUE;
 		JSONObject currentPrices = null;
 		final JSONArray cities = (JSONArray) getResultData().get("gasprices");
 		for (int i = 0; i < cities.length(); ++i) {
@@ -61,11 +62,12 @@ public final class ApplicationProperties {
 			if (currentObject.isNull("location_latitude")) {
 				continue;
 			}
-			final double lat = currentObject.getDouble("location_latitude");
-			final double longitude = currentObject
-					.getDouble("location_longitude");
-			final double distance = DistanceUtil.distance(currentLatitude,
-					currentLongitude, lat, longitude);
+			final Location cityLocation = new Location("app");
+			cityLocation.setLatitude(currentObject
+					.getDouble("location_latitude"));
+			cityLocation.setLongitude(currentObject
+					.getDouble("location_longitude"));
+			final float distance = cityLocation.distanceTo(location);
 			if (distance <= currentDistance) {
 				currentDistance = distance;
 				currentPrices = currentObject;

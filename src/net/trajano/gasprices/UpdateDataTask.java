@@ -11,15 +11,24 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import android.app.Activity;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
 public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
+	private static final Location TORONTO_LOCATION;
+	static {
+		TORONTO_LOCATION = new Location("app");
+		TORONTO_LOCATION.setLatitude(43.6669);
+		TORONTO_LOCATION.setLongitude(-79.3824);
+	}
+
 	/**
 	 * Activity.
 	 */
 	private final Activity activity;
+
 	private ApplicationProperties props;
 
 	public UpdateDataTask(final Activity activity) {
@@ -44,10 +53,8 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 						.nextValue();
 				props.updateResultData(object);
 				props.write();
-				final double currentLatitude = 43.6669;
-				final double currentLongitude = -79.3824;
-				return props.getClosestCityData(currentLatitude,
-						currentLongitude);
+
+				return props.getClosestCityData(TORONTO_LOCATION);
 			} finally {
 				urlConnection.disconnect();
 			}
@@ -82,11 +89,9 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 	protected void onPreExecute() {
 		props = new ApplicationProperties(activity);
 		if (props.isLoaded()) {
-			final double currentLatitude = 43.6669;
-			final double currentLongitude = -79.3824;
 			try {
-				final JSONObject result = props.getClosestCityData(
-						currentLatitude, currentLongitude);
+				final JSONObject result = props
+						.getClosestCityData(TORONTO_LOCATION);
 				final TextView v = (TextView) activity
 						.findViewById(R.id.GasPriceText);
 				v.setText("Last updated on: "
