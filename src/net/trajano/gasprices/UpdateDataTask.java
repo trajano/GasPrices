@@ -3,9 +3,9 @@ package net.trajano.gasprices;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.util.Scanner;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -20,6 +20,7 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 	 * Activity.
 	 */
 	private final Activity activity;
+	private ApplicationProperties props;
 
 	public UpdateDataTask(final Activity activity) {
 		this.activity = activity;
@@ -41,29 +42,12 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 
 				final JSONObject object = (JSONObject) new JSONTokener(jsonData)
 						.nextValue();
-				final JSONArray prices = (JSONArray) object.get("gasprices");
-
+				props.updateResultData(object);
+				props.write();
 				final double currentLatitude = 43.6669;
 				final double currentLongitude = -79.3824;
-				double currentDistance = Double.MAX_VALUE;
-				JSONObject currentPrices = null;
-				for (int i = 0; i < prices.length(); ++i) {
-					final JSONObject currentObject = prices.getJSONObject(i);
-					if (currentObject.isNull("location_latitude")) {
-						continue;
-					}
-					final double lat = currentObject
-							.getDouble("location_latitude");
-					final double longitude = currentObject
-							.getDouble("location_longitude");
-					final double distance = DistanceUtil.distance(
-							currentLatitude, currentLongitude, lat, longitude);
-					if (distance <= currentDistance) {
-						currentDistance = distance;
-						currentPrices = currentObject;
-					}
-				}
-				return currentPrices;
+				return props.getClosestCityData(currentLatitude,
+						currentLongitude);
 			} finally {
 				urlConnection.disconnect();
 			}
@@ -84,10 +68,41 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 		Log.v("ME", "result is =" + result);
 		final TextView v = (TextView) activity.findViewById(R.id.GasPriceText);
 		try {
-			v.setText(result.getString("regular") + "\n" + result);
+			v.setText("Last updated on: "
+					+ DateFormat.getDateInstance(DateFormat.FULL).format(
+							props.getLastUpdated()) + "\n"
+					+ result.getString("regular") + "\n" + result);
 		} catch (final JSONException e) {
 			Log.e("GasPrices", e.getMessage());
 			return;
 		}
+	}
+
+	@Override
+	protected void onPreExecute() {
+		props = new ApplicationProperties(activity);
+		if (props.isLoaded()) {
+			final double currentLatitude = 43.6669;
+			final double currentLongitude = -79.3824;
+			try {
+				final JSONObject result = props.getClosestCityData(
+						currentLatitude, currentLongitude);
+				final TextView v = (TextView) activity
+						.findViewById(R.id.GasPriceText);
+				v.setText("Last updated on: "
+						+ DateFormat.getDateInstance(DateFormat.LONG).format(
+								props.getLastUpdated()) + "\n"
+						+ result.getString("regular") + "\n" + result
+						+ "\nUpdating...");
+
+			} catch (final JSONException e) {
+				Log.e("GasPrices", e.getMessage());
+			}
+		} else {
+			final TextView v = (TextView) activity
+					.findViewById(R.id.GasPriceText);
+			v.setText("there is a problem reading the properties file");
+		}
+
 	}
 }

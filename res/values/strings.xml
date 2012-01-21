@@ -3,5 +3,7 @@
 
     <string name="hello">Over here would show what the current gas price is and tomorrow\'s gas price.</string>
     <string name="app_name">Gas Prices</string>
+    <string name="update_time_blurb">The application only performs an update at 5pm and 8pm local time unless forced.</string>
+    <string name="force_update">Force Update</string>
 
 </resources>
