@@ -11,6 +11,7 @@ public class GasPricesActivity extends Activity {
 		StrictMode.enableDefaults();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		new LoadDataTask(this).execute();
 		new UpdateDataTask(this).execute();
 	}
 }

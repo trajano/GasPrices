@@ -51,6 +51,7 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 
 				final JSONObject object = (JSONObject) new JSONTokener(jsonData)
 						.nextValue();
+				props = new ApplicationProperties(activity);
 				props.updateResultData(object);
 				props.write();
 
@@ -69,45 +70,19 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 
 	@Override
 	protected void onPostExecute(final JSONObject result) {
-		if (result == null) {
+		if (result == null || props == null) {
 			return;
 		}
 		Log.v("ME", "result is =" + result);
 		final TextView v = (TextView) activity.findViewById(R.id.GasPriceText);
 		try {
 			v.setText("Last updated on: "
-					+ DateFormat.getDateInstance(DateFormat.FULL).format(
-							props.getLastUpdated()) + "\n"
-					+ result.getString("regular") + "\n" + result);
+					+ DateFormat.getDateTimeInstance(DateFormat.FULL,
+							DateFormat.FULL).format(props.getLastUpdated())
+					+ "\n" + result.getString("regular") + "\n" + result);
 		} catch (final JSONException e) {
 			Log.e("GasPrices", e.getMessage());
 			return;
 		}
-	}
-
-	@Override
-	protected void onPreExecute() {
-		props = new ApplicationProperties(activity);
-		if (props.isLoaded()) {
-			try {
-				final JSONObject result = props
-						.getClosestCityData(TORONTO_LOCATION);
-				final TextView v = (TextView) activity
-						.findViewById(R.id.GasPriceText);
-				v.setText("Last updated on: "
-						+ DateFormat.getDateInstance(DateFormat.LONG).format(
-								props.getLastUpdated()) + "\n"
-						+ result.getString("regular") + "\n" + result
-						+ "\nUpdating...");
-
-			} catch (final JSONException e) {
-				Log.e("GasPrices", e.getMessage());
-			}
-		} else {
-			final TextView v = (TextView) activity
-					.findViewById(R.id.GasPriceText);
-			v.setText("there is a problem reading the properties file");
-		}
-
 	}
 }
