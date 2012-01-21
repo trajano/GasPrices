@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Over here would show what the current gas price is and tomorrow\'s gas price.</string>
+    <string name="app_name">Gas Prices</string>
+
+</resources>
