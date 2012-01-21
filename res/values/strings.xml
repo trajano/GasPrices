@@ -5,5 +5,6 @@
     <string name="app_name">Gas Prices</string>
     <string name="update_time_blurb">The application only performs an update at 5pm and 8pm local time unless forced.</string>
     <string name="force_update">Force Update</string>
+    <string name="default_price">---.--</string>
 
 </resources>
