@@ -14,6 +14,7 @@ public class CityInfo {
 
 	private final Date priceDate;
 	private final double priceDifference;
+	private final double priceDifferenceAbsoluteValue;
 	private final float tomorrowsGasPrice;
 	private final boolean tomorrowsGasPriceAvailable;
 	private final String toStringValue;
@@ -24,7 +25,9 @@ public class CityInfo {
 			ParseException {
 		priceDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 				.parse(closestCityData.getString("price_date"));
-		priceDifference = closestCityData.getDouble("price_difference")
+		priceDifferenceAbsoluteValue = closestCityData
+				.getDouble("price_difference");
+		priceDifference = priceDifferenceAbsoluteValue
 				* ("-".equals(closestCityData.getString("price_prefix")) ? -1
 						: 1);
 		final Date currentDate = new Date();
@@ -50,6 +53,10 @@ public class CityInfo {
 
 	public double getPriceDifference() {
 		return priceDifference;
+	}
+
+	public double getPriceDifferenceAbsoluteValue() {
+		return priceDifferenceAbsoluteValue;
 	}
 
 	public float getTomorrowsGasPrice() {
