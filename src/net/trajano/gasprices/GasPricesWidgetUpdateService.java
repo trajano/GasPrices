@@ -2,7 +2,6 @@ package net.trajano.gasprices;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.Date;
 
 import org.json.JSONException;
 
@@ -59,11 +58,8 @@ public class GasPricesWidgetUpdateService extends IntentService {
 			final PendingIntent pendingIntent = PendingIntent.getService(
 					getApplicationContext(), START_NOT_STICKY, intent,
 					START_NOT_STICKY);
-			alarmManager.set(AlarmManager.RTC, new Date().getTime() + 10000,
-					pendingIntent);
-
-			// alarmManager.set(AlarmManager.RTC, props.getNextUpdateTime()
-			// .getTime(), pendingIntent);
+			alarmManager.set(AlarmManager.RTC, props.getNextUpdateTime()
+					.getTime() + 1, pendingIntent);
 		}
 
 		final AppWidgetManager appWidgetManager = AppWidgetManager
