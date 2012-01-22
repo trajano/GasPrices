@@ -1,12 +1,14 @@
 package net.trajano.gasprices;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import org.json.JSONException;
 
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -29,16 +31,41 @@ public class GasPricesWidgetUpdateService extends IntentService {
 	@Override
 	protected void onHandleIntent(final Intent intent) {
 		Log.v("GasPrices", "handleIntent");
+		final RemoteViews remoteViews = new RemoteViews(getApplicationContext()
+				.getPackageName(), R.layout.widget_layout);
+
+		final ApplicationProperties props = new ApplicationProperties(
+				getApplicationContext());
+
+		if (props.isLoaded()) {
+			final CityInfo info = props.getClosestCityInfo(TORONTO_LOCATION);
+			remoteViews.setTextViewText(R.id.update, new DecimalFormat(
+					"##0.0 '\u00A2/L'").format(info.getCurrentGasPrice()));
+		} else {
+			remoteViews.setTextViewText(R.id.update, new DecimalFormat(
+					"##0.0 '\u00A2/L'").format(42.0));
+		}
+
+		final AppWidgetManager appWidgetManager = AppWidgetManager
+				.getInstance(getApplicationContext());
+
+		final ComponentName thisWidget = new ComponentName(
+				getApplicationContext(), GasPricesWidgetProvider.class);
+
+		appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+	}
+
+	protected void xonHandleIntent(final Intent intent) {
+		Log.v("GasPrices", "handleIntent");
 		final AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(getApplicationContext());
 
 		final RemoteViews remoteViews = new RemoteViews(getApplicationContext()
 				.getPackageName(), R.layout.widget_layout);
-
-		Log.v("GasPrices", "properties loaded");
-
 		final ApplicationProperties props = new ApplicationProperties(
 				getApplicationContext());
+
+		Log.v("GasPrices", "properties loaded");
 		if (props.isUpdateRequired()) {
 			try {
 				props.update();
