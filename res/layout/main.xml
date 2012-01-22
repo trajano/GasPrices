@@ -32,7 +32,7 @@
                 android:padding="3dp"
                 android:text="Today" />
 
-            <TextView
+            <TextView android:id="@+id/PriceTodayText"
                 style="@android:style/TextAppearance.DeviceDefault.Large"
                 android:gravity="left"
                 android:text="@string/default_price"
@@ -47,10 +47,10 @@
 
             <TextView
                 style="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:padding="3dp"
+                android:padding="3dp" android:id="@+id/OtherPriceLabelText"
                 android:text="Tomorrow" />
 
-            <TextView
+            <TextView android:id="@+id/OtherPriceText"
                 style="@android:style/TextAppearance.DeviceDefault.Large"
                 android:text="@string/default_price"
                 android:textStyle="bold" />
@@ -58,15 +58,29 @@
     </TableLayout>
 
     <TextView
-        android:id="@+id/GasPriceText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello" />
-
-    <TextView
         android:id="@+id/GasPriceStatusText"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:gravity="right"
+        android:layout_height="wrap_content"
+        android:gravity="right"
         android:text="@string/hello" />
+
+    <LinearLayout android:gravity="center_horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/RefreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Refresh Data" />
+
+        <Button
+            android:id="@+id/DebugButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Feed Data" />
+
+    </LinearLayout>
 
 </LinearLayout>

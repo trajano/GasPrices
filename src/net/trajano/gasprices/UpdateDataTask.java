@@ -61,9 +61,12 @@ public final class UpdateDataTask extends
 
 	@Override
 	protected void onPostExecute(final ApplicationProperties props) {
+		final GasPricesViewWrapper view = new GasPricesViewWrapper(activity,
+				props);
 		if (props == null) {
-			return;
+			view.setStatus("Update failed");
+		} else {
+			view.updateView();
 		}
-		new GasPricesViewWrapper(activity, props);
 	}
 }

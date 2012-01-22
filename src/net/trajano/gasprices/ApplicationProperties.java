@@ -134,6 +134,15 @@ public final class ApplicationProperties {
 		return loaded;
 	}
 
+	/**
+	 * An update is required if the next update is before the last updated time.
+	 * 
+	 * @return
+	 */
+	public boolean isUpdateRequired() {
+		return getNextUpdateTime().before(getLastUpdated());
+	}
+
 	public void updateResultData(final JSONObject o) throws JSONException {
 		prop.setProperty(LAST_UPDATED, String.valueOf(new Date().getTime()));
 		prop.setProperty(LAST_RESULT_DATA, o.toString());
