@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
@@ -78,6 +79,37 @@ public final class ApplicationProperties {
 
 	public Date getLastUpdated() {
 		return new Date(Long.parseLong(prop.getProperty(LAST_UPDATED)));
+	}
+
+	/**
+	 * If the properties are not loaded then this function will return the
+	 * current date/time.
+	 * 
+	 * The rule is the next update time would be 5pm, 8pm and midnight.
+	 * 
+	 * @return
+	 */
+	public Date getNextUpdateTime() {
+		if (!loaded) {
+			return new Date();
+		}
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(getLastUpdated());
+		if (cal.get(Calendar.HOUR_OF_DAY) < 17) {
+			cal.set(Calendar.HOUR_OF_DAY, 20);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+		} else if (cal.get(Calendar.HOUR_OF_DAY) < 20) {
+			cal.set(Calendar.HOUR_OF_DAY, 20);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+		} else {
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.add(Calendar.DATE, 1);
+		}
+		return cal.getTime();
 	}
 
 	public JSONObject getResultData() throws JSONException {

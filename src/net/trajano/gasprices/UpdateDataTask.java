@@ -78,8 +78,14 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 		try {
 			v.setText("Last updated on: "
 					+ DateFormat.getDateTimeInstance(DateFormat.FULL,
-							DateFormat.FULL).format(props.getLastUpdated())
-					+ "\n" + result.getString("regular") + "\n" + result);
+							DateFormat.LONG).format(props.getLastUpdated())
+					+ "\n"
+					+ result.getString("regular")
+					+ "\n"
+					+ result
+					+ "\nNext update on: "
+					+ DateFormat.getDateTimeInstance(DateFormat.FULL,
+							DateFormat.LONG).format(props.getNextUpdateTime()));
 		} catch (final JSONException e) {
 			Log.e("GasPrices", e.getMessage());
 			return;
