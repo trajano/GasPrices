@@ -4,10 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,7 +146,34 @@ public final class ApplicationProperties {
 		return getNextUpdateTime().before(getLastUpdated());
 	}
 
-	public void updateResultData(final JSONObject o) throws JSONException {
+	/**
+	 * Connects to the server and obtains the JSON data.
+	 * 
+	 * @throws IOException
+	 * @throws JSONException
+	 */
+	public void update() throws IOException, JSONException {
+		final HttpURLConnection urlConnection = (HttpURLConnection) new URL(
+				"http://www.tomorrowsgaspricetoday.com/mobile/json_mobile_data.php")
+				.openConnection();
+		try {
+			// Read the JSON data, skip the first character since it breaks
+			// the
+			// parsing.
+			final String jsonData = new Scanner(urlConnection.getInputStream())
+					.useDelimiter("\\A").next().substring(1);
+
+			final JSONObject object = (JSONObject) new JSONTokener(jsonData)
+					.nextValue();
+
+			updateResultData(object);
+			write();
+		} finally {
+			urlConnection.disconnect();
+		}
+	}
+
+	private void updateResultData(final JSONObject o) throws JSONException {
 		prop.setProperty(LAST_UPDATED, String.valueOf(new Date().getTime()));
 		prop.setProperty(LAST_RESULT_DATA, o.toString());
 		Log.v("GasPrices",
@@ -151,7 +181,7 @@ public final class ApplicationProperties {
 		loaded = true;
 	}
 
-	public void write() throws IOException {
+	private void write() throws IOException {
 		final OutputStream os = context.openFileOutput(FILE_NAME,
 				Context.MODE_PRIVATE);
 		prop.store(os, "Automatically generated file.");

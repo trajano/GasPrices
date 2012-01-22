@@ -1,7 +1,7 @@
 package net.trajano.gasprices;
 
+import android.app.IntentService;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,7 +10,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-public class GasPricesWidgetUpdateService extends Service {
+public class GasPricesWidgetUpdateService extends IntentService {
 	private static final Location TORONTO_LOCATION;
 
 	static {
@@ -19,13 +19,35 @@ public class GasPricesWidgetUpdateService extends Service {
 		TORONTO_LOCATION.setLongitude(-79.3824);
 	}
 
+	public GasPricesWidgetUpdateService() {
+		super("GasPricesWidgetUpdateIntentService");
+	}
+
 	@Override
 	public IBinder onBind(final Intent intent) {
 		return null;
 	}
 
 	@Override
-	public int onStartCommand(final Intent intent, final int flags,
+	protected void onHandleIntent(final Intent intent) {
+		Log.v("GasPrices", "handleIntent");
+		final AppWidgetManager appWidgetManager = AppWidgetManager
+				.getInstance(getApplicationContext());
+
+		final RemoteViews remoteViews = new RemoteViews(getApplicationContext()
+				.getPackageName(), R.layout.widget_layout);
+
+		Log.v("GasPrices", "properties loaded");
+
+		// ComponentName thisWidget = new ComponentName(getApplicationContext(),
+		// MyWidget.class);
+		// remoteViews.setTextViewText(R.id.my_text_view, "myText" +
+		// System.currentTimeMillis());
+		// appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+
+	}
+
+	public int xonStartCommand(final Intent intent, final int flags,
 			final int startId) {
 		Log.v("GasPrices", "widget service start");
 		final AppWidgetManager appWidgetManager = AppWidgetManager

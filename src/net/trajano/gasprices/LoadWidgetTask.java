@@ -1,6 +1,9 @@
 package net.trajano.gasprices;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
+
+import org.json.JSONException;
 
 import android.content.Context;
 import android.location.Location;
@@ -29,7 +32,19 @@ public final class LoadWidgetTask extends
 	@Override
 	protected ApplicationProperties doInBackground(final Void... params) {
 		Log.v("GasPrices", "widget service background");
-		return new ApplicationProperties(context);
+		final ApplicationProperties props = new ApplicationProperties(context);
+		if (props.isUpdateRequired()) {
+			try {
+				props.update();
+			} catch (final JSONException e) {
+				Log.e("GasPrices", e.getMessage());
+				return null;
+			} catch (final IOException e) {
+				Log.e("GasPrices", e.getMessage());
+				return null;
+			}
+		}
+		return props;
 	}
 
 	@Override
