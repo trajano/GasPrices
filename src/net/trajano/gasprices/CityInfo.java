@@ -24,40 +24,32 @@ public class CityInfo {
 			ParseException {
 		priceDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 				.parse(closestCityData.getString("price_date"));
-		priceDifference = closestCityData.getDouble("price_difference");
+		priceDifference = closestCityData.getDouble("price_difference")
+				* ("-".equals(closestCityData.getString("price_prefix")) ? -1
+						: 1);
 		final Date currentDate = new Date();
 		if (priceDate.after(currentDate)) {
 			tomorrowsGasPriceAvailable = true;
 			yesterdaysGasPriceAvailable = false;
 			yesterdaysGasPrice = Float.NaN;
 			tomorrowsGasPrice = (float) closestCityData.getDouble("regular");
-			if ("+".equals(closestCityData.getString("price_prefix"))) {
-				currentGasPrice = (float) (closestCityData.getDouble("regular") - getPriceDifference());
-			} else if ("-".equals(closestCityData.getString("price_prefix"))) {
-				currentGasPrice = (float) (closestCityData.getDouble("regular") + getPriceDifference());
-			} else {
-				currentGasPrice = tomorrowsGasPrice;
-			}
+			currentGasPrice = (float) (closestCityData.getDouble("regular") - priceDifference);
 		} else {
 			tomorrowsGasPriceAvailable = false;
 			yesterdaysGasPriceAvailable = true;
 			tomorrowsGasPrice = Float.NaN;
 			currentGasPrice = (float) closestCityData.getDouble("regular");
-			if ("+".equals(closestCityData.getString("price_prefix"))) {
-				yesterdaysGasPrice = (float) (closestCityData
-						.getDouble("regular") - getPriceDifference());
-			} else if ("-".equals(closestCityData.getString("price_prefix"))) {
-				yesterdaysGasPrice = (float) (closestCityData
-						.getDouble("regular") + getPriceDifference());
-			} else {
-				yesterdaysGasPrice = currentGasPrice;
-			}
+			yesterdaysGasPrice = (float) (closestCityData.getDouble("regular") - priceDifference);
 		}
 		toStringValue = closestCityData.toString();
 	}
 
 	public float getCurrentGasPrice() {
 		return currentGasPrice;
+	}
+
+	public double getPriceDifference() {
+		return priceDifference;
 	}
 
 	public float getTomorrowsGasPrice() {
@@ -79,9 +71,5 @@ public class CityInfo {
 	@Override
 	public String toString() {
 		return toStringValue;
-	}
-
-	public double getPriceDifference() {
-		return priceDifference;
 	}
 }
