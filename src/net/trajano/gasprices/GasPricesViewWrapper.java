@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 
 import android.app.Activity;
 import android.location.Location;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class GasPricesViewWrapper {
@@ -92,5 +93,10 @@ public class GasPricesViewWrapper {
 						.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG)
 						.format(props.getNextUpdateTime())
 						.replace(' ', '\u00A0')));
+		{
+			final ProgressBar vp = (ProgressBar) activity
+					.findViewById(R.id.progressBar);
+			vp.setProgress(100);
+		}
 	}
 }

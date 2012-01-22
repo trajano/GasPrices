@@ -7,6 +7,7 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 public final class UpdateDataTask extends
 		AsyncTask<Void, Integer, ApplicationProperties> {
@@ -25,7 +26,9 @@ public final class UpdateDataTask extends
 		try {
 			final ApplicationProperties props = new ApplicationProperties(
 					activity);
+			publishProgress(50);
 			props.update();
+			publishProgress(100);
 			return props;
 		} catch (final JSONException e) {
 			Log.e("GasPrices", e.getMessage());
@@ -45,5 +48,19 @@ public final class UpdateDataTask extends
 		} else {
 			view.updateView();
 		}
+	}
+
+	@Override
+	protected void onPreExecute() {
+		final ProgressBar vp = (ProgressBar) activity
+				.findViewById(R.id.progressBar);
+		vp.setProgress(1);
+	}
+
+	@Override
+	protected void onProgressUpdate(final Integer... values) {
+		final ProgressBar vp = (ProgressBar) activity
+				.findViewById(R.id.progressBar);
+		vp.setProgress(values[0]);
 	}
 }
