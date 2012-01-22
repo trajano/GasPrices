@@ -1,9 +1,5 @@
 package net.trajano.gasprices;
 
-import java.text.DecimalFormat;
-
-import org.json.JSONException;
-
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -30,28 +26,18 @@ public class GasPricesWidgetUpdateService extends Service {
 
 	@Override
 	public void onStart(final Intent intent, final int startId) {
+		Log.v("GasPrices", "widget service start");
 		final AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(getApplicationContext());
 
 		final int[] allWidgetIds = intent
 				.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
-		final ApplicationProperties props = new ApplicationProperties(this);
-		Log.e("GasPrices", "props = " + props);
+		final RemoteViews remoteViews = new RemoteViews(getApplicationContext()
+				.getPackageName(), R.layout.widget_layout);
+
+		new LoadWidgetTask(getApplicationContext()).execute();
 
 		for (final int widgetId : allWidgetIds) {
-			final RemoteViews remoteViews = new RemoteViews(
-					getApplicationContext().getPackageName(),
-					R.layout.widget_layout);
-			// TODO show the difference and adjust the color of the widget if
-			// needed
-			try {
-				remoteViews.setTextViewText(R.id.update, new DecimalFormat(
-						"##0.0").format(props.getClosestCityInfo(
-						TORONTO_LOCATION).getCurrentGasPrice()));
-			} catch (final JSONException e) {
-				remoteViews.setTextViewText(R.id.update, getResources()
-						.getText(R.string.default_price));
-			}
 			// TODO this looks wrong over here I think it should've been in the
 			// provider itself.
 			final PackageManager manager = getApplicationContext()

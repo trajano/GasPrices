@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.Scanner;
 
 import org.json.JSONException;
@@ -75,24 +76,38 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, CityInfo> {
 			return;
 		}
 		Log.v("ME", "result is =" + result);
-		final TextView v = (TextView) activity.findViewById(R.id.GasPriceText);
-		v.setText("Last updated on: "
-				+ DateFormat.getDateTimeInstance(DateFormat.FULL,
-						DateFormat.LONG).format(props.getLastUpdated())
-				+ "\n"
-				+ "Today: "
-				+ new DecimalFormat("##0.0").format(result.getCurrentGasPrice())
-				+ "\n"
-				+ "Tomorrow: "
-				+ new DecimalFormat("##0.0").format(result
-						.getTomorrowsGasPrice())
-				+ "\n"
-				+ result
-				+ "\n"
-				+ result
-				+ "\nNext update on: "
-				+ DateFormat.getDateTimeInstance(DateFormat.FULL,
-						DateFormat.LONG).format(props.getNextUpdateTime()));
-
+		{
+			final TextView v = (TextView) activity
+					.findViewById(R.id.LastUpdatedText);
+			v.setText(MessageFormat.format(
+					activity.getResources().getString(R.string.last_updated),
+					DateFormat
+							.getDateTimeInstance(DateFormat.LONG,
+									DateFormat.LONG)
+							.format(props.getLastUpdated())
+							.replace(' ', '\u00A0')));
+		}
+		{
+			final TextView v = (TextView) activity
+					.findViewById(R.id.GasPriceText);
+			v.setText("Today: "
+					+ new DecimalFormat("##0.0").format(result
+							.getCurrentGasPrice())
+					+ "\n"
+					+ "Tomorrow: "
+					+ new DecimalFormat("##0.0").format(result
+							.getTomorrowsGasPrice())
+					+ "\n"
+					+ "Yesterday: "
+					+ new DecimalFormat("##0.0").format(result
+							.getYesterdaysGasPrice())
+					+ "\n"
+					+ result
+					+ "\n"
+					+ result
+					+ "\nNext update on: "
+					+ DateFormat.getDateTimeInstance(DateFormat.FULL,
+							DateFormat.LONG).format(props.getNextUpdateTime()));
+		}
 	}
 }

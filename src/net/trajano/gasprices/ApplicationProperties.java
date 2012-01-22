@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
@@ -77,9 +78,16 @@ public final class ApplicationProperties {
 		return currentPrices;
 	}
 
-	public CityInfo getClosestCityInfo(final Location location)
-			throws JSONException {
-		return new CityInfo(getClosestCityData(location));
+	public CityInfo getClosestCityInfo(final Location location) {
+		try {
+			return new CityInfo(getClosestCityData(location));
+		} catch (final JSONException e) {
+			Log.e("GasPrices", e.getMessage());
+			return null;
+		} catch (final ParseException e) {
+			Log.e("GasPrices", e.getMessage());
+			return null;
+		}
 	}
 
 	public Date getLastUpdated() {

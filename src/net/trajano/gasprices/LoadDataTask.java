@@ -3,12 +3,9 @@ package net.trajano.gasprices;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 
-import org.json.JSONException;
-
 import android.app.Activity;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.TextView;
 
 public final class LoadDataTask extends
@@ -42,25 +39,20 @@ public final class LoadDataTask extends
 			v.setText("there is a problem reading the properties file");
 			return;
 		}
-		try {
-			final TextView v = (TextView) activity
-					.findViewById(R.id.GasPriceText);
-			final CityInfo result = props.getClosestCityInfo(TORONTO_LOCATION);
-			v.setText("Last updated on: "
-					+ DateFormat.getDateTimeInstance(DateFormat.FULL,
-							DateFormat.FULL).format(props.getLastUpdated())
-					+ "\n"
-					+ "Today: "
-					+ new DecimalFormat("##0.0").format(result
-							.getCurrentGasPrice())
-					+ "\n"
-					+ "Tomorrow: "
-					+ new DecimalFormat("##0.0").format(result
-							.getTomorrowsGasPrice()) + "\n" + result
-					+ "\nUpdating...");
+		final TextView v = (TextView) activity.findViewById(R.id.GasPriceText);
+		final CityInfo result = props.getClosestCityInfo(TORONTO_LOCATION);
+		v.setText("Last updated on: "
+				+ DateFormat.getDateTimeInstance(DateFormat.FULL,
+						DateFormat.FULL).format(props.getLastUpdated())
+				+ "\n"
+				+ "Today: "
+				+ new DecimalFormat("##0.0").format(result.getCurrentGasPrice())
+				+ "\n"
 
-		} catch (final JSONException e) {
-			Log.e("GasPrices", e.getMessage());
-		}
+				+ "Tomorrow: "
+				+ new DecimalFormat("##0.0").format(result
+						.getTomorrowsGasPrice()) + "\n" + result
+				+ "\nUpdating...");
+
 	}
 }
