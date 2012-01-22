@@ -14,11 +14,17 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 	 */
 	public void onClick(final View v) {
 		final Button refreshButton = (Button) findViewById(R.id.RefreshButton);
+		final Button debugButton = (Button) findViewById(R.id.DebugButton);
+		final Button userButton = (Button) findViewById(R.id.UserButton);
 		if (v == refreshButton) {
 			final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 					null);
 			view.setStatus("Forced updating...");
 			new UpdateDataTask(this).execute();
+		} else if (v == debugButton) {
+			setFeedView();
+		} else if (v == userButton) {
+			setMainView();
 		}
 	}
 
@@ -27,9 +33,25 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 	public void onCreate(final Bundle savedInstanceState) {
 		StrictMode.enableDefaults();
 		super.onCreate(savedInstanceState);
+		setMainView();
+	}
+
+	private void setFeedView() {
+		setContentView(R.layout.feed);
+		new LoadDataTask(this).execute();
+		final Button refreshButton = (Button) findViewById(R.id.RefreshButton);
+		final Button userButton = (Button) findViewById(R.id.UserButton);
+		refreshButton.setOnClickListener(this);
+		userButton.setOnClickListener(this);
+	}
+
+	private void setMainView() {
 		setContentView(R.layout.main);
 		new LoadDataTask(this).execute();
 		final Button refreshButton = (Button) findViewById(R.id.RefreshButton);
+		final Button debugButton = (Button) findViewById(R.id.DebugButton);
+		// final Button userButton = (Button) findViewById(R.id.UserButton);
 		refreshButton.setOnClickListener(this);
+		debugButton.setOnClickListener(this);
 	}
 }

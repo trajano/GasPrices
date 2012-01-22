@@ -92,6 +92,7 @@ public class GasPricesWidgetUpdateService extends IntentService {
 					START_NOT_STICKY);
 			// alarmManager.set(AlarmManager.RTC, new Date().getTime() + 10000,
 			// pendingIntent);
+			Log.v("GasPrices", "Scheduling for " + props.getNextUpdateTime());
 			alarmManager.set(AlarmManager.RTC, props.getNextUpdateTime()
 					.getTime() + 1, pendingIntent);
 		}

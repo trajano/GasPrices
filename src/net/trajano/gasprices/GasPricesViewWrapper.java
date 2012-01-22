@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.location.Location;
 import android.widget.ProgressBar;
@@ -46,6 +48,16 @@ public class GasPricesViewWrapper {
 			final TextView v = (TextView) activity
 					.findViewById(R.id.LastUpdatedText);
 			v.setText("There is no data available.");
+			return;
+		}
+		final TextView feedView = (TextView) activity
+				.findViewById(R.id.FeedText);
+		if (feedView != null) {
+			try {
+				feedView.setText(props.getResultData().toString(3));
+			} catch (final JSONException e) {
+				feedView.setText(e.toString());
+			}
 			return;
 		}
 		final CityInfo result = props.getClosestCityInfo(TORONTO_LOCATION);

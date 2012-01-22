@@ -110,22 +110,33 @@ public final class ApplicationProperties {
 			return new Date();
 		}
 		final Calendar cal = Calendar.getInstance();
-		cal.setTime(getLastUpdated());
-		if (cal.get(Calendar.HOUR_OF_DAY) < 17) {
-			cal.set(Calendar.HOUR_OF_DAY, 17);
-			cal.set(Calendar.MINUTE, 0);
-			cal.set(Calendar.SECOND, 0);
-		} else if (cal.get(Calendar.HOUR_OF_DAY) < 20) {
-			cal.set(Calendar.HOUR_OF_DAY, 20);
-			cal.set(Calendar.MINUTE, 0);
-			cal.set(Calendar.SECOND, 0);
+
+		cal.set(Calendar.HOUR_OF_DAY, 17);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+
+		final Date time_5pm_today = cal.getTime();
+
+		cal.set(Calendar.HOUR_OF_DAY, 20);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+
+		final Date time_8pm_today = cal.getTime();
+
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.add(Calendar.DATE, 1);
+
+		final Date time_12am_tomorrow = cal.getTime();
+
+		if (getLastUpdated().before(time_5pm_today)) {
+			return time_5pm_today;
+		} else if (getLastUpdated().before(time_8pm_today)) {
+			return time_8pm_today;
 		} else {
-			cal.set(Calendar.HOUR_OF_DAY, 0);
-			cal.set(Calendar.MINUTE, 0);
-			cal.set(Calendar.SECOND, 0);
-			cal.add(Calendar.DATE, 1);
+			return time_12am_tomorrow;
 		}
-		return cal.getTime();
 	}
 
 	public JSONObject getResultData() throws JSONException {
