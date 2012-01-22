@@ -22,6 +22,9 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".GasPricesWidgetUpdateService" >
+        </service>
+
         <receiver
             android:name="GasPricesWidgetProvider"
             android:icon="@drawable/ic_launcher"
