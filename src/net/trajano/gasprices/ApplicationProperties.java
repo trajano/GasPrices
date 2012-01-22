@@ -41,6 +41,8 @@ public final class ApplicationProperties {
 	private final Properties prop;
 
 	public ApplicationProperties(final Context ctx) {
+		Log.e("GasPrices", "Loading Application Properties...");
+		Thread.dumpStack();
 		prop = new Properties();
 		context = ctx;
 		try {
@@ -139,11 +141,12 @@ public final class ApplicationProperties {
 
 	/**
 	 * An update is required if the next update is before the last updated time.
+	 * It will also return true if there is no data loaded.
 	 * 
 	 * @return
 	 */
 	public boolean isUpdateRequired() {
-		return getNextUpdateTime().before(getLastUpdated());
+		return !isLoaded() || getNextUpdateTime().before(getLastUpdated());
 	}
 
 	/**
@@ -182,6 +185,9 @@ public final class ApplicationProperties {
 	}
 
 	private void write() throws IOException {
+		Log.e("GasPrices", "Writing Application Properties...");
+		Thread.dumpStack();
+
 		final OutputStream os = context.openFileOutput(FILE_NAME,
 				Context.MODE_PRIVATE);
 		prop.store(os, "Automatically generated file.");

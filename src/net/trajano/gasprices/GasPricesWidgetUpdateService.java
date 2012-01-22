@@ -1,12 +1,15 @@
 package net.trajano.gasprices;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -24,11 +27,6 @@ public class GasPricesWidgetUpdateService extends IntentService {
 	}
 
 	@Override
-	public IBinder onBind(final Intent intent) {
-		return null;
-	}
-
-	@Override
 	protected void onHandleIntent(final Intent intent) {
 		Log.v("GasPrices", "handleIntent");
 		final AppWidgetManager appWidgetManager = AppWidgetManager
@@ -39,6 +37,19 @@ public class GasPricesWidgetUpdateService extends IntentService {
 
 		Log.v("GasPrices", "properties loaded");
 
+		final ApplicationProperties props = new ApplicationProperties(
+				getApplicationContext());
+		if (props.isUpdateRequired()) {
+			try {
+				props.update();
+			} catch (final JSONException e) {
+				Log.e("GasPrices", e.getMessage());
+				return;
+			} catch (final IOException e) {
+				Log.e("GasPrices", e.getMessage());
+				return;
+			}
+		}
 		// ComponentName thisWidget = new ComponentName(getApplicationContext(),
 		// MyWidget.class);
 		// remoteViews.setTextViewText(R.id.my_text_view, "myText" +
