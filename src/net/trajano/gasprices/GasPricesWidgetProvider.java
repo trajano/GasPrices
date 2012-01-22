@@ -8,6 +8,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -28,14 +29,14 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 			// Set the text
 			remoteViews.setTextViewText(R.id.update, String.valueOf(number));
 
-			// Register an onClickListener
-			final Intent intent = new Intent(context,
-					GasPricesWidgetProvider.class);
+			final PackageManager manager = context.getPackageManager();
+			final Intent intent = manager
+					.getLaunchIntentForPackage("net.trajano.gasprices");
+			Log.e("GasPricesWidget", "HERE! + " + intent);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-			intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-
-			final PendingIntent pendingIntent = PendingIntent.getBroadcast(
+			Log.e("GasPricesWidget", "HERE!");
+			final PendingIntent pendingIntent = PendingIntent.getActivity(
 					context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 			remoteViews.setOnClickPendingIntent(R.id.update, pendingIntent);
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
