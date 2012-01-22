@@ -53,7 +53,7 @@ public final class ApplicationProperties {
 		}
 	}
 
-	public JSONObject getClosestCityData(final Location location)
+	private JSONObject getClosestCityData(final Location location)
 			throws JSONException {
 		float currentDistance = Float.MAX_VALUE;
 		JSONObject currentPrices = null;
@@ -75,6 +75,11 @@ public final class ApplicationProperties {
 			}
 		}
 		return currentPrices;
+	}
+
+	public CityInfo getClosestCityInfo(final Location location)
+			throws JSONException {
+		return new CityInfo(getClosestCityData(location));
 	}
 
 	public Date getLastUpdated() {

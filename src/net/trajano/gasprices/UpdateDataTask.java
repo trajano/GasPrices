@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 import org.json.JSONException;
@@ -16,7 +17,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
-public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
+public final class UpdateDataTask extends AsyncTask<Void, Integer, CityInfo> {
 	private static final Location TORONTO_LOCATION;
 	static {
 		TORONTO_LOCATION = new Location("app");
@@ -36,7 +37,7 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 	}
 
 	@Override
-	protected JSONObject doInBackground(final Void... params) {
+	protected CityInfo doInBackground(final Void... params) {
 		try {
 			final HttpURLConnection urlConnection = (HttpURLConnection) new URL(
 					"http://www.tomorrowsgaspricetoday.com/mobile/json_mobile_data.php")
@@ -55,7 +56,7 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 				props.updateResultData(object);
 				props.write();
 
-				return props.getClosestCityData(TORONTO_LOCATION);
+				return props.getClosestCityInfo(TORONTO_LOCATION);
 			} finally {
 				urlConnection.disconnect();
 			}
@@ -69,26 +70,29 @@ public final class UpdateDataTask extends AsyncTask<Void, Integer, JSONObject> {
 	}
 
 	@Override
-	protected void onPostExecute(final JSONObject result) {
+	protected void onPostExecute(final CityInfo result) {
 		if (result == null || props == null) {
 			return;
 		}
 		Log.v("ME", "result is =" + result);
 		final TextView v = (TextView) activity.findViewById(R.id.GasPriceText);
-		try {
-			v.setText("Last updated on: "
-					+ DateFormat.getDateTimeInstance(DateFormat.FULL,
-							DateFormat.LONG).format(props.getLastUpdated())
-					+ "\n"
-					+ result.getString("regular")
-					+ "\n"
-					+ result
-					+ "\nNext update on: "
-					+ DateFormat.getDateTimeInstance(DateFormat.FULL,
-							DateFormat.LONG).format(props.getNextUpdateTime()));
-		} catch (final JSONException e) {
-			Log.e("GasPrices", e.getMessage());
-			return;
-		}
+		v.setText("Last updated on: "
+				+ DateFormat.getDateTimeInstance(DateFormat.FULL,
+						DateFormat.LONG).format(props.getLastUpdated())
+				+ "\n"
+				+ "Today: "
+				+ new DecimalFormat("##0.0").format(result.getCurrentGasPrice())
+				+ "\n"
+				+ "Tomorrow: "
+				+ new DecimalFormat("##0.0").format(result
+						.getTomorrowsGasPrice())
+				+ "\n"
+				+ result
+				+ "\n"
+				+ result
+				+ "\nNext update on: "
+				+ DateFormat.getDateTimeInstance(DateFormat.FULL,
+						DateFormat.LONG).format(props.getNextUpdateTime()));
+
 	}
 }

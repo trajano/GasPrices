@@ -1,6 +1,6 @@
 package net.trajano.gasprices;
 
-import java.util.Random;
+import java.text.DecimalFormat;
 
 import org.json.JSONException;
 
@@ -39,19 +39,15 @@ public class GasPricesWidgetUpdateService extends Service {
 		Log.e("GasPrices", "props = " + props);
 
 		for (final int widgetId : allWidgetIds) {
-			// Create some random data
-			final int number = new Random().nextInt(100);
-
 			final RemoteViews remoteViews = new RemoteViews(
 					getApplicationContext().getPackageName(),
 					R.layout.widget_layout);
-			Log.w("WidgetExample", String.valueOf(number));
-			// Set the text
+			// TODO show the difference and adjust the color of the widget if
+			// needed
 			try {
-				remoteViews.setTextViewText(
-						R.id.update,
-						props.getClosestCityData(TORONTO_LOCATION).getString(
-								"regular"));
+				remoteViews.setTextViewText(R.id.update, new DecimalFormat(
+						"##0.0").format(props.getClosestCityInfo(
+						TORONTO_LOCATION).getCurrentGasPrice()));
 			} catch (final JSONException e) {
 				remoteViews.setTextViewText(R.id.update, getResources()
 						.getText(R.string.default_price));

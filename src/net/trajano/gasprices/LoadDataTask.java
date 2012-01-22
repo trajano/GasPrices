@@ -1,9 +1,9 @@
 package net.trajano.gasprices;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.location.Location;
@@ -45,12 +45,18 @@ public final class LoadDataTask extends
 		try {
 			final TextView v = (TextView) activity
 					.findViewById(R.id.GasPriceText);
-			final JSONObject result = props
-					.getClosestCityData(TORONTO_LOCATION);
+			final CityInfo result = props.getClosestCityInfo(TORONTO_LOCATION);
 			v.setText("Last updated on: "
 					+ DateFormat.getDateTimeInstance(DateFormat.FULL,
 							DateFormat.FULL).format(props.getLastUpdated())
-					+ "\n" + result.getString("regular") + "\n" + result
+					+ "\n"
+					+ "Today: "
+					+ new DecimalFormat("##0.0").format(result
+							.getCurrentGasPrice())
+					+ "\n"
+					+ "Tomorrow: "
+					+ new DecimalFormat("##0.0").format(result
+							.getTomorrowsGasPrice()) + "\n" + result
 					+ "\nUpdating...");
 
 		} catch (final JSONException e) {
