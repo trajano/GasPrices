@@ -109,7 +109,7 @@ public final class ApplicationProperties {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(getLastUpdated());
 		if (cal.get(Calendar.HOUR_OF_DAY) < 17) {
-			cal.set(Calendar.HOUR_OF_DAY, 20);
+			cal.set(Calendar.HOUR_OF_DAY, 17);
 			cal.set(Calendar.MINUTE, 0);
 			cal.set(Calendar.SECOND, 0);
 		} else if (cal.get(Calendar.HOUR_OF_DAY) < 20) {
