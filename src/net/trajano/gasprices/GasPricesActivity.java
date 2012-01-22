@@ -1,6 +1,7 @@
 package net.trajano.gasprices;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -19,7 +20,7 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 		if (v == refreshButton) {
 			final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 					null);
-			view.setStatus("Forced updating...");
+			view.setStatus("Forced update...");
 			new UpdateDataTask(this).execute();
 		} else if (v == debugButton) {
 			setFeedView();
@@ -31,7 +32,9 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
-		StrictMode.enableDefaults();
+		if (Build.PRODUCT.endsWith("sdk")) {
+			StrictMode.enableDefaults();
+		}
 		super.onCreate(savedInstanceState);
 		setMainView();
 	}

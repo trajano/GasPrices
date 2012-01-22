@@ -41,6 +41,7 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 		// "##0.0 '\u00A2/L'").format(52.22));
 
 		{
+			Log.v("GasPrices", "Set up intent to launch on widget click");
 			final PackageManager manager = context.getPackageManager();
 			final Intent lintent = manager
 					.getLaunchIntentForPackage("net.trajano.gasprices");
@@ -48,7 +49,7 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 			final PendingIntent pendingIntent = PendingIntent.getActivity(
 					context, 0, lintent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-			remoteViews.setOnClickPendingIntent(R.id.update, pendingIntent);
+			remoteViews.setOnClickPendingIntent(R.id.thelayout, pendingIntent);
 		}
 		appWidgetManager.updateAppWidget(thisWidget, remoteViews);
 		{

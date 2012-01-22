@@ -58,46 +58,43 @@ public class GasPricesViewWrapper {
 			} catch (final JSONException e) {
 				feedView.setText(e.toString());
 			}
-			return;
-		}
-		final CityInfo result = props.getClosestCityInfo(TORONTO_LOCATION);
-		{
-			final TextView v = (TextView) activity
-					.findViewById(R.id.LastUpdatedText);
-			v.setText(MessageFormat.format(
-					activity.getResources().getString(R.string.last_updated),
-					DateFormat
-							.getDateTimeInstance(DateFormat.LONG,
-									DateFormat.LONG)
-							.format(props.getLastUpdated())
-							.replace(' ', '\u00A0')));
-		}
-		{
-			final TextView v = (TextView) activity
-					.findViewById(R.id.PriceTodayText);
-			// TODO convert to use resources
-			v.setText(new DecimalFormat("##0.0 ' cents/L'").format(result
-					.getCurrentGasPrice()));
-		}
-		if (result.isTomorrowsGasPriceAvailable()) {
-			final TextView v = (TextView) activity
-					.findViewById(R.id.OtherPriceLabelText);
-			v.setText("Tomorrow");
-			final TextView vp = (TextView) activity
-					.findViewById(R.id.OtherPriceText);
-			// TODO convert to use resources
-			vp.setText(new DecimalFormat("##0.0 ' cents/L'").format(result
-					.getTomorrowsGasPrice()));
-		}
-		if (result.isYesterdaysGasPriceAvailable()) {
-			final TextView v = (TextView) activity
-					.findViewById(R.id.OtherPriceLabelText);
-			v.setText("Yesterday");
-			final TextView vp = (TextView) activity
-					.findViewById(R.id.OtherPriceText);
-			// TODO convert to use resources
-			vp.setText(new DecimalFormat("##0.0 ' cents/L'").format(result
-					.getYesterdaysGasPrice()));
+		} else {
+			final CityInfo result = props.getClosestCityInfo(TORONTO_LOCATION);
+			{
+				final TextView v = (TextView) activity
+						.findViewById(R.id.LastUpdatedText);
+				v.setText(MessageFormat.format(activity.getResources()
+						.getString(R.string.last_updated), DateFormat
+						.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG)
+						.format(props.getLastUpdated()).replace(' ', '\u00A0')));
+			}
+			{
+				final TextView v = (TextView) activity
+						.findViewById(R.id.PriceTodayText);
+				// TODO convert to use resources
+				v.setText(new DecimalFormat("##0.0 ' cents/L'").format(result
+						.getCurrentGasPrice()));
+			}
+			if (result.isTomorrowsGasPriceAvailable()) {
+				final TextView v = (TextView) activity
+						.findViewById(R.id.OtherPriceLabelText);
+				v.setText("Tomorrow");
+				final TextView vp = (TextView) activity
+						.findViewById(R.id.OtherPriceText);
+				// TODO convert to use resources
+				vp.setText(new DecimalFormat("##0.0 ' cents/L'").format(result
+						.getTomorrowsGasPrice()));
+			}
+			if (result.isYesterdaysGasPriceAvailable()) {
+				final TextView v = (TextView) activity
+						.findViewById(R.id.OtherPriceLabelText);
+				v.setText("Yesterday");
+				final TextView vp = (TextView) activity
+						.findViewById(R.id.OtherPriceText);
+				// TODO convert to use resources
+				vp.setText(new DecimalFormat("##0.0 ' cents/L'").format(result
+						.getYesterdaysGasPrice()));
+			}
 		}
 		setStatus(MessageFormat.format(
 				activity.getResources().getString(R.string.next_update),
