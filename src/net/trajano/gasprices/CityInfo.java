@@ -13,6 +13,7 @@ public class CityInfo {
 	private final float currentGasPrice;
 
 	private final Date priceDate;
+	private final double priceDifference;
 	private final float tomorrowsGasPrice;
 	private final boolean tomorrowsGasPriceAvailable;
 	private final String toStringValue;
@@ -23,6 +24,7 @@ public class CityInfo {
 			ParseException {
 		priceDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 				.parse(closestCityData.getString("price_date"));
+		priceDifference = closestCityData.getDouble("price_difference");
 		final Date currentDate = new Date();
 		if (priceDate.after(currentDate)) {
 			tomorrowsGasPriceAvailable = true;
@@ -30,11 +32,9 @@ public class CityInfo {
 			yesterdaysGasPrice = Float.NaN;
 			tomorrowsGasPrice = (float) closestCityData.getDouble("regular");
 			if ("+".equals(closestCityData.getString("price_prefix"))) {
-				currentGasPrice = (float) (closestCityData.getDouble("regular") - closestCityData
-						.getDouble("price_difference"));
+				currentGasPrice = (float) (closestCityData.getDouble("regular") - getPriceDifference());
 			} else if ("-".equals(closestCityData.getString("price_prefix"))) {
-				currentGasPrice = (float) (closestCityData.getDouble("regular") + closestCityData
-						.getDouble("price_difference"));
+				currentGasPrice = (float) (closestCityData.getDouble("regular") + getPriceDifference());
 			} else {
 				currentGasPrice = tomorrowsGasPrice;
 			}
@@ -45,12 +45,10 @@ public class CityInfo {
 			currentGasPrice = (float) closestCityData.getDouble("regular");
 			if ("+".equals(closestCityData.getString("price_prefix"))) {
 				yesterdaysGasPrice = (float) (closestCityData
-						.getDouble("regular") - closestCityData
-						.getDouble("price_difference"));
+						.getDouble("regular") - getPriceDifference());
 			} else if ("-".equals(closestCityData.getString("price_prefix"))) {
 				yesterdaysGasPrice = (float) (closestCityData
-						.getDouble("regular") + closestCityData
-						.getDouble("price_difference"));
+						.getDouble("regular") + getPriceDifference());
 			} else {
 				yesterdaysGasPrice = currentGasPrice;
 			}
@@ -81,5 +79,9 @@ public class CityInfo {
 	@Override
 	public String toString() {
 		return toStringValue;
+	}
+
+	public double getPriceDifference() {
+		return priceDifference;
 	}
 }
