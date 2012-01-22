@@ -19,6 +19,5 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 				GasPricesWidgetUpdateService.class);
 		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
 		context.startService(intent);
-
 	}
 }

@@ -25,7 +25,8 @@ public class GasPricesWidgetUpdateService extends Service {
 	}
 
 	@Override
-	public void onStart(final Intent intent, final int startId) {
+	public int onStartCommand(final Intent intent, final int flags,
+			final int startId) {
 		Log.v("GasPrices", "widget service start");
 		final AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(getApplicationContext());
@@ -52,5 +53,6 @@ public class GasPricesWidgetUpdateService extends Service {
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
 		}
+		return START_NOT_STICKY;
 	}
 }
