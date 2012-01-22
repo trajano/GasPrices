@@ -10,24 +10,63 @@
         android:layout_height="wrap_content"
         android:text="@string/default_last_update" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:orientation="vertical" >
+        android:gravity="center"
+        android:padding="3dp"
+        android:stretchColumns="2" >
 
-        <TextView
-            android:id="@+id/GasPriceText"
+        <TableRow
+            android:id="@+id/tableRow1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/hello" />
-    </LinearLayout>
+            android:gravity="center" >
+
+            <TextView
+                style="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:gravity="right"
+                android:padding="3dp"
+                android:text="Today" />
+
+            <TextView
+                style="@android:style/TextAppearance.DeviceDefault.Large"
+                android:gravity="left"
+                android:text="@string/default_price"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                style="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:padding="3dp"
+                android:text="Tomorrow" />
+
+            <TextView
+                style="@android:style/TextAppearance.DeviceDefault.Large"
+                android:text="@string/default_price"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/GasPriceText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello" />
 
     <TextView
         android:id="@+id/GasPriceStatusText"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content" android:gravity="right"
         android:text="@string/hello" />
 
 </LinearLayout>

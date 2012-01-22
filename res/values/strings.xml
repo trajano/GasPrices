@@ -8,5 +8,6 @@
     <string name="default_price">---.--</string>
     <string name="default_last_update">Determining when the data was last updated…</string>
     <string name="last_updated">Last updated on: {0}</string>
+    <string name="next_update">Next scheduled update on: {0}</string>
     
 </resources>
