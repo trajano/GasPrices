@@ -3,6 +3,7 @@ package net.trajano.gasprices;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.util.Date;
 
 import org.json.JSONException;
 
@@ -80,20 +81,31 @@ public class GasPricesWidgetUpdateService extends IntentService {
 			remoteViews.setTextViewText(R.id.update,
 					new DecimalFormat(CPL).format(info.getCurrentGasPrice()));
 
+			{
+				final AlarmManager alarmManager = (AlarmManager) getApplicationContext()
+						.getSystemService(Context.ALARM_SERVICE);
+				final PendingIntent pendingIntent = PendingIntent.getService(
+						getApplicationContext(), START_NOT_STICKY, intent,
+						START_NOT_STICKY);
+				// alarmManager.set(AlarmManager.RTC, new Date().getTime() +
+				// 10000,
+				// pendingIntent);
+				Log.v("GasPrices",
+						"Scheduling for " + props.getNextUpdateTime());
+				alarmManager.set(AlarmManager.RTC, props.getNextUpdateTime()
+						.getTime() + 1, pendingIntent);
+			}
 		} else {
 			remoteViews.setTextViewText(R.id.change, "Problem loading");
-		}
-		{
-			final AlarmManager alarmManager = (AlarmManager) getApplicationContext()
-					.getSystemService(Context.ALARM_SERVICE);
-			final PendingIntent pendingIntent = PendingIntent.getService(
-					getApplicationContext(), START_NOT_STICKY, intent,
-					START_NOT_STICKY);
-			// alarmManager.set(AlarmManager.RTC, new Date().getTime() + 10000,
-			// pendingIntent);
-			Log.v("GasPrices", "Scheduling for " + props.getNextUpdateTime());
-			alarmManager.set(AlarmManager.RTC, props.getNextUpdateTime()
-					.getTime() + 1, pendingIntent);
+			{
+				final AlarmManager alarmManager = (AlarmManager) getApplicationContext()
+						.getSystemService(Context.ALARM_SERVICE);
+				final PendingIntent pendingIntent = PendingIntent.getService(
+						getApplicationContext(), START_NOT_STICKY, intent,
+						START_NOT_STICKY);
+				alarmManager.set(AlarmManager.RTC,
+						new Date().getTime() + 60000, pendingIntent);
+			}
 		}
 
 		final AppWidgetManager appWidgetManager = AppWidgetManager

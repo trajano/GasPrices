@@ -25,7 +25,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".GasPricesWidgetUpdateService" >
+        <service
+            android:name=".GasPricesWidgetUpdateService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" >
         </service>
 
         <receiver
