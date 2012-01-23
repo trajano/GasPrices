@@ -27,13 +27,13 @@
             android:gravity="center" >
 
             <TextView
-                style="@android:style/TextAppearance.DeviceDefault.Medium"
+                style="@android:style/TextAppearance.Medium"
                 android:gravity="right"
                 android:padding="3dp"
                 android:text="Today" />
 
             <TextView android:id="@+id/PriceTodayText"
-                style="@android:style/TextAppearance.DeviceDefault.Large"
+                style="@android:style/TextAppearance.Large"
                 android:gravity="left"
                 android:text="@string/default_price"
                 android:textStyle="bold" />
@@ -46,12 +46,12 @@
             android:gravity="center" >
 
             <TextView
-                style="@android:style/TextAppearance.DeviceDefault.Medium"
+                style="@android:style/TextAppearance.Medium"
                 android:padding="3dp" android:id="@+id/OtherPriceLabelText"
                 android:text="Tomorrow" />
 
             <TextView android:id="@+id/OtherPriceText"
-                style="@android:style/TextAppearance.DeviceDefault.Large"
+                style="@android:style/TextAppearance.Large"
                 android:text="@string/default_price"
                 android:textStyle="bold" />
         </TableRow>

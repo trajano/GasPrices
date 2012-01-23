@@ -14,6 +14,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -42,47 +43,45 @@ public class GasPricesWidgetUpdateService extends IntentService {
 		final ApplicationProperties props = new ApplicationProperties(
 				getApplicationContext());
 
-		if (props.isLoaded()) {
-			if (props.isUpdateRequired()) {
-				try {
-					props.update();
-				} catch (final IOException e) {
-
-				} catch (final JSONException e) {
-
-				}
+		if (props.isUpdateRequired()) {
+			try {
+				props.update();
+			} catch (final IOException e) {
+				remoteViews.setTextViewText(R.id.change, "ERROR");
+			} catch (final JSONException e) {
+				remoteViews.setTextViewText(R.id.change, "JSONERROR");
 			}
+		}
+		if (props.isLoaded()) {
 			final CityInfo info = props.getClosestCityInfo(TORONTO_LOCATION);
 			if (info.isTomorrowsGasPriceAvailable()) {
 				if (info.getPriceDifference() == 0.00) {
-					remoteViews.setInt(R.id.thelayout, "setBackgroundResource",
-							R.drawable.myshape);
+					setBlue(remoteViews);
 					remoteViews.setTextViewText(R.id.change, "unchanged");
 				} else if (info.getPriceDifference() > 0) {
-					remoteViews.setInt(R.id.thelayout, "setBackgroundResource",
-							R.drawable.myshape_red);
+					setRed(remoteViews);
 					remoteViews.setTextViewText(R.id.update, new DecimalFormat(
 							CPL_UP).format(info
 							.getPriceDifferenceAbsoluteValue()));
 				} else {
-					remoteViews.setInt(R.id.thelayout, "setBackgroundResource",
-							R.drawable.myshape_green);
+					setGreen(remoteViews);
 					remoteViews.setTextViewText(R.id.update, new DecimalFormat(
 							CPL_DOWN).format(info
 							.getPriceDifferenceAbsoluteValue()));
 				}
 			} else {
-				remoteViews.setInt(R.id.thelayout, "setBackgroundResource",
-						R.drawable.myshape);
-				remoteViews.setTextViewText(R.id.change,
+				setBlue(remoteViews);
+				remoteViews.setTextViewText(
+						R.id.change,
 						"Update at "
-						// + DateFormat.getTimeInstance(DateFormat.SHORT)
-						// .format(new Date()));
 								+ DateFormat.getTimeInstance(DateFormat.SHORT)
 										.format(props.getNextUpdateTime()));
 			}
 			remoteViews.setTextViewText(R.id.update,
 					new DecimalFormat(CPL).format(info.getCurrentGasPrice()));
+
+		} else {
+			remoteViews.setTextViewText(R.id.change, "Problem loading");
 		}
 		{
 			final AlarmManager alarmManager = (AlarmManager) getApplicationContext()
@@ -104,5 +103,26 @@ public class GasPricesWidgetUpdateService extends IntentService {
 				getApplicationContext(), GasPricesWidgetProvider.class);
 
 		appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+	}
+
+	private void setBlue(final RemoteViews remoteViews) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			remoteViews.setInt(R.id.thelayout, "setBackgroundResource",
+					R.drawable.myshape);
+		}
+	}
+
+	private void setGreen(final RemoteViews remoteViews) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			remoteViews.setInt(R.id.thelayout, "setBackgroundResource",
+					R.drawable.myshape_green);
+		}
+	}
+
+	private void setRed(final RemoteViews remoteViews) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			remoteViews.setInt(R.id.thelayout, "setBackgroundResource",
+					R.drawable.myshape_red);
+		}
 	}
 }

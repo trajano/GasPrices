@@ -32,7 +32,8 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
-		if (Build.PRODUCT.endsWith("sdk")) {
+		if (Build.PRODUCT.endsWith("sdk")
+				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
 			StrictMode.enableDefaults();
 		}
 		super.onCreate(savedInstanceState);

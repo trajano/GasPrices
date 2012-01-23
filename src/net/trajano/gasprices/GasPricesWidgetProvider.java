@@ -11,19 +11,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 public class GasPricesWidgetProvider extends AppWidgetProvider {
-	// public void onEnabled(final Context context) {
-	// final ComponentName thisWidget = new ComponentName(context,
-	// GasPricesWidgetProvider.class);
-	//
-	// // final int[] allWidgetIds =
-	// // appWidgetManager.getAppWidgetIds(thisWidget);
-	//
-	// final RemoteViews remoteViews = new RemoteViews(
-	// context.getPackageName(), R.layout.widget_layout);
-	//
-	// remoteViews.setTextViewText(R.id.update, new DecimalFormat(
-	// "##0.0 '\u00A2/L'").format(42.22));
-	// }
+
 	@Override
 	public void onUpdate(final Context context,
 			final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
@@ -31,14 +19,8 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 		final ComponentName thisWidget = new ComponentName(context,
 				GasPricesWidgetProvider.class);
 
-		// final int[] allWidgetIds =
-		// appWidgetManager.getAppWidgetIds(thisWidget);
-
 		final RemoteViews remoteViews = new RemoteViews(
 				context.getPackageName(), R.layout.widget_layout);
-
-		// remoteViews.setTextViewText(R.id.update, new DecimalFormat(
-		// "##0.0 '\u00A2/L'").format(52.22));
 
 		{
 			Log.v("GasPrices", "Set up intent to launch on widget click");
@@ -56,8 +38,6 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 			// Build the intent to call the service
 			final Intent intent = new Intent(context.getApplicationContext(),
 					GasPricesWidgetUpdateService.class);
-			// intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
-			// allWidgetIds);
 			context.startService(intent);
 		}
 	}
