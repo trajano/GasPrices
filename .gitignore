@@ -1,2 +1,6 @@
 gen/
+target/
+.project
+.classpath
+.settings/
 bin/

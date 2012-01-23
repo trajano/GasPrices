@@ -3,4 +3,11 @@
   <groupId>net.trajano.gasprices</groupId>
   <artifactId>gasprices</artifactId>
   <version>1.0.0</version>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.google.android</groupId>
+  		<artifactId>android</artifactId>
+  		<version>4.0.1.2</version>
+  	</dependency>
+  </dependencies>
 </project>
