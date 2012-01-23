@@ -20,7 +20,7 @@ import android.location.Location;
 import android.util.Log;
 
 public final class ApplicationProperties {
-	private static final String FILE_NAME = "gasprices.properties";
+	public static final String FILE_NAME = "gasprices.properties";
 
 	/**
 	 * This is a JSON string that was last retrieved by the system.

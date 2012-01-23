@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -11,9 +12,11 @@ import android.view.View;
 import android.widget.ListView;
 
 public class GasPricesWidgetConfigure extends Activity {
+	public static final String PREF_PREFIX_CITY_ID = "widget.city.id_";
+
 	private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
-	View.OnClickListener mOnClickListener = new View.OnClickListener() {
+	private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
 		public void onClick(final View v) {
 			final Context context = GasPricesWidgetConfigure.this;
 
@@ -28,6 +31,7 @@ public class GasPricesWidgetConfigure extends Activity {
 			final Intent resultValue = new Intent();
 			resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
 					mAppWidgetId);
+			saveWidgetPref(context, mAppWidgetId, 133);
 			setResult(RESULT_OK, resultValue);
 			finish();
 		}
@@ -45,6 +49,8 @@ public class GasPricesWidgetConfigure extends Activity {
 		setContentView(R.layout.widget_configuration);
 		final ListView listView = (ListView) findViewById(R.id.CityList);
 
+		findViewById(R.id.MyLocationButton)
+				.setOnClickListener(mOnClickListener);
 		findViewById(R.id.TorontoButton).setOnClickListener(mOnClickListener);
 
 		// listView.set
@@ -60,5 +66,13 @@ public class GasPricesWidgetConfigure extends Activity {
 			finish();
 		}
 
+	}
+
+	private void saveWidgetPref(final Context context, final int appWidgetId,
+			final int cityId) {
+		final SharedPreferences.Editor prefs = context.getSharedPreferences(
+				ApplicationProperties.FILE_NAME, MODE_PRIVATE).edit();
+		prefs.putInt(PREF_PREFIX_CITY_ID + appWidgetId, cityId);
+		prefs.commit();
 	}
 }

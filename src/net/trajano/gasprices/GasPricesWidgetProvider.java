@@ -6,11 +6,22 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 public class GasPricesWidgetProvider extends AppWidgetProvider {
+	@Override
+	public void onDeleted(final Context context, final int[] appWidgetIds) {
+		final SharedPreferences preferences = context.getSharedPreferences(
+				ApplicationProperties.FILE_NAME, Context.MODE_PRIVATE);
+		final Editor e = preferences.edit();
+		for (final int widgetId : appWidgetIds) {
+			e.remove(GasPricesWidgetConfigure.PREF_PREFIX_CITY_ID + widgetId);
+		}
+	}
 
 	@Override
 	public void onUpdate(final Context context,

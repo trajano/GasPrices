@@ -10,11 +10,16 @@
         android:text="Choose a city to get the gas prices for:" />
 
     <Button
+        android:id="@+id/MyLocationButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="My Location" />
+    <Button
         android:id="@+id/TorontoButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Toronto" />
-
+    
     <ListView
         android:id="@+id/CityList"
         android:layout_width="fill_parent"
