@@ -4,7 +4,19 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <ListView android:id="@+id/CityList"
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose a city to get the gas prices for:" />
+
+    <Button
+        android:id="@+id/TorontoButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Toronto" />
+
+    <ListView
+        android:id="@+id/CityList"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
