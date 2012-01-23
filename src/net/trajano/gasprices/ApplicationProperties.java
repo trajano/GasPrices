@@ -1,15 +1,11 @@
 package net.trajano.gasprices;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -18,6 +14,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.util.Log;
 
@@ -38,23 +36,14 @@ public final class ApplicationProperties {
 	private final Context context;
 
 	private boolean loaded;
-	private final Properties prop;
+	private final SharedPreferences preferences;
+
+	// private final Properties prop;
 
 	public ApplicationProperties(final Context ctx) {
-		prop = new Properties();
+		preferences = ctx.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 		context = ctx;
-		try {
-			final InputStream is = ctx.openFileInput(FILE_NAME);
-			prop.load(is);
-			is.close();
-			loaded = true;
-		} catch (final FileNotFoundException e) {
-			Log.d("GasPrices", e.getMessage());
-			loaded = false;
-		} catch (final IOException e) {
-			Log.e("GasPrices", e.getMessage());
-			loaded = false;
-		}
+		loaded = preferences.getLong(LAST_UPDATED, Long.MIN_VALUE) != Long.MIN_VALUE;
 	}
 
 	private JSONObject getClosestCityData(final Location location)
@@ -94,7 +83,7 @@ public final class ApplicationProperties {
 	}
 
 	public Date getLastUpdated() {
-		return new Date(Long.parseLong(prop.getProperty(LAST_UPDATED)));
+		return new Date(preferences.getLong(LAST_UPDATED, Long.MIN_VALUE));
 	}
 
 	/**
@@ -140,8 +129,8 @@ public final class ApplicationProperties {
 	}
 
 	public JSONObject getResultData() throws JSONException {
-		return (JSONObject) new JSONTokener(prop.getProperty(LAST_RESULT_DATA))
-				.nextValue();
+		return (JSONObject) new JSONTokener(preferences.getString(
+				LAST_RESULT_DATA, "")).nextValue();
 	}
 
 	public boolean isLoaded() {
@@ -178,25 +167,14 @@ public final class ApplicationProperties {
 			final JSONObject object = (JSONObject) new JSONTokener(jsonData)
 					.nextValue();
 
-			updateResultData(object);
-			write();
+			final Editor prop = preferences.edit();
+			prop.putLong(LAST_UPDATED, new Date().getTime());
+			prop.putString(LAST_RESULT_DATA, object.toString());
+			prop.commit();
+			loaded = true;
+
 		} finally {
 			urlConnection.disconnect();
 		}
-	}
-
-	private void updateResultData(final JSONObject o) throws JSONException {
-		prop.setProperty(LAST_UPDATED, String.valueOf(new Date().getTime()));
-		prop.setProperty(LAST_RESULT_DATA, o.toString());
-		Log.v("GasPrices",
-				LAST_UPDATED + " is " + prop.getProperty(LAST_UPDATED));
-		loaded = true;
-	}
-
-	private void write() throws IOException {
-		final OutputStream os = context.openFileOutput(FILE_NAME,
-				Context.MODE_PRIVATE);
-		prop.store(os, "Automatically generated file.");
-		os.close();
 	}
 }
