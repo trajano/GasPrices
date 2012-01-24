@@ -33,16 +33,14 @@ public final class ApplicationProperties {
 	 */
 	private static final String LAST_UPDATED = "lastupdated";
 
-	private final Context context;
-
 	private boolean loaded;
 	private final SharedPreferences preferences;
 
 	// private final Properties prop;
 
+	@Deprecated
 	public ApplicationProperties(final Context ctx) {
-		preferences = ctx.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		context = ctx;
+		preferences = PreferenceUtil.getPreferences(ctx);
 		loaded = preferences.getLong(LAST_UPDATED, Long.MIN_VALUE) != Long.MIN_VALUE;
 	}
 

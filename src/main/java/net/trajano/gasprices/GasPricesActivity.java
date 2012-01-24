@@ -97,6 +97,7 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 	 * object.
 	 */
 	private void updateView() {
-		// TODO Update the view
+		final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
+				new ApplicationProperties(this));
 	}
 }
