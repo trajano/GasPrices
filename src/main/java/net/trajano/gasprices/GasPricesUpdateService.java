@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 /**
  * <p>
@@ -45,12 +46,23 @@ public class GasPricesUpdateService extends IntentService {
 	 * {@link AlarmManager}</li>
 	 * <li>send an {@link AppWidgetManager#ACTION_APPWIDGET_UPDATE} to all the
 	 * widgets.</li>
-	 * <li>send an custom intent to tell the application to update itself.</li>
 	 * </ul>
+	 * <p>
+	 * Note there is no need to use a custom intent because
+	 * {@link SharedPreferences#registerOnSharedPreferenceChangeListener(android.content.SharedPreferences.OnSharedPreferenceChangeListener)}
+	 * is part of the application and would handle it from there.
+	 * </p>
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected void onHandleIntent(final Intent intent) {
+		// put code here to get the files
+
+		final SharedPreferences preferences = PreferenceUtil
+				.getPreferences(this);
+		final Editor editor = preferences.edit();
+		PreferenceUtil.setLastUpdatedToNow(editor);
+		editor.apply();
 	}
 
 }
