@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.text.format.Time;
 
 /**
  * <p>
@@ -51,6 +52,34 @@ public final class PreferenceUtil {
 	public static final SharedPreferences getPreferences(final Context context) {
 		return context.getSharedPreferences(SHARED_PREFERENCES_NAME,
 				Context.MODE_PRIVATE);
+	}
+
+	/**
+	 * This returns the next update date given the last update data. There are
+	 * three times for updates: 5pm, 8pm and midnight.
+	 * 
+	 * @param lastUpdate
+	 *            last update time
+	 * @return the next update time.
+	 */
+	public static Date nextUpdateDate(final Date lastUpdate) {
+		final Time t = new Time();
+		t.set(lastUpdate.getTime());
+		if (t.hour < 17) {
+			t.hour = 17;
+			t.minute = 0;
+			t.second = 0;
+		} else if (t.hour < 20) {
+			t.hour = 20;
+			t.minute = 0;
+			t.second = 0;
+		} else {
+			t.monthDay += 1;
+			t.hour = 0;
+			t.minute = 0;
+			t.second = 0;
+		}
+		return new Date(t.normalize(false));
 	}
 
 	/**

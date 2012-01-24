@@ -1,6 +1,8 @@
 package net.trajano.gasprices;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -10,9 +12,31 @@ import android.widget.Button;
 
 public class GasPricesActivity extends Activity implements OnClickListener {
 	/**
+	 * When the preference change on lastUpdated is detected it will update the
+	 * view.
+	 */
+	private final OnSharedPreferenceChangeListener preferenceChangeListener = new OnSharedPreferenceChangeListener() {
+
+		@Override
+		public void onSharedPreferenceChanged(
+				final SharedPreferences sharedPreferences, final String key) {
+			if (key != "lastupdated") {
+				return;
+			}
+			updateView();
+		}
+	};
+
+	/**
+	 * Preference data, stored in memory until destruction.
+	 */
+	private SharedPreferences preferences;
+
+	/**
 	 * The click handler. TODO very yucky having it here, it should be on its
 	 * own class per button.
 	 */
+	@Override
 	public void onClick(final View v) {
 		final Button refreshButton = (Button) findViewById(R.id.RefreshButton);
 		final Button debugButton = (Button) findViewById(R.id.DebugButton);
@@ -32,12 +56,21 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		if (Build.PRODUCT.endsWith("sdk")
 				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
 			StrictMode.enableDefaults();
 		}
-		super.onCreate(savedInstanceState);
+		preferences = PreferenceUtil.getPreferences(this);
 		setMainView();
+		preferences
+				.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+	}
+
+	@Override
+	protected void onDestroy() {
+		preferences
+				.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
 	}
 
 	private void setFeedView() {
@@ -57,5 +90,13 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 		// final Button userButton = (Button) findViewById(R.id.UserButton);
 		refreshButton.setOnClickListener(this);
 		debugButton.setOnClickListener(this);
+	}
+
+	/**
+	 * Updates the view with the information stored in the {@link #preferences}
+	 * object.
+	 */
+	private void updateView() {
+		// TODO Update the view
 	}
 }
