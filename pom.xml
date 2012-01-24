@@ -12,6 +12,9 @@
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+		<!-- Do not perform any unit tests on Maven. The android-maven-plugin does 
+			not work with JUnit tests. -->
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 	<dependencies>
 		<dependency>
