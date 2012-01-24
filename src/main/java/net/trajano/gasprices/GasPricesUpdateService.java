@@ -1,7 +1,10 @@
 package net.trajano.gasprices;
 
+import java.util.Date;
+
 import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -63,6 +66,16 @@ public class GasPricesUpdateService extends IntentService {
 		final Editor editor = preferences.edit();
 		PreferenceUtil.setLastUpdatedToNow(editor);
 		editor.apply();
+
+		// schedule the next update.
+		{
+			final AlarmManager alarmManager = (AlarmManager) getApplicationContext()
+					.getSystemService(Context.ALARM_SERVICE);
+			final PendingIntent pendingIntent = PendingIntent.getService(this,
+					0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			alarmManager.set(AlarmManager.RTC, new Date().getTime() + 60000,
+					pendingIntent);
+		}
 	}
 
 }
