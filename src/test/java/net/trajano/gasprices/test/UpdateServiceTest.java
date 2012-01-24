@@ -1,6 +1,7 @@
 package net.trajano.gasprices.test;
 
 import net.trajano.gasprices.GasPricesUpdateService;
+import android.content.Intent;
 import android.test.ServiceTestCase;
 
 public class UpdateServiceTest extends ServiceTestCase<GasPricesUpdateService> {
@@ -17,5 +18,14 @@ public class UpdateServiceTest extends ServiceTestCase<GasPricesUpdateService> {
 	 */
 	public void testNothing() {
 
+	}
+
+	/**
+	 * This tests starting the service.
+	 */
+	public void testStartService() {
+		final Intent startIntent = new Intent(getContext(),
+				GasPricesUpdateService.class);
+		getContext().startService(startIntent);
 	}
 }
