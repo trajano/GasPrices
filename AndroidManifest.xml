@@ -45,6 +45,10 @@
             android:name=".GasPricesWidgetUpdateService"
             android:permission="android.permission.BIND_REMOTEVIEWS" >
         </service>
+        <service
+            android:name=".GasPricesUpdateService"
+            android:label="Gas Prices Update Service" >
+        </service>
 
         <receiver
             android:name="GasPricesWidgetProvider"
