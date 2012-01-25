@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 import android.widget.ListView.FixedViewInfo;
 
@@ -42,15 +40,7 @@ public class CitySelectionActivity extends ListActivity {
 			StrictMode.enableDefaults();
 		}
 		preferences = PreferenceUtil.getPreferences(this);
-
-		final String[] values = new String[] { "Android", "iPhone",
-				"WindowsMobile", "Blackberry", "WebOS", "Ubuntu", "Windows7",
-				"Max OS X", "Linux", "OS/2" };
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, values);
-
-		setListAdapter(new HeaderViewListAdapter(mHeaderViewInfos,
-				mFooterViewInfos, adapter));
+		setListAdapter(new CityListAdapter(this));
 	}
 
 	@Override
