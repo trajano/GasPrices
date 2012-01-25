@@ -142,14 +142,17 @@ public class GasPricesUpdateService extends IntentService {
 						GasPricesWidgetProvider.class);
 				final int[] widgetIds = widgetManager
 						.getAppWidgetIds(widgetComponent);
-				final Intent update = new Intent();
-				update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
-				update.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-				sendBroadcast(update);
+				if (widgetIds.length > 0) {
+					final Intent update = new Intent();
+					update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
+							widgetIds);
+					update.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+					sendBroadcast(update);
+				}
 			}
 			PreferenceUtil.setLastUpdatedToNow(editor);
 			editor.apply();
-
+			Log.d("GasPrices", "done update");
 		}
 	}
 

@@ -33,6 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--
         <activity
             android:name=".GasPricesWidgetConfigure"
             android:label="@string/app_name" >
@@ -45,11 +46,12 @@
             android:name=".GasPricesWidgetUpdateService"
             android:permission="android.permission.BIND_REMOTEVIEWS" >
         </service>
+        -->
         <service
             android:name=".GasPricesUpdateService"
             android:label="Gas Prices Update Service" >
         </service>
-
+        <!-- 
         <receiver
             android:name="GasPricesWidgetProvider"
             android:icon="@drawable/ic_launcher"
@@ -63,6 +65,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
+   -->  
     </application>
 
 </manifest>

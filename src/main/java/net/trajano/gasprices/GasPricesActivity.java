@@ -1,11 +1,14 @@
 package net.trajano.gasprices;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,7 +23,7 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 		@Override
 		public void onSharedPreferenceChanged(
 				final SharedPreferences sharedPreferences, final String key) {
-			if (key != "lastupdated") {
+			if (key != "last_updated") {
 				return;
 			}
 			updateView();
@@ -53,7 +56,9 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	/** Called when the activity is first created. */
+	/**
+	 * Called when the activity is first created.
+	 */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,9 +73,33 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(final android.view.Menu menu) {
+		final MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+
+	@Override
 	protected void onDestroy() {
 		preferences
 				.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.UpdateMenuItem:
+			final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
+					null);
+			view.setStatus("Forced update...");
+			final Intent startIntent = new Intent(this,
+					GasPricesUpdateService.class);
+			startService(startIntent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private void setFeedView() {
@@ -99,5 +128,7 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 	private void updateView() {
 		final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 				new ApplicationProperties(this));
+		view.updateView();
+		view.setStatus("updated via sharedPreferenceUpdate");
 	}
 }
