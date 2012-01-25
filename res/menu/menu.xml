@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/UpdateMenuItem" android:title="Force Update" android:titleCondensed="Update" android:showAsAction="always"></item>
-    <item android:id="@+id/ShowFeedData" android:title="Show Feed Data" android:titleCondensed="Feed Data" android:showAsAction="never"></item>
+    <item android:id="@+id/CitySelectMenuItem" android:title="Select a Different City" android:titleCondensed="Select City" android:showAsAction="never"></item><item android:id="@+id/ShowFeedData" android:title="Show Feed Data" android:titleCondensed="Feed Data" android:showAsAction="never"></item>
+    
     
 
 </menu>
