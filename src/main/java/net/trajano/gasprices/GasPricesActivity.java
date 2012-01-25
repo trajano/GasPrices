@@ -7,6 +7,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
@@ -31,6 +32,16 @@ public class GasPricesActivity extends Activity {
 	 * Preference data, stored in memory until destruction.
 	 */
 	private SharedPreferences preferences;
+
+	@Override
+	protected void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode != 1 || resultCode != RESULT_OK) {
+			return;
+		}
+		Log.e("GasPrices", "result was " + data.getStringExtra("city"));
+	}
 
 	/**
 	 * Called when the activity is first created.
@@ -68,6 +79,10 @@ public class GasPricesActivity extends Activity {
 		} else if (R.id.ShowFeedData == item.getItemId()) {
 			final Intent intent = new Intent(this, GasPricesFeedActivity.class);
 			startActivity(intent);
+			return true;
+		} else if (R.id.CitySelectMenuItem == item.getItemId()) {
+			final Intent intent = new Intent(this, CitySelectionActivity.class);
+			startActivityForResult(intent, 1);
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);

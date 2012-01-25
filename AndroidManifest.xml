@@ -37,6 +37,10 @@
             android:name=".GasPricesFeedActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name=".CitySelectionActivity"
+            android:label="@string/app_name" >
+        </activity>
         <!--
         <activity
             android:name=".GasPricesWidgetConfigure"
