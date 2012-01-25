@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="city_list">
+        <item>Greater Toronto Area</item>
+        <item>Markham=134</item>
+        <item>Mississauga=101</item>
+        <item>Richmond Hill=92</item>
+        <item>Toronto=133</item>
+        <item>Manitoba</item>
+        <item>Winnipeg=117</item>
+        <item>Ontario</item>
+        <item>Ajax=81</item>
+        <item>Aurora=91</item>
+        <item>Barrie=243</item>
+        <item>Belleville=323</item>
+        <item>Other</item>
+        <item>Bolton=94</item>
+        <item>Bowmanville=77</item>
+        <item>Brampton=97</item>
+        <item>Brantford=135</item>
+        <item>Brockville=325</item>
+        <item>Burlington=103</item>
+        <item>Caledon=95</item>
+        <item>Calgary=119</item>
+        <item>Cambridge=105</item>
+        <item>Cobourg=74</item>
+        <item>Collingwood=88</item>
+        <item>Courtice=78</item>
+        <item>Edmonton=120</item>
+        <item>Etobicoke=111</item>
+        <item>Fort McMurray=327</item>
+        <item>Guelph=104</item>
+        <item>Hamilton=115</item>
+        <item>Kamloops=121</item>
+        <item>Kanata=87</item>
+        <item>Kelowna=122</item>
+        <item>Kingston=324</item>
+        <item>Kitchener=106</item>
+        <item>London=116</item>
+        <item>Milton=100</item>
+        <item>Montreal=244</item>
+        <item>Newcastle=76</item>
+        <item>Newmarket=90</item>
+        <item>Niagara Falls=302</item>
+        <item>Oakville=102</item>
+        <item>Orangeville=96</item>
+        <item>Orillia=89</item>
+        <item>Ottawa=86</item>
+        <item>Peterborough=85</item>
+        <item>Oshawa=79</item>
+        <item>Pickering=82</item>
+        <item>Port Hope=75</item>
+        <item>Port Perry=84</item>
+        <item>Regina=326</item>
+        <item>Sarnia=305</item>
+        <item>Saskatoon=118</item>
+        <item>Sault Ste Marie=306</item>
+        <item>St. Catharines=114</item>
+        <item>Stoney Creek=109</item>
+        <item>Stratford=303</item>
+        <item>Sudbury - North Bay=307</item>
+        <item>Thunder Bay=99</item>
+        <item>Trenton=322</item>
+        <item>Uxbridge=83</item>
+        <item>Vancouver=123</item>
+        <item>Vaughan=93</item>
+        <item>Waterloo=107</item>
+        <item>Whitby=80</item>
+        <item>Windsor=304</item>
+    </string-array>
+
+</resources>
