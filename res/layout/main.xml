@@ -69,24 +69,4 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="" />
-
-    <LinearLayout android:gravity="center_horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/RefreshButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Refresh Data" />
-
-        <Button
-            android:id="@+id/DebugButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show Feed Data" />
-
-    </LinearLayout>
-
 </LinearLayout>

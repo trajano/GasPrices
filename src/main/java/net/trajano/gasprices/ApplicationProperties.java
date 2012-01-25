@@ -167,7 +167,7 @@ public final class ApplicationProperties {
 
 			final Editor prop = preferences.edit();
 			prop.putLong(LAST_UPDATED, new Date().getTime());
-			prop.putString(LAST_RESULT_DATA, object.toString());
+			prop.putString(LAST_RESULT_DATA, object.toString(3));
 			prop.commit();
 			loaded = true;
 

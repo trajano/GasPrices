@@ -9,8 +9,15 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-public class GasPricesActivity extends Activity {
+/**
+ * This activity is shown to display the feed data.
+ * 
+ * @author Archimedes Trajano (developer@trajano.net)
+ * 
+ */
+public class GasPricesFeedActivity extends Activity {
 	/**
 	 * When the preference change on lastUpdated is detected it will update the
 	 * view.
@@ -20,7 +27,7 @@ public class GasPricesActivity extends Activity {
 		@Override
 		public void onSharedPreferenceChanged(
 				final SharedPreferences sharedPreferences, final String key) {
-			if (key != "last_updated") {
+			if (key != "resultdata") {
 				return;
 			}
 			updateView();
@@ -43,13 +50,16 @@ public class GasPricesActivity extends Activity {
 			StrictMode.enableDefaults();
 		}
 		preferences = PreferenceUtil.getPreferences(this);
-		setMainView();
+		setContentView(R.layout.feed);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(final android.view.Menu menu) {
 		final MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
+		inflater.inflate(R.menu.feedmenu, menu);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			getActionBar().setHomeButtonEnabled(true);
+		}
 		return true;
 	}
 
@@ -57,16 +67,14 @@ public class GasPricesActivity extends Activity {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		// Handle item selection
 		if (R.id.UpdateMenuItem == item.getItemId()) {
-			final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
-					null);
-			view.setStatus("Forced update...");
-
 			// TODO don't do this! create a new AsyncTask instead.
 			final Intent intent = new Intent(this, GasPricesUpdateService.class);
 			startService(intent);
 			return true;
-		} else if (R.id.ShowFeedData == item.getItemId()) {
-			final Intent intent = new Intent(this, GasPricesFeedActivity.class);
+		} else if (android.R.id.home == item.getItemId()) {
+			// app icon in action bar clicked; go home
+			final Intent intent = new Intent(this, GasPricesActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			return true;
 		} else {
@@ -74,10 +82,6 @@ public class GasPricesActivity extends Activity {
 		}
 	}
 
-	/**
-	 * When the application pauses, it deregisters itself from listening to
-	 * changes.
-	 */
 	@Override
 	protected void onPause() {
 		preferences
@@ -85,10 +89,6 @@ public class GasPricesActivity extends Activity {
 		super.onPause();
 	}
 
-	/**
-	 * When the application resumes it will update the view and wait for any
-	 * preference changes.
-	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -97,25 +97,16 @@ public class GasPricesActivity extends Activity {
 				.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
 	}
 
-	private void setMainView() {
-		setContentView(R.layout.main);
-		new LoadDataTask(this).execute();
-		// final Button refreshButton = (Button)
-		// findViewById(R.id.RefreshButton);
-		// final Button debugButton = (Button) findViewById(R.id.DebugButton);
-		// // final Button userButton = (Button) findViewById(R.id.UserButton);
-		// refreshButton.setOnClickListener(this);
-		// debugButton.setOnClickListener(this);
-	}
-
 	/**
 	 * Updates the view with the information stored in the {@link #preferences}
 	 * object.
 	 */
 	private void updateView() {
-		final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
-				new ApplicationProperties(this));
-		view.updateView();
-		view.setStatus("updated via sharedPreferenceUpdate");
+		final TextView feedTextView = (TextView) findViewById(R.id.FeedText);
+		feedTextView.setText(preferences.getString("resultdata", "no data"));
+		// final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
+		// new ApplicationProperties(this));
+		// view.updateView();
+		// view.setStatus("updated via sharedPreferenceUpdate");
 	}
 }

@@ -39,7 +39,9 @@ public class GasPricesViewWrapper {
 	public void setStatus(final String status) {
 		final TextView v = (TextView) activity
 				.findViewById(R.id.GasPriceStatusText);
-		v.setText(status);
+		if (v != null) {
+			v.setText(status);
+		}
 
 	}
 
