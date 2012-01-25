@@ -43,7 +43,7 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 	public void onClick(final View v) {
 		final Button refreshButton = (Button) findViewById(R.id.RefreshButton);
 		final Button debugButton = (Button) findViewById(R.id.DebugButton);
-		final Button userButton = (Button) findViewById(R.id.UserButton);
+		// final Button userButton = (Button) findViewById(R.id.UserButton);
 		if (v == refreshButton) {
 			final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 					null);
@@ -51,8 +51,8 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 			new UpdateDataTask(this).execute();
 		} else if (v == debugButton) {
 			setFeedView();
-		} else if (v == userButton) {
-			setMainView();
+			// } else if (v == userButton) {
+			// setMainView();
 		}
 	}
 
@@ -68,8 +68,6 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 		}
 		preferences = PreferenceUtil.getPreferences(this);
 		setMainView();
-		preferences
-				.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
 	}
 
 	@Override
@@ -77,12 +75,6 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 		final MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		return true;
-	}
-
-	@Override
-	protected void onDestroy() {
-		preferences
-				.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
 	}
 
 	@Override
@@ -104,13 +96,34 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * When the application pauses, it deregisters itself from listening to
+	 * changes.
+	 */
+	@Override
+	protected void onPause() {
+		preferences
+				.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
+	}
+
+	/**
+	 * When the application resumes it will update the view and wait for any
+	 * preference changes.
+	 */
+	@Override
+	protected void onResume() {
+		updateView();
+		preferences
+				.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+	}
+
 	private void setFeedView() {
 		setContentView(R.layout.feed);
 		new LoadDataTask(this).execute();
 		final Button refreshButton = (Button) findViewById(R.id.RefreshButton);
-		final Button userButton = (Button) findViewById(R.id.UserButton);
+		// final Button userButton = (Button) findViewById(R.id.UserButton);
 		refreshButton.setOnClickListener(this);
-		userButton.setOnClickListener(this);
+		// userButton.setOnClickListener(this);
 	}
 
 	private void setMainView() {
