@@ -99,6 +99,10 @@ public class GasPricesUpdateService extends IntentService {
 	 * is part of the application and would handle it from there.
 	 * </p>
 	 * {@inheritDoc}
+	 * 
+	 * TODO is this the right place to do this? Should I still use AsyncTask?
+	 * The reason why this is here is because this is the only way I know how to
+	 * get the widget to update.
 	 */
 	@Override
 	protected void onHandleIntent(final Intent intent) {

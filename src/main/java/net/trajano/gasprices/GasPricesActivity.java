@@ -93,6 +93,8 @@ public class GasPricesActivity extends Activity implements OnClickListener {
 			final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 					null);
 			view.setStatus("Forced update...");
+
+			// TODO don't do this! create a new AsyncTask instead.
 			final Intent startIntent = new Intent(this,
 					GasPricesUpdateService.class);
 			startService(startIntent);
