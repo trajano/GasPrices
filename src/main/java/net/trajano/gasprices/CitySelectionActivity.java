@@ -1,5 +1,7 @@
 package net.trajano.gasprices;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +10,9 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
+import android.widget.ListView.FixedViewInfo;
 
 /**
  * This activity is shown to display a list of valid cities and allow the user
@@ -18,6 +22,10 @@ import android.widget.ListView;
  * 
  */
 public class CitySelectionActivity extends ListActivity {
+	private final ArrayList<FixedViewInfo> mFooterViewInfos = new ArrayList<FixedViewInfo>();
+
+	private final ArrayList<FixedViewInfo> mHeaderViewInfos = new ArrayList<FixedViewInfo>();
+
 	/**
 	 * Preference data, stored in memory until destruction.
 	 */
@@ -40,7 +48,9 @@ public class CitySelectionActivity extends ListActivity {
 				"Max OS X", "Linux", "OS/2" };
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, values);
-		setListAdapter(adapter);
+
+		setListAdapter(new HeaderViewListAdapter(mHeaderViewInfos,
+				mFooterViewInfos, adapter));
 	}
 
 	@Override
