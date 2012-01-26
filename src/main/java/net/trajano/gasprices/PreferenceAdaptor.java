@@ -98,6 +98,32 @@ public final class PreferenceAdaptor implements SharedPreferences {
 			return editor.remove(key);
 		}
 
+		/**
+		 * Sets the last updated time preference. Internally it will convert it
+		 * to a long before storing it in the shared preferences.
+		 * 
+		 * @param lastUpdated
+		 * @return itself
+		 */
+		public Editor setLastUpdated(final Date lastUpdated) {
+			putLong(LAST_UPDATED_KEY, lastUpdated.getTime());
+			return this;
+		}
+
+		/**
+		 * Sets the last updated time preference to right now. Internally it
+		 * will convert it to a long before storing it in the shared
+		 * preferences.
+		 * 
+		 * @return itself
+		 */
+		public Editor setLastUpdatedToNow() {
+			final Time time = new Time();
+			time.setToNow();
+			putLong(LAST_UPDATED_KEY, time.normalize(false));
+			return this;
+		}
+
 	}
 
 	/**
@@ -153,20 +179,6 @@ public final class PreferenceAdaptor implements SharedPreferences {
 			t.second = 0;
 		}
 		return new Date(t.normalize(false));
-	}
-
-	/**
-	 * This sets the #LAST_UPDATED_KEY preference to the current time.
-	 * 
-	 * TODO this does not seem right doing it here, this business logic should
-	 * be moved to a separate wrapper. Perhaps I would need two versions of the
-	 * wrapper, one mutable one not?
-	 * 
-	 * @param editor
-	 */
-	public static void setLastUpdatedToNow(
-			final android.content.SharedPreferences.Editor editor) {
-		editor.putLong(LAST_UPDATED_KEY, new Date().getTime());
 	}
 
 	/**

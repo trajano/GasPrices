@@ -18,7 +18,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
@@ -106,9 +105,9 @@ public class GasPricesUpdateService extends IntentService {
 	 */
 	@Override
 	protected void onHandleIntent(final Intent intent) {
-		final SharedPreferences preferences = new PreferenceAdaptor(this);
+		final PreferenceAdaptor preferences = new PreferenceAdaptor(this);
 
-		final Editor editor = preferences.edit();
+		final PreferenceAdaptor.Editor editor = preferences.editor();
 
 		try {
 			final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -153,7 +152,7 @@ public class GasPricesUpdateService extends IntentService {
 					sendBroadcast(update);
 				}
 			}
-			PreferenceAdaptor.setLastUpdatedToNow(editor);
+			editor.setLastUpdatedToNow();
 			editor.apply();
 			Log.d("GasPrices", "done update");
 		}
