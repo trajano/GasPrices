@@ -42,7 +42,7 @@ public class GasPricesActivity extends Activity {
 				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
 			StrictMode.enableDefaults();
 		}
-		preferences = PreferenceAdaptor.getPreferences(this);
+		preferences = new PreferenceAdaptor(this);
 		setMainView();
 	}
 

@@ -43,20 +43,6 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	private static final String WIDGET_PREFERENCE_KEY_PREFIX = "widget_"; // $NON-NLS-1$
 
 	/**
-	 * Gets the {@link SharedPreferences} object used by the application as
-	 * specified by {@link #SHARED_PREFERENCES_NAME}.
-	 * 
-	 * @param context
-	 *            context.
-	 * @return shared pr
-	 */
-	@Deprecated
-	public static final SharedPreferences getPreferences(final Context context) {
-		return context.getSharedPreferences(SHARED_PREFERENCES_NAME,
-				Context.MODE_PRIVATE);
-	}
-
-	/**
 	 * This returns the next update date given the last update data. There are
 	 * three times for updates: 5pm, 8pm and midnight.
 	 * 

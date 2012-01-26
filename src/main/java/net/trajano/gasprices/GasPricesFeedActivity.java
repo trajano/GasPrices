@@ -55,7 +55,7 @@ public class GasPricesFeedActivity extends Activity {
 				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
 			StrictMode.enableDefaults();
 		}
-		preferences = PreferenceAdaptor.getPreferences(this);
+		preferences = new PreferenceAdaptor(this);
 		setContentView(R.layout.feed);
 	}
 

@@ -39,8 +39,7 @@ public class GasPricesViewWrapper {
 	}
 
 	public void updateView() {
-		final SharedPreferences preferences = PreferenceAdaptor
-				.getPreferences(activity);
+		final SharedPreferences preferences = new PreferenceAdaptor(activity);
 
 		if (!props.isLoaded()) {
 			final TextView v = (TextView) activity

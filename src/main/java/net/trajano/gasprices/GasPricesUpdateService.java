@@ -106,8 +106,7 @@ public class GasPricesUpdateService extends IntentService {
 	 */
 	@Override
 	protected void onHandleIntent(final Intent intent) {
-		final SharedPreferences preferences = PreferenceAdaptor
-				.getPreferences(this);
+		final SharedPreferences preferences = new PreferenceAdaptor(this);
 
 		final Editor editor = preferences.edit();
 
