@@ -107,7 +107,7 @@ public class GasPricesUpdateService extends IntentService {
 	protected void onHandleIntent(final Intent intent) {
 		final PreferenceAdaptor preferences = new PreferenceAdaptor(this);
 
-		final PreferenceAdaptor.Editor editor = preferences.editor();
+		final PreferenceAdaptorEditor editor = preferences.edit();
 
 		try {
 			final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
