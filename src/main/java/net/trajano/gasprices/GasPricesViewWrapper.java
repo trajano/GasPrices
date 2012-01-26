@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -38,6 +39,9 @@ public class GasPricesViewWrapper {
 	}
 
 	public void updateView() {
+		final SharedPreferences preferences = PreferenceUtil
+				.getPreferences(activity);
+
 		if (!props.isLoaded()) {
 			final TextView v = (TextView) activity
 					.findViewById(R.id.LastUpdatedText);
@@ -53,10 +57,9 @@ public class GasPricesViewWrapper {
 				feedView.setText(e.toString());
 			}
 		} else {
-			// TODO get rid of yuckiness that is loading getting the preferences
-			// more than once.
-			final CityInfo result = props.getCityInfo(PreferenceUtil
-					.getPreferences(activity).getLong("selected_city_id", 133));
+
+			final CityInfo result = props.getCityInfo(preferences.getLong(
+					"selected_city_id", 133));
 			{
 				final TextView v = (TextView) activity
 						.findViewById(R.id.LastUpdatedText);
@@ -68,8 +71,8 @@ public class GasPricesViewWrapper {
 			{
 				final TextView v = (TextView) activity.findViewById(R.id.city);
 				// TODO use GPS to figure out the default location.
-				v.setText(PreferenceUtil.getPreferences(activity).getString(
-						"selected_city_name", "Toronto"));
+				v.setText(preferences
+						.getString("selected_city_name", "Toronto"));
 			}
 			{
 				final TextView v = (TextView) activity
@@ -103,7 +106,8 @@ public class GasPricesViewWrapper {
 				activity.getResources().getString(R.string.next_update),
 				DateFormat
 						.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG)
-						.format(props.getNextUpdateTime())
+						.format(PreferenceUtil.nextUpdateDate(preferences
+								.getLong("last_updated", 0)))
 						.replace(' ', '\u00A0')));
 		{
 			final ProgressBar vp = (ProgressBar) activity

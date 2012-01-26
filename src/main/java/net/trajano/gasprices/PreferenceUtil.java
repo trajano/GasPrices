@@ -63,8 +63,20 @@ public final class PreferenceUtil {
 	 * @return the next update time.
 	 */
 	public static Date nextUpdateDate(final Date lastUpdate) {
+		return nextUpdateDate(lastUpdate.getTime());
+	}
+
+	/**
+	 * This returns the next update date given the last update data. There are
+	 * three times for updates: 5pm, 8pm and midnight.
+	 * 
+	 * @param lastUpdateTime
+	 *            last update time as seconds since epoch.
+	 * @return the next update time.
+	 */
+	public static Date nextUpdateDate(final long lastUpdateTime) {
 		final Time t = new Time();
-		t.set(lastUpdate.getTime());
+		t.set(lastUpdateTime);
 		if (t.hour < 17) {
 			t.hour = 17;
 			t.minute = 0;

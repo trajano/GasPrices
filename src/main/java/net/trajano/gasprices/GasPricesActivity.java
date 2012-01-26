@@ -120,6 +120,5 @@ public class GasPricesActivity extends Activity {
 		final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 				new ApplicationProperties(this));
 		view.updateView();
-		view.setStatus("updated via sharedPreferenceUpdate");
 	}
 }

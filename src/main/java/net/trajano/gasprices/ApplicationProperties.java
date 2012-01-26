@@ -116,6 +116,7 @@ public final class ApplicationProperties {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public Date getNextUpdateTime() {
 		if (!loaded) {
 			return new Date();

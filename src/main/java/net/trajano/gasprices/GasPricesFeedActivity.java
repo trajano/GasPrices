@@ -1,5 +1,8 @@
 package net.trajano.gasprices;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -103,7 +106,12 @@ public class GasPricesFeedActivity extends Activity {
 	 */
 	private void updateView() {
 		final TextView feedTextView = (TextView) findViewById(R.id.FeedText);
-		feedTextView.setText(preferences.getString("resultdata", "no data"));
+		try {
+			feedTextView.setText(new JSONObject(preferences.getString(
+					"resultdata", null)).toString(3));
+		} catch (final JSONException e) {
+			feedTextView.setText("unable to parse JSON data");
+		}
 		// final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 		// new ApplicationProperties(this));
 		// view.updateView();
