@@ -28,6 +28,79 @@ import android.text.format.Time;
  */
 public final class PreferenceAdaptor implements SharedPreferences {
 	/**
+	 * This is an internal class to adapt the editor to add a few methods to
+	 * hide knowledge from clients what the keys are.
+	 * 
+	 * @author Archimedes Trajano (developer@trajano.net)
+	 * 
+	 */
+	public static class Editor implements
+			android.content.SharedPreferences.Editor {
+		private final android.content.SharedPreferences.Editor editor;
+
+		public Editor(final android.content.SharedPreferences.Editor editor) {
+			this.editor = editor;
+		}
+
+		@Override
+		public void apply() {
+			editor.apply();
+		}
+
+		@Override
+		public android.content.SharedPreferences.Editor clear() {
+			return editor.clear();
+		}
+
+		@Override
+		public boolean commit() {
+			return editor.commit();
+		}
+
+		@Override
+		public android.content.SharedPreferences.Editor putBoolean(
+				final String key, final boolean value) {
+			return editor.putBoolean(key, value);
+		}
+
+		@Override
+		public android.content.SharedPreferences.Editor putFloat(
+				final String key, final float value) {
+			return editor.putFloat(key, value);
+		}
+
+		@Override
+		public android.content.SharedPreferences.Editor putInt(
+				final String key, final int value) {
+			return editor.putInt(key, value);
+		}
+
+		@Override
+		public android.content.SharedPreferences.Editor putLong(
+				final String key, final long value) {
+			return editor.putLong(key, value);
+		}
+
+		@Override
+		public android.content.SharedPreferences.Editor putString(
+				final String key, final String value) {
+			return editor.putString(key, value);
+		}
+
+		@Override
+		public android.content.SharedPreferences.Editor putStringSet(
+				final String arg0, final Set<String> arg1) {
+			return editor.putStringSet(arg0, arg1);
+		}
+
+		@Override
+		public android.content.SharedPreferences.Editor remove(final String key) {
+			return editor.remove(key);
+		}
+
+	}
+
+	/**
 	 * Last updated in seconds since epoch.
 	 */
 	private static final String LAST_UPDATED_KEY = "last_updated"; // $NON-NLS-1$
@@ -91,7 +164,8 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	 * 
 	 * @param editor
 	 */
-	public static void setLastUpdatedToNow(final Editor editor) {
+	public static void setLastUpdatedToNow(
+			final android.content.SharedPreferences.Editor editor) {
 		editor.putLong(LAST_UPDATED_KEY, new Date().getTime());
 	}
 
@@ -137,11 +211,21 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * This creates a new editor that wraps the original
+	 * {@link android.content.SharedPreferences.Editor}.
 	 */
 	@Override
-	public Editor edit() {
-		return preferences.edit();
+	public android.content.SharedPreferences.Editor edit() {
+		return editor();
+	}
+
+	/**
+	 * This creates a new editor that wraps the original
+	 * {@link android.content.SharedPreferences.Editor}. It is a convenience
+	 * method so that a cast is not needed.
+	 */
+	public Editor editor() {
+		return new Editor(preferences.edit());
 	}
 
 	/**
