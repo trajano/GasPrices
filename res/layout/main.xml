@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:padding="3dp"
-        android:stretchColumns="2" >
+        android:stretchColumns="*" >
         
         <TableRow
             android:layout_width="fill_parent"
@@ -28,7 +28,8 @@
             <TextView 
             android:id="@+id/city"
                 style="@android:style/TextAppearance.Large"
-                android:gravity="right"
+                android:gravity="center"
+                android:layout_span="2"
                 android:padding="3dp"
                 android:text="Toronto" />
         </TableRow>
@@ -61,6 +62,7 @@
 
             <TextView
                 style="@android:style/TextAppearance.Medium"
+                android:gravity="right"
                 android:padding="3dp" android:id="@+id/OtherPriceLabelText"
                 android:text="Tomorrow" />
 

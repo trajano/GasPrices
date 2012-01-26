@@ -44,6 +44,30 @@ public final class ApplicationProperties {
 		loaded = preferences.getLong(LAST_UPDATED, Long.MIN_VALUE) != Long.MIN_VALUE;
 	}
 
+	public CityInfo getCityInfo(final long cityId) {
+		try {
+			final JSONArray cities = (JSONArray) getResultData().get(
+					"gasprices");
+			for (int i = 0; i < cities.length(); ++i) {
+				final JSONObject currentObject = cities.getJSONObject(i);
+				if (currentObject.isNull("location_latitude")) {
+					continue;
+				}
+				if (cityId == currentObject.getLong("city_id")) {
+					return new CityInfo(currentObject);
+				}
+			}
+			Log.e("GasPrices", "invalid city id = " + cityId);
+			throw new RuntimeException("invalid city id=" + cityId);
+		} catch (final JSONException e) {
+			Log.e("GasPrices", e.getMessage());
+			throw new RuntimeException(e);
+		} catch (final ParseException e) {
+			Log.e("GasPrices", e.getMessage());
+			throw new RuntimeException(e);
+		}
+	}
+
 	private JSONObject getClosestCityData(final Location location)
 			throws JSONException {
 		float currentDistance = Float.MAX_VALUE;

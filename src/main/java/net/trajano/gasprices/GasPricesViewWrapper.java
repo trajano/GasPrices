@@ -7,18 +7,10 @@ import java.text.MessageFormat;
 import org.json.JSONException;
 
 import android.app.Activity;
-import android.location.Location;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class GasPricesViewWrapper {
-	private static final Location TORONTO_LOCATION;
-
-	static {
-		TORONTO_LOCATION = new Location("app");
-		TORONTO_LOCATION.setLatitude(43.6669);
-		TORONTO_LOCATION.setLongitude(-79.3824);
-	}
 	private final Activity activity;
 
 	private final ApplicationProperties props;
@@ -61,7 +53,10 @@ public class GasPricesViewWrapper {
 				feedView.setText(e.toString());
 			}
 		} else {
-			final CityInfo result = props.getClosestCityInfo(TORONTO_LOCATION);
+			// TODO get rid of yuckiness that is loading getting the preferences
+			// more than once.
+			final CityInfo result = props.getCityInfo(PreferenceUtil
+					.getPreferences(activity).getLong("selected_city_id", 133));
 			{
 				final TextView v = (TextView) activity
 						.findViewById(R.id.LastUpdatedText);
@@ -69,6 +64,12 @@ public class GasPricesViewWrapper {
 						.getString(R.string.last_updated), DateFormat
 						.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG)
 						.format(props.getLastUpdated()).replace(' ', '\u00A0')));
+			}
+			{
+				final TextView v = (TextView) activity.findViewById(R.id.city);
+				// TODO use GPS to figure out the default location.
+				v.setText(PreferenceUtil.getPreferences(activity).getString(
+						"selected_city_name", "Toronto"));
 			}
 			{
 				final TextView v = (TextView) activity
