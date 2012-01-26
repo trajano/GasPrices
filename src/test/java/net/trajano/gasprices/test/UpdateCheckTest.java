@@ -3,7 +3,7 @@ package net.trajano.gasprices.test;
 import java.util.Date;
 
 import junit.framework.TestCase;
-import net.trajano.gasprices.PreferenceUtil;
+import net.trajano.gasprices.PreferenceAdaptor;
 import android.text.format.Time;
 
 /**
@@ -39,7 +39,7 @@ public class UpdateCheckTest extends TestCase {
 			nextExpectedUpdate = new Date(t.normalize(false));
 		}
 		assertEquals(nextExpectedUpdate,
-				PreferenceUtil.nextUpdateDate(lastUpdate));
+				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
 
 	public void testAt5pm() {
@@ -63,7 +63,7 @@ public class UpdateCheckTest extends TestCase {
 			nextExpectedUpdate = new Date(t.normalize(false));
 		}
 		assertEquals(nextExpectedUpdate,
-				PreferenceUtil.nextUpdateDate(lastUpdate));
+				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
 
 	public void testAt8pm() {
@@ -88,7 +88,7 @@ public class UpdateCheckTest extends TestCase {
 			nextExpectedUpdate = new Date(t.normalize(false));
 		}
 		assertEquals(nextExpectedUpdate,
-				PreferenceUtil.nextUpdateDate(lastUpdate));
+				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
 
 	public void testAtMidnight() {
@@ -112,7 +112,7 @@ public class UpdateCheckTest extends TestCase {
 			nextExpectedUpdate = new Date(t.normalize(false));
 		}
 		assertEquals(nextExpectedUpdate,
-				PreferenceUtil.nextUpdateDate(lastUpdate));
+				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class UpdateCheckTest extends TestCase {
 			nextExpectedUpdate = new Date(t.normalize(false));
 		}
 		assertEquals(nextExpectedUpdate,
-				PreferenceUtil.nextUpdateDate(lastUpdate));
+				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
 
 	public void testOneSecondTo5pm() {
@@ -163,7 +163,7 @@ public class UpdateCheckTest extends TestCase {
 			nextExpectedUpdate = new Date(t.normalize(false));
 		}
 		assertEquals(nextExpectedUpdate,
-				PreferenceUtil.nextUpdateDate(lastUpdate));
+				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class UpdateCheckTest extends TestCase {
 			nextExpectedUpdate = new Date(t.normalize(false));
 		}
 		assertEquals(nextExpectedUpdate,
-				PreferenceUtil.nextUpdateDate(lastUpdate));
+				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class UpdateCheckTest extends TestCase {
 			nextExpectedUpdate = new Date(t.normalize(false));
 		}
 		assertEquals(nextExpectedUpdate,
-				PreferenceUtil.nextUpdateDate(lastUpdate));
+				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
 
 }

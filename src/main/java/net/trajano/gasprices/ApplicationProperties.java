@@ -40,7 +40,7 @@ public final class ApplicationProperties {
 
 	@Deprecated
 	public ApplicationProperties(final Context ctx) {
-		preferences = PreferenceUtil.getPreferences(ctx);
+		preferences = PreferenceAdaptor.getPreferences(ctx);
 		loaded = preferences.getLong(LAST_UPDATED, Long.MIN_VALUE) != Long.MIN_VALUE;
 	}
 

@@ -33,7 +33,7 @@ public class CitySelectionActivity extends ListActivity {
 				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
 			StrictMode.enableDefaults();
 		}
-		preferences = PreferenceUtil.getPreferences(this);
+		preferences = PreferenceAdaptor.getPreferences(this);
 		setListAdapter(new CityListAdapter(this));
 	}
 

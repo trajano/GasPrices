@@ -39,7 +39,7 @@ public class GasPricesViewWrapper {
 	}
 
 	public void updateView() {
-		final SharedPreferences preferences = PreferenceUtil
+		final SharedPreferences preferences = PreferenceAdaptor
 				.getPreferences(activity);
 
 		if (!props.isLoaded()) {
@@ -106,7 +106,7 @@ public class GasPricesViewWrapper {
 				activity.getResources().getString(R.string.next_update),
 				DateFormat
 						.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG)
-						.format(PreferenceUtil.nextUpdateDate(preferences
+						.format(PreferenceAdaptor.nextUpdateDate(preferences
 								.getLong("last_updated", 0)))
 						.replace(' ', '\u00A0')));
 		{

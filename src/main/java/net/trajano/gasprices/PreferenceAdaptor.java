@@ -1,19 +1,20 @@
 package net.trajano.gasprices;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.text.format.Time;
 
 /**
  * <p>
- * This is a utility class that is used to manage the {@link SharedPreferences}
- * used by the application. A utility class pattern was used rather than
- * employing the Wrapper pattern to prevent creation of new objects which are
- * more expensive on a mobile device at the expense of readability.
+ * This is a adaptor that is used to manage the {@link SharedPreferences} used
+ * by the application so that it shields the clients from knowing what the
+ * actual properties are. This pattern was used for readability at the expense
+ * of performance loss for creating the object.
  * </p>
  * <p>
  * A non-private {@link SharedPreferences} was used because we need it to be
@@ -25,7 +26,7 @@ import android.text.format.Time;
  * @author Archimedes Trajano (developer@trajano.net)
  * 
  */
-public final class PreferenceUtil {
+public final class PreferenceAdaptor implements SharedPreferences {
 	/**
 	 * Last updated in seconds since epoch.
 	 */
@@ -49,6 +50,7 @@ public final class PreferenceUtil {
 	 *            context.
 	 * @return shared pr
 	 */
+	@Deprecated
 	public static final SharedPreferences getPreferences(final Context context) {
 		return context.getSharedPreferences(SHARED_PREFERENCES_NAME,
 				Context.MODE_PRIVATE);
@@ -123,9 +125,110 @@ public final class PreferenceUtil {
 	}
 
 	/**
-	 * Prevent instantiation of utility class.
+	 * This is the {@link SharedPreferences} object that is being wrapped.
 	 */
-	private PreferenceUtil() {
+	private final SharedPreferences preferences;
 
+	/**
+	 * Gets the {@link SharedPreferences} object used by the application as
+	 * specified by {@link #SHARED_PREFERENCES_NAME}.
+	 * 
+	 * @param context
+	 *            context.
+	 */
+	public PreferenceAdaptor(final Context context) {
+		preferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME,
+				Context.MODE_PRIVATE);
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean contains(final String key) {
+		return preferences.contains(key);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Editor edit() {
+		return preferences.edit();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Map<String, ?> getAll() {
+		return preferences.getAll();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean getBoolean(final String key, final boolean defValue) {
+		return preferences.getBoolean(key, defValue);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public float getFloat(final String key, final float defValue) {
+		return preferences.getFloat(key, defValue);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getInt(final String key, final int defValue) {
+		return preferences.getInt(key, defValue);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getLong(final String key, final long defValue) {
+		return preferences.getLong(key, defValue);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getString(final String key, final String defValue) {
+		return preferences.getString(key, defValue);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set<String> getStringSet(final String arg0, final Set<String> arg1) {
+		return preferences.getStringSet(arg0, arg1);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void registerOnSharedPreferenceChangeListener(
+			final OnSharedPreferenceChangeListener listener) {
+		preferences.registerOnSharedPreferenceChangeListener(listener);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void unregisterOnSharedPreferenceChangeListener(
+			final OnSharedPreferenceChangeListener listener) {
+		preferences.unregisterOnSharedPreferenceChangeListener(listener);
 	}
 }
