@@ -10,6 +10,9 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -107,8 +110,13 @@ public class GasPricesFeedActivity extends Activity {
 	private void updateView() {
 		final TextView feedTextView = (TextView) findViewById(R.id.FeedText);
 		try {
-			feedTextView.setText(new JSONObject(preferences.getString(
-					"resultdata", null)).toString(3));
+			feedTextView.setText(
+					new JSONObject(preferences.getString("resultdata", null))
+							.toString(3), TextView.BufferType.SPANNABLE);
+			final Spannable spannableText = (Spannable) feedTextView.getText();
+			spannableText.setSpan(new ForegroundColorSpan(0xFFEEFF00), 10, 20,
+					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			feedTextView.setText(spannableText);
 		} catch (final JSONException e) {
 			feedTextView.setText("unable to parse JSON data");
 		}
