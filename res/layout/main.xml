@@ -19,7 +19,21 @@
         android:gravity="center"
         android:padding="3dp"
         android:stretchColumns="2" >
+        
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
 
+            <TextView 
+            android:id="@+id/city"
+                style="@android:style/TextAppearance.Large"
+                android:gravity="right"
+                android:padding="3dp"
+                android:text="Toronto" />
+        </TableRow>
+
+        
         <TableRow
             android:id="@+id/tableRow1"
             android:layout_width="fill_parent"

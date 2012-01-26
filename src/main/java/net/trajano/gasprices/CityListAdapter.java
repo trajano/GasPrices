@@ -11,13 +11,11 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class CityListAdapter extends BaseAdapter implements ListAdapter {
-	private final ListActivity activity;
 	private final String[] cityList;
 	private final int[] cityListIds;
 	private final LayoutInflater inflater;
 
 	public CityListAdapter(final ListActivity activity) {
-		this.activity = activity;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		cityList = activity.getResources().getStringArray(R.array.city_list);
