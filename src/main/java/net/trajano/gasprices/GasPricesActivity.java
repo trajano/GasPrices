@@ -137,6 +137,10 @@ public class GasPricesActivity extends Activity {
 							.replace(' ', '\u00A0')));
 		}
 		{
+			final TextView v = (TextView) findViewById(R.id.city);
+			v.setText(cityInfo.getName());
+		}
+		{
 			final TextView v = (TextView) findViewById(R.id.PriceTodayText);
 			v.setText(getResources().getString(R.string.cents_per_liter_format,
 					cityInfo.getCurrentGasPrice()));
