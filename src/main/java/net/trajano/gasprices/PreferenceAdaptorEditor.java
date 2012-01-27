@@ -147,22 +147,18 @@ public class PreferenceAdaptorEditor implements
 	}
 
 	/**
-	 * This updates the selected city id and name for the widget
+	 * This updates the selected city id for the widget
 	 * 
 	 * @param appWidgetId
 	 *            appwidget ID.
 	 * @param cityId
 	 *            city id
-	 * @param cityName
-	 *            city name
 	 * @return itself
 	 */
-	public PreferenceAdaptorEditor saveWidgetCity(final int appWidgetId,
-			final long cityId, final String cityName) {
+	public PreferenceAdaptorEditor saveWidgetCityId(final int appWidgetId,
+			final long cityId) {
 		putLong(PreferenceAdaptor.WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX
 				+ appWidgetId, cityId);
-		putString(PreferenceAdaptor.WIDGET_CITY_NAME_PREFERENCE_KEY_PREFIX
-				+ appWidgetId, cityName);
 		return this;
 	}
 

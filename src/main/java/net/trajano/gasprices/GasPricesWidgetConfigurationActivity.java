@@ -55,8 +55,7 @@ public class GasPricesWidgetConfigurationActivity extends ListActivity {
 	protected void onListItemClick(final ListView l, final View v,
 			final int position, final long id) {
 		final PreferenceAdaptorEditor editor = preferences.edit();
-		editor.saveWidgetCity(appWidgetId, id, (String) getListAdapter()
-				.getItem(position));
+		editor.saveWidgetCityId(appWidgetId, id);
 		// Commit is used to make sure the data is put in before we request the
 		// update.
 		editor.commit();

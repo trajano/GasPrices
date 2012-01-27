@@ -72,11 +72,6 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	static final String WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX = "widget_city_id_"; // $NON-NLS-1$
 
 	/**
-	 * Widget preference key prefix.
-	 */
-	static final String WIDGET_CITY_NAME_PREFERENCE_KEY_PREFIX = "widget_city_name_"; // $NON-NLS-1$
-
-	/**
 	 * This returns true if the Gas Prices view should change if the key was
 	 * updated.
 	 * 
@@ -283,31 +278,15 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	}
 
 	/**
-	 * Gets the city id associated with the widget.
+	 * Gets the {@link CityInfo} associated with the widget.
 	 * 
 	 * @param appWidgetId
 	 * @return
 	 */
-	public long getWidgetCityId(final int appWidgetId) {
-		return preferences.getLong(WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX
-				+ appWidgetId, 0);
-	}
-
 	public CityInfo getWidgetCityInfo(final int appWidgetId) {
 		return getCityInfo(preferences.getLong(
 				WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX + appWidgetId,
 				DEFAULT_CITY_ID));
-	}
-
-	/**
-	 * Gets the city name associated with the widget.
-	 * 
-	 * @param appWidgetId
-	 * @return
-	 */
-	public String getWidgetCityName(final int appWidgetId) {
-		return preferences.getString(WIDGET_CITY_NAME_PREFERENCE_KEY_PREFIX
-				+ appWidgetId, null);
 	}
 
 	/**
