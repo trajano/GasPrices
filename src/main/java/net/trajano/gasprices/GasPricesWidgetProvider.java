@@ -6,8 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -15,18 +13,16 @@ import android.widget.RemoteViews;
 public class GasPricesWidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onDeleted(final Context context, final int[] appWidgetIds) {
-		final SharedPreferences preferences = context.getSharedPreferences(
-				ApplicationProperties.FILE_NAME, Context.MODE_PRIVATE);
-		final Editor e = preferences.edit();
-		for (final int widgetId : appWidgetIds) {
-			e.remove(GasPricesWidgetConfigurationActivity.PREF_PREFIX_CITY_ID + widgetId);
-		}
+		final PreferenceAdaptor preferences = new PreferenceAdaptor(context);
+		final PreferenceAdaptorEditor editor = preferences.edit();
+		editor.removeWidgetCityId(appWidgetIds);
+		editor.apply();
 	}
 
 	@Override
 	public void onUpdate(final Context context,
 			final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
-		Log.v("GasPrices", "onUpdate() received");
+		Log.d("GasPrices", "onUpdate() received");
 		final ComponentName thisWidget = new ComponentName(context,
 				GasPricesWidgetProvider.class);
 
@@ -34,7 +30,7 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 				context.getPackageName(), R.layout.widget_layout);
 
 		{
-			Log.v("GasPrices", "Set up intent to launch on widget click");
+			Log.d("GasPrices", "Set up intent to launch on widget click");
 			final PackageManager manager = context.getPackageManager();
 			final Intent lintent = manager
 					.getLaunchIntentForPackage("net.trajano.gasprices");
@@ -45,11 +41,11 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 			remoteViews.setOnClickPendingIntent(R.id.thelayout, pendingIntent);
 		}
 		appWidgetManager.updateAppWidget(thisWidget, remoteViews);
-		{
-			// Build the intent to call the service
-			final Intent intent = new Intent(context.getApplicationContext(),
-					GasPricesWidgetUpdateService.class);
-			context.startService(intent);
-		}
+		// {
+		// // Build the intent to call the service
+		// final Intent intent = new Intent(context.getApplicationContext(),
+		// GasPricesWidgetUpdateService.class);
+		// context.startService(intent);
+		// }
 	}
 }

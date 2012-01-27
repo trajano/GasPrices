@@ -58,7 +58,6 @@
             android:name=".GasPricesUpdateService"
             android:label="Gas Prices Update Service" >
         </service>
-        <!--
         <receiver
             android:name="GasPricesWidgetProvider"
             android:icon="@drawable/ic_launcher"
@@ -72,7 +71,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
-        -->
     </application>
 
 </manifest>

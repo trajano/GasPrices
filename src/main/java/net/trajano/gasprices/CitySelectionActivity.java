@@ -2,8 +2,6 @@ package net.trajano.gasprices;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -21,7 +19,7 @@ public class CitySelectionActivity extends ListActivity {
 	/**
 	 * Preference data, stored in memory until destruction.
 	 */
-	private SharedPreferences preferences;
+	private PreferenceAdaptor preferences;
 
 	/**
 	 * Called when the activity is first created.
@@ -45,24 +43,11 @@ public class CitySelectionActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(final ListView l, final View v,
 			final int position, final long id) {
-		final Editor editor = preferences.edit();
-		editor.putLong("selected_city_id", id);
-		editor.putString("selected_city_name", (String) getListAdapter()
-				.getItem(position));
+		final PreferenceAdaptorEditor editor = preferences.edit();
+		editor.setSelectedCityId(id);
 		editor.apply();
 		final Intent intent = new Intent();
 		setResult(RESULT_OK, intent);
 		finish();
 	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
 }

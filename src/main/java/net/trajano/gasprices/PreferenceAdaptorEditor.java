@@ -132,6 +132,36 @@ public class PreferenceAdaptorEditor implements
 	}
 
 	/**
+	 * This removes the selected city id for the widgets.
+	 * 
+	 * @param appWidgetIds
+	 *            appwidget ID.
+	 * @return itself
+	 */
+	public PreferenceAdaptorEditor removeWidgetCityId(final int... appWidgetIds) {
+		for (final int appWidgetId : appWidgetIds) {
+			remove(PreferenceAdaptor.WIDGET_PREFERENCE_KEY_PREFIX + appWidgetId);
+		}
+		return this;
+	}
+
+	/**
+	 * This updates the selected city id for the widget
+	 * 
+	 * @param appWidgetId
+	 *            appwidget ID.
+	 * @param cityId
+	 *            city id
+	 * @return itself
+	 */
+	public PreferenceAdaptorEditor saveWidgetCityId(final int appWidgetId,
+			final long cityId) {
+		putLong(PreferenceAdaptor.WIDGET_PREFERENCE_KEY_PREFIX + appWidgetId,
+				cityId);
+		return this;
+	}
+
+	/**
 	 * This will store the JSON data into the preferences as well as break it
 	 * apart for each city. Only the main JSON feed is formatted, the individual
 	 * city data is kept small.

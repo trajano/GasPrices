@@ -54,12 +54,12 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	/**
 	 * This is the selected city ID.
 	 */
-	private static final String SELECTED_CITY_ID_KEY = "selected_city_id";
+	static final String SELECTED_CITY_ID_KEY = "selected_city_id";
 
 	/**
 	 * This is the selected city name.
 	 */
-	private static final String SELECTED_CITY_NAME_KEY = "selected_city_name";
+	static final String SELECTED_CITY_NAME_KEY = "selected_city_name";
 
 	/**
 	 * {@link SharedPreferences} file name.
@@ -69,7 +69,7 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	/**
 	 * Widget preference key prefix.
 	 */
-	private static final String WIDGET_PREFERENCE_KEY_PREFIX = "widget_"; // $NON-NLS-1$
+	static final String WIDGET_PREFERENCE_KEY_PREFIX = "widget_"; // $NON-NLS-1$
 
 	/**
 	 * This returns true if the Gas Prices view should change if the key was
