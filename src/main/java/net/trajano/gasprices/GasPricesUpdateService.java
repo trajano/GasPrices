@@ -115,14 +115,7 @@ public class GasPricesUpdateService extends IntentService {
 			if (!backgroundEnabled) {
 				return;
 			}
-
-			// put code here to get the data
-			final JSONObject gasPrices = getGasPricesDataFromInternet();
-
-			// TODO rather than storing the entire LOB break it apart and store
-			// it as individual preferences to make the reads and parsing of the
-			// data faster later on.
-			editor.putString("jsondata", gasPrices.toString());
+			editor.setJsonData(getGasPricesDataFromInternet());
 
 		} catch (final IOException e) {
 			Log.e("GasPrices", e.getMessage() + " and cry");

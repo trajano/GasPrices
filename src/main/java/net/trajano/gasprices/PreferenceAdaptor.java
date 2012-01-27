@@ -4,10 +4,14 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.format.Time;
+import android.util.Log;
 
 /**
  * <p>
@@ -27,6 +31,21 @@ import android.text.format.Time;
  * 
  */
 public final class PreferenceAdaptor implements SharedPreferences {
+	/**
+	 * City data key prefix.
+	 */
+	static final String CITY_DATA_KEY_PREFIX = "city_";
+
+	/**
+	 * Default city ID. Uses Toronto.
+	 */
+	private static final long DEFAULT_CITY_ID = 133;
+
+	/**
+	 * JSON data key.
+	 */
+	static final String JSON_DATA_KEY = "json_data";
+
 	/**
 	 * Last updated in seconds since epoch.
 	 */
@@ -170,6 +189,16 @@ public final class PreferenceAdaptor implements SharedPreferences {
 		return preferences.getBoolean(key, defValue);
 	}
 
+	public CityInfo getCityInfo(final long cityId) {
+		try {
+			return new CityInfo(new JSONObject(preferences.getString(
+					CITY_DATA_KEY_PREFIX + cityId, "")));
+		} catch (final JSONException e) {
+			Log.e("GasPrices", e.getMessage());
+			throw new RuntimeException(e);
+		}
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -196,6 +225,17 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	@Override
 	public long getLong(final String key, final long defValue) {
 		return preferences.getLong(key, defValue);
+	}
+
+	/**
+	 * This will return the city info the currently selected city or Toronto if
+	 * not found.
+	 * 
+	 * @return
+	 */
+	public CityInfo getSelectedCityInfo() {
+		return getCityInfo(preferences.getLong(SELECTED_CITY_ID_KEY,
+				DEFAULT_CITY_ID));
 	}
 
 	/**
