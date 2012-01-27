@@ -236,6 +236,16 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	}
 
 	/**
+	 * This provides the next update time as seconds since epoch.
+	 * 
+	 * @return
+	 */
+	public long getNextUpdateTime() {
+		return nextUpdateDate(preferences.getLong(LAST_UPDATED_KEY, 0))
+				.getTime();
+	}
+
+	/**
 	 * This will return the city info the currently selected city or Toronto if
 	 * not found.
 	 * 

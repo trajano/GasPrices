@@ -4,10 +4,10 @@ import java.text.DateFormat;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -108,11 +108,10 @@ public class GasPricesActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		final long widgetId = getIntent().getIntExtra(
-				AppWidgetManager.EXTRA_APPWIDGET_ID,
-				AppWidgetManager.INVALID_APPWIDGET_ID);
-		if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
-			Log.d("GasPrices", "Resumed from widget id = " + widgetId);
+		final Uri widgetIdUri = getIntent().getData();
+		if (widgetIdUri != null) {
+			Log.d("GasPrices", "Resumed from widget id = " + widgetIdUri);
+			final int widgetId = Integer.parseInt(widgetIdUri.getPath());
 			final PreferenceAdaptorEditor editor = preferences.edit();
 			final long cityId = preferences.getWidgetCityId(widgetId);
 			Log.d("GasPrices", "widget id = " + widgetId + " has city "

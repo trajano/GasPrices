@@ -3,7 +3,6 @@ package net.trajano.gasprices;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
 import java.util.Scanner;
 
 import org.json.JSONException;
@@ -44,16 +43,19 @@ import android.util.Log;
 public class GasPricesUpdateService extends IntentService {
 	/**
 	 * This will schedule an update using the AlarmManager, that way the service
-	 * is not continuously running.
+	 * is not continuously running. It will cancel any previously defined alarms
+	 * before creating a new one.
 	 */
 	public static void scheduleUpdate(final Context context) {
+		final PreferenceAdaptor preferences = new PreferenceAdaptor(context);
 		final AlarmManager alarmManager = (AlarmManager) context
 				.getApplicationContext()
 				.getSystemService(Context.ALARM_SERVICE);
 		final Intent intent = new Intent(context, GasPricesUpdateService.class);
 		final PendingIntent pendingIntent = PendingIntent.getService(context,
 				0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		alarmManager.set(AlarmManager.RTC, new Date().getTime() + 60000,
+		alarmManager.cancel(pendingIntent);
+		alarmManager.set(AlarmManager.RTC, preferences.getNextUpdateTime(),
 				pendingIntent);
 	}
 

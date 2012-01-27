@@ -6,8 +6,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 public class GasPricesWidgetProvider extends AppWidgetProvider {
@@ -18,7 +18,8 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 				.getLaunchIntentForPackage("net.trajano.gasprices");
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+		intent.setData(new Uri.Builder().path(String.valueOf(appWidgetId))
+				.build());
 		return intent;
 
 	}
@@ -118,8 +119,6 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onUpdate(final Context context,
 			final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
-		Log.d("GasPrices", "onUpdate() received");
-
 		final RemoteViews remoteViews = new RemoteViews(
 				context.getPackageName(), R.layout.widget_layout);
 
