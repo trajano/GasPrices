@@ -11,14 +11,14 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.ListView;
 
-public class GasPricesWidgetConfigure extends Activity {
+public class GasPricesWidgetConfigurationActivity extends Activity {
 	public static final String PREF_PREFIX_CITY_ID = "widget.city.id_";
 
 	private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
 	private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
 		public void onClick(final View v) {
-			final Context context = GasPricesWidgetConfigure.this;
+			final Context context = GasPricesWidgetConfigurationActivity.this;
 
 			// Push widget update to surface with newly set prefix
 			final AppWidgetManager appWidgetManager = AppWidgetManager

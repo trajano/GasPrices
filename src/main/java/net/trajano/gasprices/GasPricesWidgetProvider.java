@@ -19,7 +19,7 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 				ApplicationProperties.FILE_NAME, Context.MODE_PRIVATE);
 		final Editor e = preferences.edit();
 		for (final int widgetId : appWidgetIds) {
-			e.remove(GasPricesWidgetConfigure.PREF_PREFIX_CITY_ID + widgetId);
+			e.remove(GasPricesWidgetConfigurationActivity.PREF_PREFIX_CITY_ID + widgetId);
 		}
 	}
 
