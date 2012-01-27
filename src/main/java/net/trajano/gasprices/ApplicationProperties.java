@@ -3,7 +3,6 @@ package net.trajano.gasprices;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
@@ -19,6 +18,7 @@ import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.util.Log;
 
+@Deprecated
 public final class ApplicationProperties {
 	public static final String FILE_NAME = "gasprices.properties";
 
@@ -42,30 +42,6 @@ public final class ApplicationProperties {
 	public ApplicationProperties(final Context ctx) {
 		preferences = new PreferenceAdaptor(ctx);
 		loaded = preferences.getLong(LAST_UPDATED, Long.MIN_VALUE) != Long.MIN_VALUE;
-	}
-
-	public CityInfo getCityInfo(final long cityId) {
-		try {
-			final JSONArray cities = (JSONArray) getResultData().get(
-					"gasprices");
-			for (int i = 0; i < cities.length(); ++i) {
-				final JSONObject currentObject = cities.getJSONObject(i);
-				if (currentObject.isNull("location_latitude")) {
-					continue;
-				}
-				if (cityId == currentObject.getLong("city_id")) {
-					return new CityInfo(currentObject);
-				}
-			}
-			Log.e("GasPrices", "invalid city id = " + cityId);
-			throw new RuntimeException("invalid city id=" + cityId);
-		} catch (final JSONException e) {
-			Log.e("GasPrices", e.getMessage());
-			throw new RuntimeException(e);
-		} catch (final ParseException e) {
-			Log.e("GasPrices", e.getMessage());
-			throw new RuntimeException(e);
-		}
 	}
 
 	private JSONObject getClosestCityData(final Location location)
@@ -96,9 +72,6 @@ public final class ApplicationProperties {
 		try {
 			return new CityInfo(getClosestCityData(location));
 		} catch (final JSONException e) {
-			Log.e("GasPrices", e.getMessage());
-			return null;
-		} catch (final ParseException e) {
 			Log.e("GasPrices", e.getMessage());
 			return null;
 		}
@@ -177,6 +150,7 @@ public final class ApplicationProperties {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
+	@Deprecated
 	public void update() throws IOException, JSONException {
 		final HttpURLConnection urlConnection = (HttpURLConnection) new URL(
 				"http://www.tomorrowsgaspricetoday.com/mobile/json_mobile_data.php")

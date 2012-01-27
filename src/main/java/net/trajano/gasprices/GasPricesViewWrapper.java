@@ -7,10 +7,10 @@ import java.text.MessageFormat;
 import org.json.JSONException;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+@Deprecated
 public class GasPricesViewWrapper {
 	private final Activity activity;
 
@@ -39,7 +39,7 @@ public class GasPricesViewWrapper {
 	}
 
 	public void updateView() {
-		final SharedPreferences preferences = new PreferenceAdaptor(activity);
+		final PreferenceAdaptor preferences = new PreferenceAdaptor(activity);
 
 		if (!props.isLoaded()) {
 			final TextView v = (TextView) activity
@@ -57,8 +57,7 @@ public class GasPricesViewWrapper {
 			}
 		} else {
 
-			final CityInfo result = props.getCityInfo(preferences.getLong(
-					"selected_city_id", 133));
+			final CityInfo result = preferences.getSelectedCityInfo();
 			{
 				final TextView v = (TextView) activity.findViewById(R.id.city);
 				// TODO use GPS to figure out the default location.
