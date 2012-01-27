@@ -126,12 +126,10 @@ public class GasPricesActivity extends Activity {
 
 		final CityInfo cityInfo = preferences.getSelectedCityInfo();
 
-		final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
-				new ApplicationProperties(this));
-		view.updateView();
 		{
 			final TextView v = (TextView) findViewById(R.id.LastUpdatedText);
-			v.setText(getResources().getString(R.string.last_updated).format(
+			v.setText(getResources().getString(
+					R.string.last_updated,
 					DateFormat
 							.getDateTimeInstance(DateFormat.LONG,
 									DateFormat.LONG)
@@ -139,8 +137,31 @@ public class GasPricesActivity extends Activity {
 							.replace(' ', '\u00A0')));
 		}
 		{
+			final TextView v = (TextView) findViewById(R.id.PriceTodayText);
+			v.setText(getResources().getString(R.string.cents_per_liter_format,
+					cityInfo.getCurrentGasPrice()));
+		}
+		if (cityInfo.isTomorrowsGasPriceAvailable()) {
+			final TextView v = (TextView) findViewById(R.id.OtherPriceLabelText);
+			v.setText(R.string.tomorrow);
+			final TextView vp = (TextView) findViewById(R.id.OtherPriceText);
+			vp.setText(getResources().getString(
+					R.string.cents_per_liter_format,
+					cityInfo.getTomorrowsGasPrice()));
+		}
+		if (cityInfo.isYesterdaysGasPriceAvailable()) {
+			final TextView v = (TextView) findViewById(R.id.OtherPriceLabelText);
+			v.setText(R.string.yesterday);
+			final TextView vp = (TextView) findViewById(R.id.OtherPriceText);
+			vp.setText(getResources().getString(
+					R.string.cents_per_liter_format,
+					cityInfo.getYesterdaysGasPrice()));
+		}
+
+		{
 			final TextView v = (TextView) findViewById(R.id.GasPriceStatusText);
-			v.setText(getResources().getString(R.string.next_update).format(
+			v.setText(getResources().getString(
+					R.string.next_update,
 					DateFormat
 							.getDateTimeInstance(DateFormat.LONG,
 									DateFormat.LONG)

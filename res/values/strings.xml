@@ -4,9 +4,9 @@
     <string name="hello">Over here would show what the current gas price is and tomorrow\'s gas price.</string>
     <string name="app_name">Gas Prices</string>
     <string name="update_time_blurb">The application only performs an update at 5pm and 8pm local time unless forced.</string>
-    <string name="loading">Loading. Please wait...</string>
+    <string name="loading">Loading. Please wait…</string>
     <string name="default_price">---.--</string>
-    <string name="cents_per_liter_format">##0.0 \' cents/L\'</string>
+    <string name="cents_per_liter_format">%.1f cents/L</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
