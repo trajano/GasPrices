@@ -8,6 +8,8 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class CityInfo {
 
 	private final float currentGasPrice;
@@ -21,10 +23,15 @@ public class CityInfo {
 	private final float yesterdaysGasPrice;
 	private final boolean yesterdaysGasPriceAvailable;
 
-	public CityInfo(final JSONObject closestCityData) throws JSONException,
-			ParseException {
-		priceDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-				.parse(closestCityData.getString("price_date"));
+	public CityInfo(final JSONObject closestCityData) throws JSONException {
+		try {
+			priceDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+					Locale.ENGLISH).parse(closestCityData
+					.getString("price_date"));
+		} catch (final ParseException e) {
+			Log.e("GasPrices", e.getMessage());
+			throw new RuntimeException(e);
+		}
 		priceDifferenceAbsoluteValue = closestCityData
 				.getDouble("price_difference");
 		priceDifference = priceDifferenceAbsoluteValue
