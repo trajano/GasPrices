@@ -11,8 +11,8 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
     <string name="default_last_update">Determining when the data was last updated…</string>
-    <string name="last_updated">Last updated on: {0}</string>
-    <string name="next_update">Next scheduled update on: {0}</string>
+    <string name="last_updated">Last updated on: %s</string>
+    <string name="next_update">Next scheduled update on: %s</string>
     <string name="pending">Pending</string>
 
 </resources>

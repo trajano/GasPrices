@@ -224,6 +224,11 @@ public final class PreferenceAdaptor implements SharedPreferences {
 		return preferences.getString(JSON_DATA_KEY, null);
 	}
 
+	/**
+	 * This returns the {@link Date} represening the last updated timestamp.
+	 * 
+	 * @return
+	 */
 	public Date getLastUpdated() {
 		return new Date(preferences.getLong(LAST_UPDATED_KEY, 0));
 	}
@@ -234,6 +239,15 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	@Override
 	public long getLong(final String key, final long defValue) {
 		return preferences.getLong(key, defValue);
+	}
+
+	/**
+	 * This returns the next update date based on the {@link #LAST_UPDATED_KEY}.
+	 * 
+	 * @return
+	 */
+	public Date getNextUpdateDate() {
+		return nextUpdateDate(preferences.getLong(LAST_UPDATED_KEY, 0));
 	}
 
 	/**

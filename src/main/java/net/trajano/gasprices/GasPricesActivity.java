@@ -1,7 +1,6 @@
 package net.trajano.gasprices;
 
 import java.text.DateFormat;
-import java.text.MessageFormat;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -124,18 +123,30 @@ public class GasPricesActivity extends Activity {
 			startService(intent);
 			return;
 		}
+
+		final CityInfo cityInfo = preferences.getSelectedCityInfo();
+
 		final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 				new ApplicationProperties(this));
 		view.updateView();
 		{
 			final TextView v = (TextView) findViewById(R.id.LastUpdatedText);
-			v.setText(MessageFormat.format(
-					getResources().getString(R.string.last_updated),
+			v.setText(getResources().getString(R.string.last_updated).format(
 					DateFormat
 							.getDateTimeInstance(DateFormat.LONG,
 									DateFormat.LONG)
 							.format(preferences.getLastUpdated())
 							.replace(' ', '\u00A0')));
+		}
+		{
+			final TextView v = (TextView) findViewById(R.id.GasPriceStatusText);
+			v.setText(getResources().getString(R.string.next_update).format(
+					DateFormat
+							.getDateTimeInstance(DateFormat.LONG,
+									DateFormat.LONG)
+							.format(preferences.getNextUpdateDate())
+							.replace(' ', '\u00A0')));
+
 		}
 		if (forcedUpdateDialog != null) {
 			forcedUpdateDialog.dismiss();

@@ -1,8 +1,6 @@
 package net.trajano.gasprices;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.MessageFormat;
 
 import android.app.Activity;
 import android.widget.TextView;
@@ -26,15 +24,6 @@ public class GasPricesViewWrapper {
 		this.props = props;
 	}
 
-	public void setStatus(final String status) {
-		final TextView v = (TextView) activity
-				.findViewById(R.id.GasPriceStatusText);
-		if (v != null) {
-			v.setText(status);
-		}
-
-	}
-
 	public void updateView() {
 		final PreferenceAdaptor preferences = new PreferenceAdaptor(activity);
 
@@ -45,7 +34,7 @@ public class GasPricesViewWrapper {
 			return;
 		}
 
-		final CityInfo result = preferences.getSelectedCityInfo();
+		final CityInfo cityInfo = preferences.getSelectedCityInfo();
 		{
 			final TextView v = (TextView) activity.findViewById(R.id.city);
 			// TODO use GPS to figure out the default location.
@@ -55,35 +44,28 @@ public class GasPricesViewWrapper {
 			final TextView v = (TextView) activity
 					.findViewById(R.id.PriceTodayText);
 			// TODO convert to use resources
-			v.setText(new DecimalFormat("##0.0 ' cents/L'").format(result
+			v.setText(new DecimalFormat("##0.0 ' cents/L'").format(cityInfo
 					.getCurrentGasPrice()));
 		}
-		if (result.isTomorrowsGasPriceAvailable()) {
+		if (cityInfo.isTomorrowsGasPriceAvailable()) {
 			final TextView v = (TextView) activity
 					.findViewById(R.id.OtherPriceLabelText);
 			v.setText("Tomorrow");
 			final TextView vp = (TextView) activity
 					.findViewById(R.id.OtherPriceText);
 			// TODO convert to use resources
-			vp.setText(new DecimalFormat("##0.0 ' cents/L'").format(result
+			vp.setText(new DecimalFormat("##0.0 ' cents/L'").format(cityInfo
 					.getTomorrowsGasPrice()));
 		}
-		if (result.isYesterdaysGasPriceAvailable()) {
+		if (cityInfo.isYesterdaysGasPriceAvailable()) {
 			final TextView v = (TextView) activity
 					.findViewById(R.id.OtherPriceLabelText);
 			v.setText("Yesterday");
 			final TextView vp = (TextView) activity
 					.findViewById(R.id.OtherPriceText);
 			// TODO convert to use resources
-			vp.setText(new DecimalFormat("##0.0 ' cents/L'").format(result
+			vp.setText(new DecimalFormat("##0.0 ' cents/L'").format(cityInfo
 					.getYesterdaysGasPrice()));
 		}
-		setStatus(MessageFormat.format(
-				activity.getResources().getString(R.string.next_update),
-				DateFormat
-						.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG)
-						.format(PreferenceAdaptor.nextUpdateDate(preferences
-								.getLong("last_updated", 0)))
-						.replace(' ', '\u00A0')));
 	}
 }
