@@ -1,9 +1,7 @@
 package net.trajano.gasprices;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -25,6 +23,11 @@ import android.widget.TextView;
  */
 public class GasPricesFeedActivity extends Activity {
 	/**
+	 * Forced update progress dialog.
+	 */
+	private ProgressDialog forcedUpdateDialog;
+
+	/**
 	 * When the preference change on lastUpdated is detected it will update the
 	 * view.
 	 */
@@ -33,7 +36,7 @@ public class GasPricesFeedActivity extends Activity {
 		@Override
 		public void onSharedPreferenceChanged(
 				final SharedPreferences sharedPreferences, final String key) {
-			if (key != "resultdata") {
+			if (!PreferenceAdaptor.isKeyAffectGasPricesView(key)) {
 				return;
 			}
 			updateView();
@@ -43,7 +46,7 @@ public class GasPricesFeedActivity extends Activity {
 	/**
 	 * Preference data, stored in memory until destruction.
 	 */
-	private SharedPreferences preferences;
+	private PreferenceAdaptor preferences;
 
 	/**
 	 * Called when the activity is first created.
@@ -73,6 +76,9 @@ public class GasPricesFeedActivity extends Activity {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		// Handle item selection
 		if (R.id.UpdateMenuItem == item.getItemId()) {
+			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
+					.getString(R.string.loading), true);
+
 			// TODO don't do this! create a new AsyncTask instead.
 			final Intent intent = new Intent(this, GasPricesUpdateService.class);
 			startService(intent);
@@ -109,20 +115,15 @@ public class GasPricesFeedActivity extends Activity {
 	 */
 	private void updateView() {
 		final TextView feedTextView = (TextView) findViewById(R.id.FeedText);
-		try {
-			feedTextView.setText(
-					new JSONObject(preferences.getString("resultdata", null))
-							.toString(3), TextView.BufferType.SPANNABLE);
-			final Spannable spannableText = (Spannable) feedTextView.getText();
-			spannableText.setSpan(new ForegroundColorSpan(0xFFEEFF00), 10, 20,
-					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			feedTextView.setText(spannableText);
-		} catch (final JSONException e) {
-			feedTextView.setText("unable to parse JSON data");
+		feedTextView.setText(preferences.getJsonDataString(),
+				TextView.BufferType.SPANNABLE);
+		final Spannable spannableText = (Spannable) feedTextView.getText();
+		spannableText.setSpan(new ForegroundColorSpan(0xFFEEFF00), 10, 20,
+				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		feedTextView.setText(spannableText);
+		if (forcedUpdateDialog != null) {
+			forcedUpdateDialog.dismiss();
+			forcedUpdateDialog = null;
 		}
-		// final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
-		// new ApplicationProperties(this));
-		// view.updateView();
-		// view.setStatus("updated via sharedPreferenceUpdate");
 	}
 }

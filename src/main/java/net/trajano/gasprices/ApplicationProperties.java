@@ -31,6 +31,7 @@ public final class ApplicationProperties {
 	 * This is the time the data was last updated in seconds since epoch to
 	 * prevent time zone issues.
 	 */
+	@Deprecated
 	private static final String LAST_UPDATED = "lastupdated";
 
 	private boolean loaded;

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -15,6 +16,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class GasPricesActivity extends Activity {
+	/**
+	 * Forced update progress dialog.
+	 */
+	private ProgressDialog forcedUpdateDialog;
+
 	/**
 	 * When the preference change on lastUpdated is detected it will update the
 	 * view.
@@ -46,8 +52,9 @@ public class GasPricesActivity extends Activity {
 				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
 			StrictMode.enableDefaults();
 		}
+
 		preferences = new PreferenceAdaptor(this);
-		setMainView();
+		setContentView(R.layout.main);
 	}
 
 	@Override
@@ -61,10 +68,8 @@ public class GasPricesActivity extends Activity {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		// Handle item selection
 		if (R.id.UpdateMenuItem == item.getItemId()) {
-			final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
-					null);
-			view.setStatus("Forced update...");
-
+			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
+					.getString(R.string.loading), true);
 			// TODO don't do this! create a new AsyncTask instead.
 			final Intent intent = new Intent(this, GasPricesUpdateService.class);
 			startService(intent);
@@ -105,23 +110,20 @@ public class GasPricesActivity extends Activity {
 				.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
 	}
 
-	private void setMainView() {
-		setContentView(R.layout.main);
-		new LoadDataTask(this).execute();
-		// final Button refreshButton = (Button)
-		// findViewById(R.id.RefreshButton);
-		// final Button debugButton = (Button) findViewById(R.id.DebugButton);
-		// // final Button userButton = (Button) findViewById(R.id.UserButton);
-		// refreshButton.setOnClickListener(this);
-		// debugButton.setOnClickListener(this);
-	}
-
 	/**
 	 * Updates the view with the information stored in the {@link #preferences}
-	 * object.
+	 * object. It will also dismiss the {@link #forcedUpdateDialog} if it is
+	 * visible.
 	 */
 	private void updateView() {
-
+		if (!preferences.isDataPresent()) {
+			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
+					.getString(R.string.loading), true);
+			// TODO don't do this! create a new AsyncTask instead.
+			final Intent intent = new Intent(this, GasPricesUpdateService.class);
+			startService(intent);
+			return;
+		}
 		final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 				new ApplicationProperties(this));
 		view.updateView();
@@ -134,6 +136,10 @@ public class GasPricesActivity extends Activity {
 									DateFormat.LONG)
 							.format(preferences.getLastUpdated())
 							.replace(' ', '\u00A0')));
+		}
+		if (forcedUpdateDialog != null) {
+			forcedUpdateDialog.dismiss();
+			forcedUpdateDialog = null;
 		}
 	}
 }

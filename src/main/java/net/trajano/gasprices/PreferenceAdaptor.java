@@ -215,6 +215,15 @@ public final class PreferenceAdaptor implements SharedPreferences {
 		return preferences.getInt(key, defValue);
 	}
 
+	/**
+	 * This gets the preference data pointed to by {@link #JSON_DATA_KEY}.
+	 * 
+	 * @return JSON data as string.
+	 */
+	public String getJsonDataString() {
+		return preferences.getString(JSON_DATA_KEY, null);
+	}
+
 	public Date getLastUpdated() {
 		return new Date(preferences.getLong(LAST_UPDATED_KEY, 0));
 	}
@@ -252,6 +261,16 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	@Override
 	public Set<String> getStringSet(final String arg0, final Set<String> arg1) {
 		return preferences.getStringSet(arg0, arg1);
+	}
+
+	/**
+	 * This checks if the key data is present.
+	 * 
+	 * @return
+	 */
+	public boolean isDataPresent() {
+		return preferences.contains(LAST_UPDATED_KEY)
+				&& preferences.contains(JSON_DATA_KEY);
 	}
 
 	/**
