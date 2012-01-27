@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RemoteViews;
 
 public class GasPricesWidgetConfigurationActivity extends ListActivity {
 
@@ -60,12 +61,11 @@ public class GasPricesWidgetConfigurationActivity extends ListActivity {
 		// update.
 		editor.commit();
 
-		{
-			// Make sure we update the widget once we are done
-			final Intent intent = new Intent(this,
-					GasPricesWidgetProvider.class);
-			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-		}
+		final RemoteViews remoteViews = new RemoteViews(getPackageName(),
+				R.layout.widget_layout);
+		GasPricesWidgetProvider.updateAppWidget(this,
+				AppWidgetManager.getInstance(this), appWidgetId, preferences,
+				remoteViews);
 		{
 			// Make sure we pass back the original appWidgetId
 			final Intent intent = new Intent();
@@ -75,5 +75,4 @@ public class GasPricesWidgetConfigurationActivity extends ListActivity {
 		finish();
 
 	}
-
 }

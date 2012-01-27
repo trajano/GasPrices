@@ -124,21 +124,6 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	}
 
 	/**
-	 * Sets a widget preference.
-	 * 
-	 * @param editor
-	 *            an editor
-	 * @param widgetId
-	 *            the widget ID
-	 * @param preferenceData
-	 *            preference data to store.
-	 */
-	public static void setWidgetPreference(final Editor editor,
-			final int widgetId, final String preferenceData) {
-		editor.putString(WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX, preferenceData);
-	}
-
-	/**
 	 * This is the {@link SharedPreferences} object that is being wrapped.
 	 */
 	private final SharedPreferences preferences;
@@ -278,15 +263,24 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	}
 
 	/**
+	 * This returns the city id associated with the app widget.
+	 * 
+	 * @param appWidgetId
+	 * @return
+	 */
+	public long getWidgetCityId(final long appWidgetId) {
+		return preferences.getLong(WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX
+				+ appWidgetId, DEFAULT_CITY_ID);
+	}
+
+	/**
 	 * Gets the {@link CityInfo} associated with the widget.
 	 * 
 	 * @param appWidgetId
 	 * @return
 	 */
 	public CityInfo getWidgetCityInfo(final int appWidgetId) {
-		return getCityInfo(preferences.getLong(
-				WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX + appWidgetId,
-				DEFAULT_CITY_ID));
+		return getCityInfo(getWidgetCityId(appWidgetId));
 	}
 
 	/**

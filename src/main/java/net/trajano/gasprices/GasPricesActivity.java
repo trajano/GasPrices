@@ -4,12 +4,14 @@ import java.text.DateFormat;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -99,11 +101,24 @@ public class GasPricesActivity extends Activity {
 
 	/**
 	 * When the application resumes it will update the view and wait for any
-	 * preference changes.
+	 * preference changes. If it has widget IDs associated with then it will set
+	 * the current selected city to the one associated with the widget.
 	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
+		final long widgetId = getIntent().getIntExtra(
+				AppWidgetManager.EXTRA_APPWIDGET_ID,
+				AppWidgetManager.INVALID_APPWIDGET_ID);
+		if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+			Log.d("GasPrices", "Resumed from widget id = " + widgetId);
+			final PreferenceAdaptorEditor editor = preferences.edit();
+			final long cityId = preferences.getWidgetCityId(widgetId);
+			Log.d("GasPrices", "widget id = " + widgetId + " has city "
+					+ cityId);
+			editor.setSelectedCityId(cityId);
+			editor.commit();
+		}
 		updateView();
 		preferences
 				.registerOnSharedPreferenceChangeListener(preferenceChangeListener);

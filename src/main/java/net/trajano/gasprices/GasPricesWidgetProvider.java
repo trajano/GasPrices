@@ -11,6 +11,18 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 public class GasPricesWidgetProvider extends AppWidgetProvider {
+	private static Intent getLaunchIntent(final Context context,
+			final int appWidgetId) {
+		final PackageManager manager = context.getPackageManager();
+		final Intent intent = manager
+				.getLaunchIntentForPackage("net.trajano.gasprices");
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+		return intent;
+
+	}
+
 	private static void setBlue(final RemoteViews remoteViews) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			remoteViews.setInt(R.id.thelayout, "setBackgroundResource",
@@ -32,12 +44,70 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 		}
 	}
 
+	public static void updateAppWidget(final Context context,
+			final AppWidgetManager appWidgetManager, final int appWidgetId,
+			final PreferenceAdaptor preferences, final RemoteViews remoteViews) {
+		final CityInfo city = preferences.getWidgetCityInfo(appWidgetId);
+		remoteViews.setTextViewText(R.id.widget_city, city.getName());
+		remoteViews.setTextViewText(
+				R.id.widget_price,
+				context.getResources().getString(R.string.widget_price_format,
+						city.getCurrentGasPrice()));
+		setBlue(remoteViews);
+		if (city.isTomorrowsGasPriceAvailable()) {
+			if (city.isTomorrowsGasPriceUp()) {
+				setRed(remoteViews);
+				remoteViews.setTextViewText(
+						R.id.widget_price_change,
+						context.getResources().getString(
+								R.string.widget_price_change_up_format,
+								city.getPriceDifferenceAbsoluteValue()));
+			} else if (city.isTomorrowsGasPriceDown()) {
+				setGreen(remoteViews);
+				remoteViews.setTextViewText(
+						R.id.widget_price_change,
+						context.getResources().getString(
+								R.string.widget_price_change_down_format,
+								city.getPriceDifferenceAbsoluteValue()));
+			} else {
+				remoteViews.setTextViewText(
+						R.id.widget_price_change,
+						context.getResources().getString(
+								R.string.widget_price_unchanged));
+			}
+		} else {
+			remoteViews.setTextViewText(R.id.widget_price_change, null);
+
+		}
+
+		final PendingIntent pendingIntent = PendingIntent.getActivity(context,
+				appWidgetId, getLaunchIntent(context, appWidgetId), 0);
+
+		remoteViews.setOnClickPendingIntent(R.id.thelayout, pendingIntent);
+		appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+
+	}
+
+	/**
+	 * This will remove all the preferences along with all the
+	 * {@link PendingIntent} associated with the widget.
+	 */
 	@Override
 	public void onDeleted(final Context context, final int[] appWidgetIds) {
+		super.onDeleted(context, appWidgetIds);
 		final PreferenceAdaptor preferences = new PreferenceAdaptor(context);
 		final PreferenceAdaptorEditor editor = preferences.edit();
 		editor.removeWidgetCityId(appWidgetIds);
 		editor.apply();
+		for (final int appWidgetId : appWidgetIds) {
+			final PendingIntent pendingIntent = PendingIntent.getActivity(
+					context, appWidgetId,
+					getLaunchIntent(context, appWidgetId),
+					PendingIntent.FLAG_NO_CREATE);
+			if (pendingIntent != null) {
+				pendingIntent.cancel();
+			}
+		}
 	}
 
 	@Override
@@ -51,46 +121,8 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 		final PreferenceAdaptor preferences = new PreferenceAdaptor(context);
 
 		for (final int appWidgetId : appWidgetIds) {
-			final CityInfo city = preferences.getWidgetCityInfo(appWidgetId);
-			remoteViews.setTextViewText(R.id.widget_city, city.getName());
-			remoteViews.setTextViewText(
-					R.id.widget_price,
-					context.getResources().getString(
-							R.string.widget_price_format,
-							city.getCurrentGasPrice()));
-			setBlue(remoteViews);
-			if (city.isTomorrowsGasPriceAvailable()) {
-				if (city.isTomorrowsGasPriceUp()) {
-					setRed(remoteViews);
-					remoteViews.setTextViewText(
-							R.id.widget_price_change,
-							context.getResources().getString(
-									R.string.widget_price_change_up_format,
-									city.getPriceDifferenceAbsoluteValue()));
-				} else if (city.isTomorrowsGasPriceDown()) {
-					setGreen(remoteViews);
-					remoteViews.setTextViewText(
-							R.id.widget_price_change,
-							context.getResources().getString(
-									R.string.widget_price_change_down_format,
-									city.getPriceDifferenceAbsoluteValue()));
-				} else {
-					remoteViews.setTextViewText(
-							R.id.widget_price_change,
-							context.getResources().getString(
-									R.string.widget_price_unchanged));
-				}
-			}
-
-			final PackageManager manager = context.getPackageManager();
-			final Intent lintent = manager
-					.getLaunchIntentForPackage("net.trajano.gasprices");
-			lintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			final PendingIntent pendingIntent = PendingIntent.getActivity(
-					context, 0, lintent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-			remoteViews.setOnClickPendingIntent(R.id.thelayout, pendingIntent);
-			appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+			updateAppWidget(context, appWidgetManager, appWidgetId,
+					preferences, remoteViews);
 		}
 		if (preferences.isUpdateNeeded()) {
 			// Build the intent to call the service
