@@ -33,6 +33,16 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	static final String LAST_UPDATED_KEY = "last_updated"; // $NON-NLS-1$
 
 	/**
+	 * This is the selected city ID.
+	 */
+	private static final String SELECTED_CITY_ID_KEY = "selected_city_id";
+
+	/**
+	 * This is the selected city name.
+	 */
+	private static final String SELECTED_CITY_NAME_KEY = "selected_city_name";
+
+	/**
 	 * {@link SharedPreferences} file name.
 	 */
 	private static final String SHARED_PREFERENCES_NAME = "gasprices.properties"; // $NON-NLS-1$
@@ -41,6 +51,18 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	 * Widget preference key prefix.
 	 */
 	private static final String WIDGET_PREFERENCE_KEY_PREFIX = "widget_"; // $NON-NLS-1$
+
+	/**
+	 * This returns true if the Gas Prices view should change if the key was
+	 * updated.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public static boolean isKeyAffectGasPricesView(final String key) {
+		return LAST_UPDATED_KEY.equals(key)
+				|| SELECTED_CITY_ID_KEY.equals("key");
+	}
 
 	/**
 	 * This returns the next update date given the last update data. There are

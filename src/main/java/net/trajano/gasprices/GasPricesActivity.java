@@ -24,7 +24,7 @@ public class GasPricesActivity extends Activity {
 		@Override
 		public void onSharedPreferenceChanged(
 				final SharedPreferences sharedPreferences, final String key) {
-			if (key != "last_updated" || key != "selected_city_id") {
+			if (!PreferenceAdaptor.isKeyAffectGasPricesView(key)) {
 				return;
 			}
 			updateView();
