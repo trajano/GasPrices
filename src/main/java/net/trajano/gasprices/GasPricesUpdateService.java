@@ -43,6 +43,21 @@ import android.util.Log;
  */
 public class GasPricesUpdateService extends IntentService {
 	/**
+	 * This will schedule an update using the AlarmManager, that way the service
+	 * is not continuously running.
+	 */
+	public static void scheduleUpdate(final Context context) {
+		final AlarmManager alarmManager = (AlarmManager) context
+				.getApplicationContext()
+				.getSystemService(Context.ALARM_SERVICE);
+		final Intent intent = new Intent(context, GasPricesUpdateService.class);
+		final PendingIntent pendingIntent = PendingIntent.getService(context,
+				0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		alarmManager.set(AlarmManager.RTC, new Date().getTime() + 60000,
+				pendingIntent);
+	}
+
+	/**
 	 * Define the name of the service.
 	 */
 	public GasPricesUpdateService() {
@@ -121,14 +136,7 @@ public class GasPricesUpdateService extends IntentService {
 			Log.e("GasPrices", e.getMessage() + " and cry");
 		} finally {
 			// schedule the next update.
-			{
-				final AlarmManager alarmManager = (AlarmManager) getApplicationContext()
-						.getSystemService(Context.ALARM_SERVICE);
-				final PendingIntent pendingIntent = PendingIntent.getService(
-						this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-				alarmManager.set(AlarmManager.RTC,
-						new Date().getTime() + 60000, pendingIntent);
-			}
+			scheduleUpdate(this);
 			// update the widgets
 			{
 				final AppWidgetManager widgetManager = AppWidgetManager

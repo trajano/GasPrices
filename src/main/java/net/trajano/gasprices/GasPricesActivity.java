@@ -56,6 +56,7 @@ public class GasPricesActivity extends Activity {
 
 		preferences = new PreferenceAdaptor(this);
 		setContentView(R.layout.main);
+		GasPricesUpdateService.scheduleUpdate(this);
 	}
 
 	@Override

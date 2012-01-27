@@ -111,6 +111,11 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 	}
 
 	@Override
+	public void onEnabled(final Context context) {
+		GasPricesUpdateService.scheduleUpdate(context);
+	}
+
+	@Override
 	public void onUpdate(final Context context,
 			final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
 		Log.d("GasPrices", "onUpdate() received");
