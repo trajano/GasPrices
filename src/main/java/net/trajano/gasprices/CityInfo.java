@@ -32,7 +32,10 @@ public class CityInfo {
 			Log.e("GasPrices", e.getMessage());
 			throw new RuntimeException(e);
 		}
-		name = city.getString("city_name");
+		{
+			final String tempName = city.getString("city_name");
+			name = tempName.substring(0, tempName.indexOf(" Gas Prices"));
+		}
 		priceDifferenceAbsoluteValue = city.getDouble("price_difference");
 		priceDifference = priceDifferenceAbsoluteValue
 				* ("-".equals(city.getString("price_prefix")) ? -1 : 1);
