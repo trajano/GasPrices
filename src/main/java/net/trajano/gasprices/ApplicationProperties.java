@@ -104,6 +104,7 @@ public final class ApplicationProperties {
 		}
 	}
 
+	@Deprecated
 	public Date getLastUpdated() {
 		return new Date(preferences.getLong(LAST_UPDATED, Long.MIN_VALUE));
 	}

@@ -60,14 +60,6 @@ public class GasPricesViewWrapper {
 			final CityInfo result = props.getCityInfo(preferences.getLong(
 					"selected_city_id", 133));
 			{
-				final TextView v = (TextView) activity
-						.findViewById(R.id.LastUpdatedText);
-				v.setText(MessageFormat.format(activity.getResources()
-						.getString(R.string.last_updated), DateFormat
-						.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG)
-						.format(props.getLastUpdated()).replace(' ', '\u00A0')));
-			}
-			{
 				final TextView v = (TextView) activity.findViewById(R.id.city);
 				// TODO use GPS to figure out the default location.
 				v.setText(preferences

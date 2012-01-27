@@ -164,6 +164,10 @@ public final class PreferenceAdaptor implements SharedPreferences {
 		return preferences.getInt(key, defValue);
 	}
 
+	public Date getLastUpdated() {
+		return new Date(preferences.getLong(LAST_UPDATED_KEY, 0));
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

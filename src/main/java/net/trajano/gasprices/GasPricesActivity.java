@@ -1,5 +1,8 @@
 package net.trajano.gasprices;
 
+import java.text.DateFormat;
+import java.text.MessageFormat;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class GasPricesActivity extends Activity {
 	/**
@@ -30,7 +34,7 @@ public class GasPricesActivity extends Activity {
 	/**
 	 * Preference data, stored in memory until destruction.
 	 */
-	private SharedPreferences preferences;
+	private PreferenceAdaptor preferences;
 
 	/**
 	 * Called when the activity is first created.
@@ -117,8 +121,19 @@ public class GasPricesActivity extends Activity {
 	 * object.
 	 */
 	private void updateView() {
+
 		final GasPricesViewWrapper view = new GasPricesViewWrapper(this,
 				new ApplicationProperties(this));
 		view.updateView();
+		{
+			final TextView v = (TextView) findViewById(R.id.LastUpdatedText);
+			v.setText(MessageFormat.format(
+					getResources().getString(R.string.last_updated),
+					DateFormat
+							.getDateTimeInstance(DateFormat.LONG,
+									DateFormat.LONG)
+							.format(preferences.getLastUpdated())
+							.replace(' ', '\u00A0')));
+		}
 	}
 }
