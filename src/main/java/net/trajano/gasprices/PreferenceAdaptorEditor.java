@@ -41,6 +41,12 @@ public class PreferenceAdaptorEditor implements
 		return editor.commit();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @deprecated should not be used as it allows access to modify the
+	 *             preferences directly.
+	 */
 	@Override
 	@Deprecated
 	public android.content.SharedPreferences.Editor putBoolean(
@@ -48,6 +54,12 @@ public class PreferenceAdaptorEditor implements
 		return editor.putBoolean(key, value);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @deprecated should not be used as it allows access to modify the
+	 *             preferences directly.
+	 */
 	@Override
 	@Deprecated
 	public android.content.SharedPreferences.Editor putFloat(final String key,
@@ -55,6 +67,12 @@ public class PreferenceAdaptorEditor implements
 		return editor.putFloat(key, value);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @deprecated should not be used as it allows access to modify the
+	 *             preferences directly.
+	 */
 	@Override
 	@Deprecated
 	public android.content.SharedPreferences.Editor putInt(final String key,
@@ -62,6 +80,12 @@ public class PreferenceAdaptorEditor implements
 		return editor.putInt(key, value);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @deprecated should not be used as it allows access to modify the
+	 *             preferences directly.
+	 */
 	@Override
 	@Deprecated
 	public android.content.SharedPreferences.Editor putLong(final String key,
@@ -69,6 +93,12 @@ public class PreferenceAdaptorEditor implements
 		return editor.putLong(key, value);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @deprecated should not be used as it allows access to modify the
+	 *             preferences directly.
+	 */
 	@Override
 	@Deprecated
 	public android.content.SharedPreferences.Editor putString(final String key,
@@ -76,6 +106,12 @@ public class PreferenceAdaptorEditor implements
 		return editor.putString(key, value);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @deprecated should not be used as it allows access to modify the
+	 *             preferences directly.
+	 */
 	@Override
 	@Deprecated
 	public android.content.SharedPreferences.Editor putStringSet(
@@ -83,6 +119,12 @@ public class PreferenceAdaptorEditor implements
 		return editor.putStringSet(arg0, arg1);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @deprecated should not be used as it allows access to modify the
+	 *             preferences directly.
+	 */
 	@Override
 	@Deprecated
 	public android.content.SharedPreferences.Editor remove(final String key) {
