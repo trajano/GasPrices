@@ -8,7 +8,7 @@
         android:id="@+id/LastUpdatedText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/default_last_update" />
+        android:text="" />
 
     <TableLayout
         android:id="@+id/tableLayout1"

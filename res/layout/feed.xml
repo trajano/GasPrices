@@ -9,6 +9,6 @@
         android:id="@+id/FeedText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/default_last_update" />
+        android:text="" />
 
 </ScrollView>

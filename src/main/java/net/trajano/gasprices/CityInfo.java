@@ -84,6 +84,28 @@ public class CityInfo {
 		return tomorrowsGasPriceAvailable;
 	}
 
+	/**
+	 * Returns true if the price of tomorrow's gas is going down. Will return
+	 * <code>false</code> if there is no price for tomorrow.
+	 * 
+	 * @return
+	 */
+	public boolean isTomorrowsGasPriceDown() {
+		return tomorrowsGasPriceAvailable ? tomorrowsGasPrice < currentGasPrice
+				: false;
+	}
+
+	/**
+	 * Returns true if the price of tomorrow's gas is going up. Will return
+	 * <code>false</code> if there is no price for tomorrow.
+	 * 
+	 * @return
+	 */
+	public boolean isTomorrowsGasPriceUp() {
+		return tomorrowsGasPriceAvailable ? tomorrowsGasPrice > currentGasPrice
+				: false;
+	}
+
 	public boolean isYesterdaysGasPriceAvailable() {
 		return yesterdaysGasPriceAvailable;
 	}
