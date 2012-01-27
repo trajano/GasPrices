@@ -42,42 +42,49 @@ public class PreferenceAdaptorEditor implements
 	}
 
 	@Override
+	@Deprecated
 	public android.content.SharedPreferences.Editor putBoolean(
 			final String key, final boolean value) {
 		return editor.putBoolean(key, value);
 	}
 
 	@Override
+	@Deprecated
 	public android.content.SharedPreferences.Editor putFloat(final String key,
 			final float value) {
 		return editor.putFloat(key, value);
 	}
 
 	@Override
+	@Deprecated
 	public android.content.SharedPreferences.Editor putInt(final String key,
 			final int value) {
 		return editor.putInt(key, value);
 	}
 
 	@Override
+	@Deprecated
 	public android.content.SharedPreferences.Editor putLong(final String key,
 			final long value) {
 		return editor.putLong(key, value);
 	}
 
 	@Override
+	@Deprecated
 	public android.content.SharedPreferences.Editor putString(final String key,
 			final String value) {
 		return editor.putString(key, value);
 	}
 
 	@Override
+	@Deprecated
 	public android.content.SharedPreferences.Editor putStringSet(
 			final String arg0, final Set<String> arg1) {
 		return editor.putStringSet(arg0, arg1);
 	}
 
 	@Override
+	@Deprecated
 	public android.content.SharedPreferences.Editor remove(final String key) {
 		return editor.remove(key);
 	}
@@ -129,6 +136,18 @@ public class PreferenceAdaptorEditor implements
 		final Time time = new Time();
 		time.setToNow();
 		putLong(PreferenceAdaptor.LAST_UPDATED_KEY, time.normalize(false));
+		return this;
+	}
+
+	/**
+	 * This updates the selected city name.
+	 * 
+	 * @param cityId
+	 *            city id
+	 * @return
+	 */
+	public PreferenceAdaptorEditor setSelectedCityId(final long cityId) {
+		putLong(PreferenceAdaptor.SELECTED_CITY_ID_KEY, cityId);
 		return this;
 	}
 
