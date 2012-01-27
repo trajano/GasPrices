@@ -173,8 +173,7 @@
 						<artifactId>batik-maven-plugin</artifactId>
 						<configuration>
 							<destDir>${basedir}/res/drawable-${dpi}</destDir>
-							<width>72</width>
-							<height>72</height>
+							<maxHeight>72</maxHeight>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -195,8 +194,7 @@
 						<artifactId>batik-maven-plugin</artifactId>
 						<configuration>
 							<destDir>${basedir}/res/drawable-${dpi}</destDir>
-							<width>48</width>
-							<height>48</height>
+							<maxHeight>48</maxHeight>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -217,8 +215,7 @@
 						<artifactId>batik-maven-plugin</artifactId>
 						<configuration>
 							<destDir>${basedir}/res/drawable-${dpi}</destDir>
-							<width>36</width>
-							<height>36</height>
+							<maxHeight>36</maxHeight>
 						</configuration>
 					</plugin>
 				</plugins>
