@@ -3,17 +3,27 @@
 
     <string-array name="city_list">
         <item>Greater Toronto Area</item>
+        <item>Etobicoke=111</item>
         <item>Markham=134</item>
         <item>Mississauga=101</item>
         <item>Richmond Hill=92</item>
         <item>Toronto=133</item>
+        <item>British Columbia</item>
+        <item>Vancouver=123</item>
         <item>Manitoba</item>
         <item>Winnipeg=117</item>
+        <item>Alberta</item>
+        <item>Calgary=119</item>
+        <item>Edmonton=120</item>
         <item>Ontario</item>
         <item>Ajax=81</item>
         <item>Aurora=91</item>
         <item>Barrie=243</item>
         <item>Belleville=323</item>
+        <item>Vaughan=93</item>
+        <item>Waterloo=107</item>
+        <item>Whitby=80</item>
+        <item>Windsor=304</item>
         <item>Other</item>
         <item>Bolton=94</item>
         <item>Bowmanville=77</item>
@@ -22,13 +32,10 @@
         <item>Brockville=325</item>
         <item>Burlington=103</item>
         <item>Caledon=95</item>
-        <item>Calgary=119</item>
         <item>Cambridge=105</item>
         <item>Cobourg=74</item>
         <item>Collingwood=88</item>
         <item>Courtice=78</item>
-        <item>Edmonton=120</item>
-        <item>Etobicoke=111</item>
         <item>Fort McMurray=327</item>
         <item>Guelph=104</item>
         <item>Hamilton=115</item>
@@ -63,11 +70,6 @@
         <item>Thunder Bay=99</item>
         <item>Trenton=322</item>
         <item>Uxbridge=83</item>
-        <item>Vancouver=123</item>
-        <item>Vaughan=93</item>
-        <item>Waterloo=107</item>
-        <item>Whitby=80</item>
-        <item>Windsor=304</item>
     </string-array>
 
 </resources>
