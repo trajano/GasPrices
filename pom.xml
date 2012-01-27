@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.trajano.gasprices</groupId>
 	<artifactId>gasprices</artifactId>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<packaging>apk</packaging>
 	<scm>
 		<url>https://github.com/trajano/GasPrices</url>
@@ -78,10 +78,36 @@
 					</includes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>batik-maven-plugin</artifactId>
+				<configuration>
+					<width>512</width>
+					<height>512</height>
+				</configuration>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>batik-maven-plugin</artifactId>
+					<version>1.0-beta-1</version>
+					<dependencies>
+						<dependency>
+							<groupId>batik</groupId>
+							<artifactId>batik-transcoder</artifactId>
+							<version>1.6-1</version>
+							<exclusions>
+								<exclusion>
+									<artifactId>fop</artifactId>
+									<groupId>fop</groupId>
+								</exclusion>
+							</exclusions>
+						</dependency>
+					</dependencies>
+				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
@@ -119,8 +145,84 @@
 	</build>
 	<pluginRepositories>
 		<pluginRepository>
+			<id>doodleproject-repo</id>
+			<name>DoodleProject Maven 2 Repository</name>
+			<url>http://doodleproject.sourceforge.net/maven2/release</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
 			<id>oss-sonatype-snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</pluginRepository>
 	</pluginRepositories>
+	<profiles>
+		<profile>
+			<id>hdpi</id>
+			<activation>
+				<property>
+					<name>dpi</name>
+					<value>hdpi</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>batik-maven-plugin</artifactId>
+						<configuration>
+							<destDir>${basedir}/res/drawable-${dpi}</destDir>
+							<width>72</width>
+							<height>72</height>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>mdpi</id>
+			<activation>
+				<property>
+					<name>dpi</name>
+					<value>mdpi</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>batik-maven-plugin</artifactId>
+						<configuration>
+							<destDir>${basedir}/res/drawable-${dpi}</destDir>
+							<width>48</width>
+							<height>48</height>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>ldpi</id>
+			<activation>
+				<property>
+					<name>dpi</name>
+					<value>ldpi</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>batik-maven-plugin</artifactId>
+						<configuration>
+							<destDir>${basedir}/res/drawable-${dpi}</destDir>
+							<width>36</width>
+							<height>36</height>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
