@@ -7,18 +7,27 @@
 			<stop offset="0%" style="stop-color:rgb(128,196,255);stop-opacity:1" />
 			<stop offset="100%" style="stop-color:rgb(0,128,196);stop-opacity:1" />
 		</linearGradient>
+		<linearGradient id="background_gradient" x1="0%" y1="0%" x2="100%"
+			y2="0%">
+			<stop offset="0%" style="stop-color:yellow;stop-opacity:1" />
+			<stop offset="100%" style="stop-color:rgb(204,196,128);stop-opacity:1" />
+		</linearGradient>
 	</defs>
+	<g id="background">
+		<rect rx="3" ry="3" fill="url(#background_gradient)" x="0" y="0" width="22" height="22" stroke="black"/>
+	</g>
 	<g id="gas_pump" transform="translate(21,-17)">
-		<path id="gas_pump_handle"
+		<path id="gas_pump_handle" stroke="black"
 			d="M -8.755395,25.562662 C -8.755395,25.562662 -6.987629,25.020304 -7.082331,30.481441 C -7.141193,33.895456 -5.803923,35.532214 -4.462248,35.563772 C -3.120201,35.595338 -1.842164,34.364215 -1.810597,32.34391 C -1.779019,30.322865 -2.726048,30.639277 -2.726048,28.618972 C -2.726048,26.598421 -1.936866,25.521886 -3.325826,22.810596 C -4.714786,20.099305 -6.16688,19.5276 -6.16688,19.5276 C -6.16688,19.5276 -3.073287,21.090097 -2,22.999999"
-			style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.39999998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+			style="fill:none;fill-rule:evenodd;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
 		<rect rx="1" ry="1" y="19" x="-17.5" height="20" width="9"
-			id="gas_pump_body" fill="url(#grad1)"
-			style="fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.20000005;stroke-linecap:round;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+			stroke="black" id="gas_pump_body" fill="url(#grad1)"
+			style="fill-opacity:1;fill-rule:evenodd;stroke-width:1.20000005;stroke-linecap:round;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
 		<rect rx="1" ry="1" y="21.0" x="-16.0" height="6" width="6"
 			id="gas_pump_window" fill="#dddddd"
 			style="fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.40000001;stroke-linecap:round;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
 		<path id="gas_pump_base" d="M -18.445437,38 L -7.445437,38"
-			style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+			stroke="black"
+			style="fill:none;fill-rule:evenodd;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
 	</g>
 </svg>
