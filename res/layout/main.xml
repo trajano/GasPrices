@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:layout_span="2"
                 android:padding="3dp"
-                android:text="Toronto" />
+                android:text="" />
         </TableRow>
 
         
@@ -45,7 +45,7 @@
                 style="@android:style/TextAppearance.Medium"
                 android:gravity="right"
                 android:padding="3dp"
-                android:text="Today" />
+                android:text="@string/today" />
 
             <TextView android:id="@+id/PriceTodayText"
                 style="@android:style/TextAppearance.Large"
@@ -64,7 +64,7 @@
                 style="@android:style/TextAppearance.Medium"
                 android:gravity="right"
                 android:padding="3dp" android:id="@+id/OtherPriceLabelText"
-                android:text="Tomorrow" />
+                android:text="@string/tomorrow" />
 
             <TextView android:id="@+id/OtherPriceText"
                 style="@android:style/TextAppearance.Large"
