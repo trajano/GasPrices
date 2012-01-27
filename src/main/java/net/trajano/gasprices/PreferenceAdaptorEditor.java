@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Build;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -26,9 +27,20 @@ public class PreferenceAdaptorEditor implements
 		this.editor = editor;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * However, if it detects that we are using an API level of less than 9
+	 * which is when {@link #apply()} was first introduced it will default to
+	 * commit.
+	 */
 	@Override
 	public void apply() {
-		editor.apply();
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+			editor.commit();
+		} else {
+			editor.apply();
+		}
 	}
 
 	@Override
