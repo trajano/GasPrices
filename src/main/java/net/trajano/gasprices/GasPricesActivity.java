@@ -115,7 +115,7 @@ public class GasPricesActivity extends Activity {
 	 * visible.
 	 */
 	private void updateView() {
-		if (!preferences.isDataPresent()) {
+		if (!preferences.isDataPresent() || preferences.isUpdateNeeded()) {
 			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
 					.getString(R.string.loading), true);
 			// TODO don't do this! create a new AsyncTask instead.

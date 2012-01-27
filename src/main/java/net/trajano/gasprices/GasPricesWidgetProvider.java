@@ -3,7 +3,6 @@ package net.trajano.gasprices;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,14 +22,16 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(final Context context,
 			final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
 		Log.d("GasPrices", "onUpdate() received");
-		final ComponentName thisWidget = new ComponentName(context,
-				GasPricesWidgetProvider.class);
 
 		final RemoteViews remoteViews = new RemoteViews(
 				context.getPackageName(), R.layout.widget_layout);
 
-		{
-			Log.d("GasPrices", "Set up intent to launch on widget click");
+		for (final int appWidgetId : appWidgetIds) {
+			final PreferenceAdaptor preferences = new PreferenceAdaptor(context);
+			preferences.getWidgetCityInfo(appWidgetId);
+			remoteViews.setTextViewText(R.id.widget_city,
+					preferences.getWidgetCityName(appWidgetId));
+
 			final PackageManager manager = context.getPackageManager();
 			final Intent lintent = manager
 					.getLaunchIntentForPackage("net.trajano.gasprices");
@@ -39,8 +40,8 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 					context, 0, lintent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 			remoteViews.setOnClickPendingIntent(R.id.thelayout, pendingIntent);
+			appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
 		}
-		appWidgetManager.updateAppWidget(thisWidget, remoteViews);
 		// {
 		// // Build the intent to call the service
 		// final Intent intent = new Intent(context.getApplicationContext(),

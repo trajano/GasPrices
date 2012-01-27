@@ -58,6 +58,7 @@
             android:name=".GasPricesUpdateService"
             android:label="Gas Prices Update Service" >
         </service>
+
         <receiver
             android:name="GasPricesWidgetProvider"
             android:icon="@drawable/ic_launcher"
@@ -65,6 +66,9 @@
             >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
             </intent-filter>
 
             <meta-data

@@ -69,7 +69,12 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	/**
 	 * Widget preference key prefix.
 	 */
-	static final String WIDGET_PREFERENCE_KEY_PREFIX = "widget_"; // $NON-NLS-1$
+	static final String WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX = "widget_city_id_"; // $NON-NLS-1$
+
+	/**
+	 * Widget preference key prefix.
+	 */
+	static final String WIDGET_CITY_NAME_PREFERENCE_KEY_PREFIX = "widget_city_name_"; // $NON-NLS-1$
 
 	/**
 	 * This returns true if the Gas Prices view should change if the key was
@@ -135,7 +140,7 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	 */
 	public static void setWidgetPreference(final Editor editor,
 			final int widgetId, final String preferenceData) {
-		editor.putString(WIDGET_PREFERENCE_KEY_PREFIX, preferenceData);
+		editor.putString(WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX, preferenceData);
 	}
 
 	/**
@@ -278,6 +283,34 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	}
 
 	/**
+	 * Gets the city id associated with the widget.
+	 * 
+	 * @param appWidgetId
+	 * @return
+	 */
+	public long getWidgetCityId(final int appWidgetId) {
+		return preferences.getLong(WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX
+				+ appWidgetId, 0);
+	}
+
+	public CityInfo getWidgetCityInfo(final int appWidgetId) {
+		return getCityInfo(preferences.getLong(
+				WIDGET_CITY_ID_PREFERENCE_KEY_PREFIX + appWidgetId,
+				DEFAULT_CITY_ID));
+	}
+
+	/**
+	 * Gets the city name associated with the widget.
+	 * 
+	 * @param appWidgetId
+	 * @return
+	 */
+	public String getWidgetCityName(final int appWidgetId) {
+		return preferences.getString(WIDGET_CITY_NAME_PREFERENCE_KEY_PREFIX
+				+ appWidgetId, null);
+	}
+
+	/**
 	 * This checks if the key data is present.
 	 * 
 	 * @return
@@ -285,6 +318,15 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	public boolean isDataPresent() {
 		return preferences.contains(LAST_UPDATED_KEY)
 				&& preferences.contains(JSON_DATA_KEY);
+	}
+
+	/**
+	 * An updated is needed if the next update time occurs in the past.
+	 * 
+	 * @return
+	 */
+	public boolean isUpdateNeeded() {
+		return getNextUpdateDate().before(new Date());
 	}
 
 	/**
