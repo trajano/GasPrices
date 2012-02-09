@@ -209,7 +209,7 @@
 			<activation>
 				<property>
 					<name>dpi</name>
-					<value>xdpi</value>
+					<value>xhdpi</value>
 				</property>
 			</activation>
 			<build>
