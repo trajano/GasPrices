@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.trajano.gasprices</groupId>
 	<artifactId>gasprices</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 	<packaging>apk</packaging>
 	<scm>
 		<url>https://github.com/trajano/GasPrices</url>
@@ -199,6 +199,27 @@
 						<configuration>
 							<destDir>${basedir}/res/drawable-${dpi}</destDir>
 							<maxHeight>48</maxHeight>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>xhdpi</id>
+			<activation>
+				<property>
+					<name>dpi</name>
+					<value>xdpi</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>batik-maven-plugin</artifactId>
+						<configuration>
+							<destDir>${basedir}/res/drawable-${dpi}</destDir>
+							<maxHeight>96</maxHeight>
 						</configuration>
 					</plugin>
 				</plugins>
