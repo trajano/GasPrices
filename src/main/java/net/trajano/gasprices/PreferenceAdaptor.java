@@ -309,7 +309,7 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	 * @return
 	 */
 	public boolean isUpdateNeeded() {
-		return getNextUpdateDate().before(new Date());
+		return getNextUpdateTime() < System.currentTimeMillis();
 	}
 
 	/**
