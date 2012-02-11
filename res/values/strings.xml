@@ -15,5 +15,6 @@
     <string name="last_updated">Last updated on: %s</string>
     <string name="next_update">Next scheduled update on: %s</string>
     <string name="pending">Pending</string>
+    <string name="problem_loading">There was a problem loading the data from the Internet.</string>
 
 </resources>

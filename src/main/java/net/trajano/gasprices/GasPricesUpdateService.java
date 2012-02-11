@@ -11,6 +11,8 @@ import org.json.JSONTokener;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -127,8 +129,8 @@ public class GasPricesUpdateService extends IntentService {
 	 */
 	@Override
 	protected void onHandleIntent(final Intent intent) {
+		final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		final PreferenceAdaptor preferences = new PreferenceAdaptor(this);
-
 		final PreferenceAdaptorEditor editor = preferences.edit();
 
 		try {
@@ -138,9 +140,17 @@ public class GasPricesUpdateService extends IntentService {
 				return;
 			}
 			editor.setJsonData(getGasPricesDataFromInternet());
-
+			notificationManager.cancel(1);
 		} catch (final IOException e) {
 			Log.e("GasPrices", e.getMessage() + " and cry");
+			final Notification notification = new Notification.Builder(this)
+					.setSmallIcon(R.drawable.ic_launcher)
+					.setAutoCancel(true)
+					.setContentTitle(getResources().getText(R.string.app_name))
+					.setContentText(
+							getResources().getText(R.string.problem_loading))
+					.setWhen(System.currentTimeMillis()).getNotification();
+			notificationManager.notify(1, notification);
 		} finally {
 			// schedule the next update.
 			scheduleUpdate(this);
