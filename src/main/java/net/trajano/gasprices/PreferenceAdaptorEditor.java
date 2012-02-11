@@ -143,6 +143,10 @@ public class PreferenceAdaptorEditor implements
 		return editor.remove(key);
 	}
 
+	public void removeLastError() {
+		editor.remove(PreferenceAdaptor.LAST_ERROR_KEY);
+	}
+
 	/**
 	 * This removes the selected city id for the widgets.
 	 * 
@@ -196,6 +200,20 @@ public class PreferenceAdaptorEditor implements
 		} catch (final JSONException e) {
 			Log.e("GasPrices", e.getMessage());
 			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Sets the last error text.
+	 * 
+	 * @param errorMessage
+	 *            error message. May be <code>null</code> to remove the message.
+	 */
+	public void setLastError(final String errorMessage) {
+		if (errorMessage == null) {
+			editor.remove(PreferenceAdaptor.LAST_ERROR_KEY);
+		} else {
+			editor.putString(PreferenceAdaptor.LAST_ERROR_KEY, errorMessage);
 		}
 	}
 

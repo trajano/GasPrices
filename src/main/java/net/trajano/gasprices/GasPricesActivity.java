@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class GasPricesActivity extends Activity {
+
 	/**
 	 * Forced update progress dialog.
 	 */
@@ -55,6 +56,11 @@ public class GasPricesActivity extends Activity {
 		}
 
 		preferences = new PreferenceAdaptor(this);
+		if (!preferences.isDataPresent() || preferences.isUpdateNeeded()) {
+			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
+					.getString(R.string.loading), true);
+			new UpdateTask(this).execute();
+		}
 		setContentView(R.layout.main);
 		GasPricesUpdateService.scheduleUpdate(this);
 	}
@@ -72,9 +78,7 @@ public class GasPricesActivity extends Activity {
 		if (R.id.UpdateMenuItem == item.getItemId()) {
 			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
 					.getString(R.string.loading), true);
-			// TODO don't do this! create a new AsyncTask instead.
-			final Intent intent = new Intent(this, GasPricesUpdateService.class);
-			startService(intent);
+			new UpdateTask(this).execute();
 			return true;
 		} else if (R.id.ShowFeedData == item.getItemId()) {
 			final Intent intent = new Intent(this, GasPricesFeedActivity.class);
@@ -130,15 +134,15 @@ public class GasPricesActivity extends Activity {
 	 * visible.
 	 */
 	private void updateView() {
-		if (!preferences.isDataPresent() || preferences.isUpdateNeeded()) {
-			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
-					.getString(R.string.loading), true);
-			// TODO don't do this! create a new AsyncTask instead.
-			final Intent intent = new Intent(this, GasPricesUpdateService.class);
-			startService(intent);
+		if (preferences.isError() && forcedUpdateDialog != null) {
+			forcedUpdateDialog.dismiss();
+			forcedUpdateDialog = null;
 			return;
 		}
 
+		if (!preferences.isDataPresent()) {
+			return;
+		}
 		final CityInfo cityInfo = preferences.getSelectedCityInfo();
 
 		{

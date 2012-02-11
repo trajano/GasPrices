@@ -45,6 +45,10 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	 * JSON data key.
 	 */
 	static final String JSON_DATA_KEY = "json_data";
+	/**
+	 * Last error key.
+	 */
+	static final String LAST_ERROR_KEY = "last_error";
 
 	/**
 	 * Last updated in seconds since epoch.
@@ -79,7 +83,7 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	 * @return
 	 */
 	public static boolean isKeyAffectGasPricesView(final String key) {
-		return LAST_UPDATED_KEY.equals(key)
+		return LAST_UPDATED_KEY.equals(key) || LAST_ERROR_KEY.equals(key)
 				|| SELECTED_CITY_ID_KEY.equals("key");
 	}
 
@@ -209,6 +213,10 @@ public final class PreferenceAdaptor implements SharedPreferences {
 		return preferences.getString(JSON_DATA_KEY, null);
 	}
 
+	public String getLastError() {
+		return preferences.getString(LAST_ERROR_KEY, "");
+	}
+
 	/**
 	 * This returns the {@link Date} represening the last updated timestamp.
 	 * 
@@ -301,6 +309,15 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	public boolean isDataPresent() {
 		return preferences.contains(LAST_UPDATED_KEY)
 				&& preferences.contains(JSON_DATA_KEY);
+	}
+
+	/**
+	 * Checks if there is an error recorded.
+	 * 
+	 * @return
+	 */
+	public boolean isError() {
+		return preferences.contains(LAST_ERROR_KEY);
 	}
 
 	/**

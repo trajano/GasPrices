@@ -78,10 +78,7 @@ public class GasPricesFeedActivity extends Activity {
 		if (R.id.UpdateMenuItem == item.getItemId()) {
 			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
 					.getString(R.string.loading), true);
-
-			// TODO don't do this! create a new AsyncTask instead.
-			final Intent intent = new Intent(this, GasPricesUpdateService.class);
-			startService(intent);
+			new UpdateTask(this).execute();
 			return true;
 		} else if (android.R.id.home == item.getItemId()) {
 			// app icon in action bar clicked; go home

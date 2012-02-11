@@ -1,13 +1,6 @@
 package net.trajano.gasprices;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -69,41 +62,6 @@ public class GasPricesUpdateService extends IntentService {
 	}
 
 	/**
-	 * This will connect to the Internet to get the gas price data and return
-	 * the parsed {@link JSONObject}. This will return <code>null</code> if
-	 * there is an error parsing the data because there isn't anything that can
-	 * be done if there is a parse error, but the {@link IOException} is still
-	 * thrown for any communication errors.
-	 * 
-	 * @return a parsed JSONObject.
-	 * @throws IOException
-	 *             I/O error.
-	 */
-	private JSONObject getGasPricesDataFromInternet() throws IOException {
-		final HttpURLConnection urlConnection = (HttpURLConnection) new URL(
-				"http://www.tomorrowsgaspricetoday.com/mobile/json_mobile_data.php")
-				.openConnection();
-		try {
-			// Read the JSON data, skip the first character since it
-			// breaks the parsing.
-			final String jsonData = new Scanner(urlConnection.getInputStream())
-					.useDelimiter("\\A").next().substring(1);
-
-			final Object value = new JSONTokener(jsonData).nextValue();
-			if (value instanceof JSONObject) {
-				return (JSONObject) value;
-			} else {
-				throw new IOException("Did not get a proper JSON object");
-			}
-		} catch (final JSONException e) {
-			Log.e("GasPrices", e.getMessage());
-			throw new IOException(e);
-		} finally {
-			urlConnection.disconnect();
-		}
-	}
-
-	/**
 	 * <p>
 	 * This is the only place in the application where an Internet request is
 	 * performed. This will only function if background data is enabled on the
@@ -139,8 +97,9 @@ public class GasPricesUpdateService extends IntentService {
 			if (!backgroundEnabled) {
 				return;
 			}
-			editor.setJsonData(getGasPricesDataFromInternet());
+			editor.setJsonData(GetDataUtil.getGasPricesDataFromInternet());
 			notificationManager.cancel(1);
+			editor.removeLastError();
 		} catch (final IOException e) {
 			Log.e("GasPrices", e.getMessage() + " and cry");
 			final Notification notification = new Notification.Builder(this)
