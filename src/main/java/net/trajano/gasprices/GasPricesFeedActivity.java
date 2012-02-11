@@ -112,8 +112,13 @@ public class GasPricesFeedActivity extends Activity {
 	 */
 	private void updateView() {
 		final TextView feedTextView = (TextView) findViewById(R.id.FeedText);
-		feedTextView.setText(preferences.getJsonDataString(),
-				TextView.BufferType.SPANNABLE);
+		if (preferences.isError()) {
+			feedTextView.setText(preferences.getFeedData(),
+					TextView.BufferType.SPANNABLE);
+		} else {
+			feedTextView.setText(preferences.getJsonDataString(),
+					TextView.BufferType.SPANNABLE);
+		}
 		final Spannable spannableText = (Spannable) feedTextView.getText();
 		spannableText.setSpan(new ForegroundColorSpan(0xFFEEFF00), 10, 20,
 				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

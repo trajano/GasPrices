@@ -37,6 +37,11 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	static final String CITY_DATA_KEY_PREFIX = "city_";
 
 	/**
+	 * This is the actual data, but it is only for error situations.
+	 */
+	static final String FEED_DATA_KEY = "data";
+
+	/**
 	 * Default city ID. Uses Toronto.
 	 */
 	private static final long DEFAULT_CITY_ID = 133;
@@ -45,6 +50,7 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	 * JSON data key.
 	 */
 	static final String JSON_DATA_KEY = "json_data";
+
 	/**
 	 * Last error key.
 	 */
@@ -186,6 +192,10 @@ public final class PreferenceAdaptor implements SharedPreferences {
 			Log.e("GasPrices", e.getMessage());
 			throw new RuntimeException(e);
 		}
+	}
+
+	public String getFeedData() {
+		return preferences.getString(FEED_DATA_KEY, "");
 	}
 
 	/**

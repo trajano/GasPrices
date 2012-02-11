@@ -30,8 +30,15 @@ public class UpdateTask extends AsyncTask<Void, Void, Exception> {
 			editor.setLastUpdatedToNow();
 			return null;
 		} catch (final IOException e) {
+			// TODO fix this is yucky
 			Log.e("GasPrices", e.getMessage() + " and cry");
-			editor.setLastError(e.getMessage());
+			try {
+				editor.setLastError(e.getMessage(),
+						GetDataUtil.getRawGasPricesDataFromInternet());
+			} catch (final IOException e2) {
+				editor.setLastError(e.getMessage(), "");
+				return e2;
+			}
 			return e;
 		} finally {
 			editor.apply();

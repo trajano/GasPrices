@@ -145,6 +145,7 @@ public class PreferenceAdaptorEditor implements
 
 	public void removeLastError() {
 		editor.remove(PreferenceAdaptor.LAST_ERROR_KEY);
+		editor.remove(PreferenceAdaptor.FEED_DATA_KEY);
 	}
 
 	/**
@@ -204,17 +205,14 @@ public class PreferenceAdaptorEditor implements
 	}
 
 	/**
-	 * Sets the last error text.
+	 * Sets the last error text and the feed data.
 	 * 
 	 * @param errorMessage
 	 *            error message. May be <code>null</code> to remove the message.
 	 */
-	public void setLastError(final String errorMessage) {
-		if (errorMessage == null) {
-			editor.remove(PreferenceAdaptor.LAST_ERROR_KEY);
-		} else {
-			editor.putString(PreferenceAdaptor.LAST_ERROR_KEY, errorMessage);
-		}
+	public void setLastError(final String errorMessage, final String feedData) {
+		editor.putString(PreferenceAdaptor.LAST_ERROR_KEY, errorMessage);
+		editor.putString(PreferenceAdaptor.FEED_DATA_KEY, feedData);
 	}
 
 	/**
