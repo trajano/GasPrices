@@ -87,10 +87,15 @@ public class GasPricesUpdateService extends IntentService {
 			final String jsonData = new Scanner(urlConnection.getInputStream())
 					.useDelimiter("\\A").next().substring(1);
 
-			return (JSONObject) new JSONTokener(jsonData).nextValue();
+			final Object value = new JSONTokener(jsonData).nextValue();
+			if (value instanceof JSONObject) {
+				return (JSONObject) value;
+			} else {
+				throw new IOException("Did not get a proper JSON object");
+			}
 		} catch (final JSONException e) {
 			Log.e("GasPrices", e.getMessage());
-			return null;
+			throw new IOException(e);
 		} finally {
 			urlConnection.disconnect();
 		}
