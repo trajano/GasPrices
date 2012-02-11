@@ -63,9 +63,11 @@ public class GasPricesWidgetConfigurationActivity extends ListActivity {
 
 		final RemoteViews remoteViews = new RemoteViews(getPackageName(),
 				R.layout.widget_layout);
-		GasPricesWidgetProvider.updateAppWidget(this,
-				AppWidgetManager.getInstance(this), appWidgetId, preferences,
-				remoteViews);
+		if (!preferences.isUpdateNeeded()) {
+			GasPricesWidgetProvider.updateAppWidget(this,
+					AppWidgetManager.getInstance(this), appWidgetId,
+					preferences, remoteViews);
+		}
 		{
 			// Make sure we pass back the original appWidgetId
 			final Intent intent = new Intent();

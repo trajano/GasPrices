@@ -45,9 +45,23 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 		}
 	}
 
+	/**
+	 * This will update the app widgets provided that an update is not needed.
+	 * Because if an update is neded then there isn't a point of changing the UI
+	 * until the updates have been completed.
+	 * 
+	 * @param context
+	 * @param appWidgetManager
+	 * @param appWidgetId
+	 * @param preferences
+	 * @param remoteViews
+	 */
 	public static void updateAppWidget(final Context context,
 			final AppWidgetManager appWidgetManager, final int appWidgetId,
 			final PreferenceAdaptor preferences, final RemoteViews remoteViews) {
+		if (!preferences.isUpdateNeeded()) {
+			return;
+		}
 		final CityInfo city = preferences.getWidgetCityInfo(appWidgetId);
 		remoteViews.setTextViewText(R.id.widget_city, city.getName());
 		remoteViews.setTextViewText(
