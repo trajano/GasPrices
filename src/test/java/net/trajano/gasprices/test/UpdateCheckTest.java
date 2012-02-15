@@ -166,6 +166,10 @@ public class UpdateCheckTest extends TestCase {
 				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
 
+	public void testSystemTimeVsNewDate() {
+		assertEquals(System.currentTimeMillis(), new Date().getTime());
+	}
+
 	/**
 	 * If it was last updated two days ago at 1pm, then the next update date
 	 * should be two days ago at 5pm.
@@ -225,5 +229,4 @@ public class UpdateCheckTest extends TestCase {
 		assertEquals(nextExpectedUpdate,
 				PreferenceAdaptor.nextUpdateDate(lastUpdate));
 	}
-
 }

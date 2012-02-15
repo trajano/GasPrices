@@ -52,6 +52,9 @@ public class GasPricesUpdateService extends IntentService {
 		alarmManager.cancel(pendingIntent);
 		alarmManager.set(AlarmManager.RTC, preferences.getNextUpdateTime(),
 				pendingIntent);
+		Log.d("GasPrices",
+				"Setting next update time to "
+						+ preferences.getNextUpdateDate());
 	}
 
 	/**
@@ -87,6 +90,7 @@ public class GasPricesUpdateService extends IntentService {
 	 */
 	@Override
 	protected void onHandleIntent(final Intent intent) {
+		Log.d("GasPrices", "Service started by " + intent);
 		final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		final PreferenceAdaptor preferences = new PreferenceAdaptor(this);
 		final PreferenceAdaptorEditor editor = preferences.edit();
