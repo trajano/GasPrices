@@ -250,7 +250,8 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	 * @return
 	 */
 	public Date getNextUpdateDate() {
-		return nextUpdateDate(preferences.getLong(LAST_UPDATED_KEY, 0));
+		return nextUpdateDate(preferences.getLong(LAST_UPDATED_KEY,
+				Long.MIN_VALUE));
 	}
 
 	/**
@@ -259,7 +260,9 @@ public final class PreferenceAdaptor implements SharedPreferences {
 	 * @return
 	 */
 	public long getNextUpdateTime() {
-		return preferences.getLong(LAST_UPDATED_KEY, 0);
+		return nextUpdateDate(
+				preferences.getLong(LAST_UPDATED_KEY, Long.MIN_VALUE))
+				.getTime();
 	}
 
 	/**
