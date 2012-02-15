@@ -59,7 +59,7 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 	public static void updateAppWidget(final Context context,
 			final AppWidgetManager appWidgetManager, final int appWidgetId,
 			final PreferenceAdaptor preferences, final RemoteViews remoteViews) {
-		if (!preferences.isUpdateNeeded()) {
+		if (preferences.isUpdateNeeded()) {
 			return;
 		}
 		final CityInfo city = preferences.getWidgetCityInfo(appWidgetId);
