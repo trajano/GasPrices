@@ -1,5 +1,6 @@
 package net.trajano.gasprices;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 public class GasPricesWidgetProvider extends AppWidgetProvider {
@@ -56,11 +58,16 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 	 * @param preferences
 	 * @param remoteViews
 	 */
+	@SuppressLint("NewApi")
 	public static void updateAppWidget(final Context context,
 			final AppWidgetManager appWidgetManager, final int appWidgetId,
 			final PreferenceAdaptor preferences, final RemoteViews remoteViews) {
 		if (preferences.isUpdateNeeded()) {
 			return;
+		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			remoteViews.setTextViewTextSize(R.id.widget_price,
+					TypedValue.COMPLEX_UNIT_PX, 100);
 		}
 		final CityInfo city = preferences.getWidgetCityInfo(appWidgetId);
 		remoteViews.setTextViewText(R.id.widget_city, city.getName());
