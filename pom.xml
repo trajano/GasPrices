@@ -12,6 +12,7 @@
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+		<platform.version>4.1.1.4</platform.version>
 		<!-- Do not perform any unit tests on Maven. The android-maven-plugin does 
 			not work with JUnit tests. -->
 		<maven.test.skip>true</maven.test.skip>
@@ -20,13 +21,13 @@
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>4.0.1.2</version>
+			<version>${platform.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android-test</artifactId>
-			<version>4.0.1.2</version>
+			<version>${platform.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -47,7 +48,7 @@
 					<resourceDirectory>${project.basedir}/res</resourceDirectory>
 					<nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
 					<sdk>
-						<platform>14</platform>
+						<platform>16</platform>
 					</sdk>
 					<deleteConflictingFiles>true</deleteConflictingFiles>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
@@ -92,25 +93,12 @@
 				<plugin>
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 					<artifactId>android-maven-plugin</artifactId>
-					<version>3.1.1</version>
+					<version>3.7.0</version>
 				</plugin>
 				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
+					<groupId>net.trajano.mojo</groupId>
 					<artifactId>batik-maven-plugin</artifactId>
-					<version>1.0-beta-1</version>
-					<dependencies>
-						<dependency>
-							<groupId>batik</groupId>
-							<artifactId>batik-transcoder</artifactId>
-							<version>1.6-1</version>
-							<exclusions>
-								<exclusion>
-									<artifactId>fop</artifactId>
-									<groupId>fop</groupId>
-								</exclusion>
-							</exclusions>
-						</dependency>
-					</dependencies>
+					<version>1.0.0</version>
 				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
