@@ -5,6 +5,11 @@
 	<artifactId>gasprices</artifactId>
 	<version>1.3.0-SNAPSHOT</version>
 	<packaging>apk</packaging>
+	<parent>
+		<groupId>net.trajano</groupId>
+		<artifactId>trajano</artifactId>
+		<version>5</version>
+	</parent>
 	<scm>
 		<url>https://github.com/trajano/GasPrices</url>
 		<connection>scm:git:git://github.com/trajano/GasPrices.git</connection>
@@ -31,6 +36,17 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.androidannotations</groupId>
+			<artifactId>androidannotations</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.androidannotations</groupId>
+			<artifactId>androidannotations-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8</version>
@@ -39,6 +55,85 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>net.trajano.mojo</groupId>
+				<artifactId>batik-maven-plugin</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>rasterizer</goal>
+						</goals>
+						<configuration>
+							<width>512</width>
+							<height>512</height>
+							<destDir>${basedir}/res/drawable</destDir>
+						</configuration>
+					</execution>
+					<execution>
+						<id>ldpi</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>rasterizer</goal>
+						</goals>
+						<configuration>
+							<width>36</width>
+							<height>36</height>
+							<destDir>${basedir}/res/drawable-ldpi</destDir>
+						</configuration>
+					</execution>
+					<execution>
+						<id>mdpi</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>rasterizer</goal>
+						</goals>
+						<configuration>
+							<width>48</width>
+							<height>48</height>
+							<destDir>${basedir}/res/drawable-mdpi</destDir>
+						</configuration>
+					</execution>
+					<execution>
+						<id>hdpi</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>rasterizer</goal>
+						</goals>
+						<configuration>
+							<width>72</width>
+							<height>72</height>
+							<destDir>${basedir}/res/drawable-hdpi</destDir>
+						</configuration>
+					</execution>
+					<execution>
+						<id>xhdpi</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>rasterizer</goal>
+						</goals>
+						<configuration>
+							<width>96</width>
+							<height>96</height>
+							<destDir>${basedir}/res/drawable-xhdpi</destDir>
+						</configuration>
+					</execution>
+					<execution>
+						<id>xxhdpi</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>rasterizer</goal>
+						</goals>
+						<configuration>
+							<width>144</width>
+							<height>144</height>
+							<destDir>${basedir}/res/drawable-xxhdpi</destDir>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>
@@ -78,14 +173,7 @@
 					</includes>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>batik-maven-plugin</artifactId>
-				<configuration>
-					<width>512</width>
-					<height>512</height>
-				</configuration>
-			</plugin>
+
 		</plugins>
 
 		<pluginManagement>
@@ -94,11 +182,6 @@
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 					<artifactId>android-maven-plugin</artifactId>
 					<version>3.7.0</version>
-				</plugin>
-				<plugin>
-					<groupId>net.trajano.mojo</groupId>
-					<artifactId>batik-maven-plugin</artifactId>
-					<version>1.0.0</version>
 				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
@@ -135,105 +218,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>doodleproject-repo</id>
-			<name>DoodleProject Maven 2 Repository</name>
-			<url>http://doodleproject.sourceforge.net/maven2/release</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</pluginRepository>
-		<pluginRepository>
-			<id>oss-sonatype-snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</pluginRepository>
-	</pluginRepositories>
 	<profiles>
-		<profile>
-			<id>hdpi</id>
-			<activation>
-				<property>
-					<name>dpi</name>
-					<value>hdpi</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>batik-maven-plugin</artifactId>
-						<configuration>
-							<destDir>${basedir}/res/drawable-${dpi}</destDir>
-							<maxHeight>72</maxHeight>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>mdpi</id>
-			<activation>
-				<property>
-					<name>dpi</name>
-					<value>mdpi</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>batik-maven-plugin</artifactId>
-						<configuration>
-							<destDir>${basedir}/res/drawable-${dpi}</destDir>
-							<maxHeight>48</maxHeight>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>xhdpi</id>
-			<activation>
-				<property>
-					<name>dpi</name>
-					<value>xhdpi</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>batik-maven-plugin</artifactId>
-						<configuration>
-							<destDir>${basedir}/res/drawable-${dpi}</destDir>
-							<maxHeight>96</maxHeight>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>ldpi</id>
-			<activation>
-				<property>
-					<name>dpi</name>
-					<value>ldpi</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>batik-maven-plugin</artifactId>
-						<configuration>
-							<destDir>${basedir}/res/drawable-${dpi}</destDir>
-							<maxHeight>36</maxHeight>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
 		<profile>
 			<id>release</id>
 			<activation>
