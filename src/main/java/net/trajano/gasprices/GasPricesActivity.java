@@ -2,20 +2,23 @@ package net.trajano.gasprices;
 
 import java.text.DateFormat;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+@EActivity(R.layout.main)
+@SuppressLint("Registered")
 public class GasPricesActivity extends Activity {
 
 	/**
@@ -47,21 +50,14 @@ public class GasPricesActivity extends Activity {
 	/**
 	 * Called when the activity is first created.
 	 */
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (Build.PRODUCT.endsWith("sdk")
-				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-			StrictMode.enableDefaults();
-		}
-
+	@AfterViews
+	public void initialLoad() {
 		preferences = new PreferenceAdaptor(this);
 		if (!preferences.isDataPresent() || preferences.isUpdateNeeded()) {
 			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
 					.getString(R.string.loading), true);
 			new UpdateTask(this).execute();
 		}
-		setContentView(R.layout.main);
 		GasPricesUpdateService.scheduleUpdate(this);
 	}
 
