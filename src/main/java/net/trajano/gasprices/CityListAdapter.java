@@ -16,6 +16,7 @@ public class CityListAdapter extends BaseAdapter implements ListAdapter {
 	private final LayoutInflater inflater;
 
 	public CityListAdapter(final ListActivity activity) {
+		super();
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		cityList = activity.getResources().getStringArray(R.array.city_list);

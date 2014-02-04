@@ -16,6 +16,7 @@ public class UpdateTask extends AsyncTask<Void, Void, Exception> {
 	private final Context context;
 
 	public UpdateTask(final Context context) {
+		super();
 		this.context = context;
 	}
 
