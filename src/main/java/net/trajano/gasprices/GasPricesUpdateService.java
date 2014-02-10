@@ -97,7 +97,8 @@ public class GasPricesUpdateService extends IntentService {
 
 		try {
 			final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-			final boolean backgroundEnabled = cm.getBackgroundDataSetting();
+			final boolean backgroundEnabled = cm.getActiveNetworkInfo()
+					.isConnected();
 			if (!backgroundEnabled) {
 				return;
 			}
