@@ -73,18 +73,6 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>ldpi</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>rasterizer</goal>
-						</goals>
-						<configuration>
-							<width>36</width>
-							<height>36</height>
-							<destDir>${basedir}/res/drawable-ldpi</destDir>
-						</configuration>
-					</execution>
-					<execution>
 						<id>mdpi</id>
 						<phase>initialize</phase>
 						<goals>
