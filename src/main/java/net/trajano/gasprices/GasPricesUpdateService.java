@@ -3,6 +3,7 @@ package net.trajano.gasprices;
 import java.io.IOException;
 
 import org.androidannotations.annotations.EService;
+import org.androidannotations.annotations.SystemService;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -61,6 +62,12 @@ public class GasPricesUpdateService extends IntentService {
 						+ preferences.getNextUpdateDate());
 	}
 
+	@SystemService
+	ConnectivityManager cm;
+
+	@SystemService
+	NotificationManager notificationManager;
+
 	/**
 	 * Define the name of the service.
 	 */
@@ -95,12 +102,10 @@ public class GasPricesUpdateService extends IntentService {
 	@Override
 	protected void onHandleIntent(final Intent intent) {
 		Log.d("GasPrices", "Service started by " + intent);
-		final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		final PreferenceAdaptor preferences = new PreferenceAdaptor(this);
 		final PreferenceAdaptorEditor editor = preferences.edit();
 
 		try {
-			final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 			final boolean backgroundEnabled = cm.getActiveNetworkInfo()
 					.isConnected();
 			if (!backgroundEnabled) {
