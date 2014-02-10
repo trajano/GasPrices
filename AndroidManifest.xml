@@ -51,7 +51,7 @@
         </activity>
 
         <service
-            android:name=".GasPricesUpdateService"
+            android:name=".GasPricesUpdateService_"
             android:label="Gas Prices Update Service" >
         </service>
 

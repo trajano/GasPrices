@@ -2,6 +2,8 @@ package net.trajano.gasprices;
 
 import java.io.IOException;
 
+import org.androidannotations.annotations.EService;
+
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
@@ -35,6 +37,7 @@ import android.util.Log;
  * @author Archimedes Trajano (developer@trajano.net)
  * 
  */
+@EService
 public class GasPricesUpdateService extends IntentService {
 	/**
 	 * This will schedule an update using the AlarmManager, that way the service
@@ -46,7 +49,8 @@ public class GasPricesUpdateService extends IntentService {
 		final AlarmManager alarmManager = (AlarmManager) context
 				.getApplicationContext()
 				.getSystemService(Context.ALARM_SERVICE);
-		final Intent intent = new Intent(context, GasPricesUpdateService.class);
+
+		final Intent intent = GasPricesUpdateService_.intent(context).get();
 		final PendingIntent pendingIntent = PendingIntent.getService(context,
 				0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 		alarmManager.cancel(pendingIntent);

@@ -151,8 +151,8 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 		}
 		if (preferences.isUpdateNeeded()) {
 			// Build the intent to call the service
-			final Intent intent = new Intent(context.getApplicationContext(),
-					GasPricesUpdateService.class);
+			final Intent intent = GasPricesUpdateService_.intent(
+					context.getApplicationContext()).get();
 			context.startService(intent);
 		}
 	}
