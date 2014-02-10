@@ -2,10 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/UpdateMenuItem"
-        android:showAsAction="always"
-        android:title="Force Update"
+        android:id="@+id/action_search"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/force_update"
         android:titleCondensed="Update">
     </item>
-    
+    <item
+        android:id="@+id/UpdateMenuItem"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="always"
+        android:title="@string/force_update"
+        android:titleCondensed="Update">
+    </item>
+
 </menu>

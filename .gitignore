@@ -1,5 +1,6 @@
 *.iml
 .DS_Store
+.checkstyle
 .classpath
 .factorypath
 .idea
@@ -14,6 +15,6 @@ gen/
 logs.zip
 pom.xml.releaseBackup
 release.properties
-res/drawable*/*.png
+res/drawable*/ic_launcher.png
 target/
 thumbs.db

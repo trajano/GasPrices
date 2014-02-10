@@ -1,18 +1,15 @@
 package net.trajano.gasprices;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.StrictMode;
 import android.text.Spannable;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 /**
@@ -21,6 +18,8 @@ import android.widget.TextView;
  * @author Archimedes Trajano (developer@trajano.net)
  * 
  */
+@EActivity(R.layout.feed)
+@OptionsMenu(R.menu.feedmenu)
 public class GasPricesFeedActivity extends Activity {
 	/**
 	 * Forced update progress dialog.
@@ -48,47 +47,26 @@ public class GasPricesFeedActivity extends Activity {
 	 */
 	private PreferenceAdaptor preferences;
 
+	@OptionsItem(R.id.UpdateMenuItem)
+	void forceUpdateSelected() {
+		forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
+				.getString(R.string.loading), true);
+		new UpdateTask(this).execute();
+	}
+
+	@OptionsItem(android.R.id.home)
+	void goHomeSelected() {
+		finish();
+	}
+
 	/**
-	 * Called when the activity is first created.
+	 * Called when the activity is first created. Sets up the adapter and the
+	 * action bar.
 	 */
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (Build.PRODUCT.endsWith("sdk")
-				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-			StrictMode.enableDefaults();
-		}
+	@AfterViews
+	public void init() {
 		preferences = new PreferenceAdaptor(this);
-		setContentView(R.layout.feed);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(final android.view.Menu menu) {
-		final MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.feedmenu, menu);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setHomeButtonEnabled(true);
-		}
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		// Handle item selection
-		if (R.id.UpdateMenuItem == item.getItemId()) {
-			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
-					.getString(R.string.loading), true);
-			new UpdateTask(this).execute();
-			return true;
-		} else if (android.R.id.home == item.getItemId()) {
-			// app icon in action bar clicked; go home
-			final Intent intent = new Intent(this, GasPricesActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			return true;
-		} else {
-			return super.onOptionsItemSelected(item);
-		}
+		getActionBar().setHomeButtonEnabled(true);
 	}
 
 	@Override
@@ -120,8 +98,6 @@ public class GasPricesFeedActivity extends Activity {
 					TextView.BufferType.SPANNABLE);
 		}
 		final Spannable spannableText = (Spannable) feedTextView.getText();
-		spannableText.setSpan(new ForegroundColorSpan(0xFFEEFF00), 10, 20,
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 		feedTextView.setText(spannableText);
 		if (forcedUpdateDialog != null) {
 			forcedUpdateDialog.dismiss();

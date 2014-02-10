@@ -4,6 +4,8 @@ import java.text.DateFormat;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,12 +15,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.Uri;
 import android.util.Log;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 @EActivity(R.layout.main)
 @SuppressLint("Registered")
+@OptionsMenu(R.menu.menu)
 public class GasPricesActivity extends Activity {
 
 	/**
@@ -47,6 +48,19 @@ public class GasPricesActivity extends Activity {
 	 */
 	private PreferenceAdaptor preferences;
 
+	@OptionsItem(R.id.CitySelectMenuItem)
+	void citySelectSelected() {
+		final Intent intent = new Intent(this, CitySelectionActivity.class);
+		startActivityForResult(intent, 1);
+	}
+
+	@OptionsItem(R.id.UpdateMenuItem)
+	void forceUpdateSelected() {
+		forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
+				.getString(R.string.loading), true);
+		new UpdateTask(this).execute();
+	}
+
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -59,34 +73,6 @@ public class GasPricesActivity extends Activity {
 			new UpdateTask(this).execute();
 		}
 		GasPricesUpdateService.scheduleUpdate(this);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(final android.view.Menu menu) {
-		final MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		// Handle item selection
-		if (R.id.UpdateMenuItem == item.getItemId()) {
-			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
-					.getString(R.string.loading), true);
-			new UpdateTask(this).execute();
-			return true;
-		} else if (R.id.ShowFeedData == item.getItemId()) {
-			final Intent intent = new Intent(this, GasPricesFeedActivity.class);
-			startActivity(intent);
-			return true;
-		} else if (R.id.CitySelectMenuItem == item.getItemId()) {
-			final Intent intent = new Intent(this, CitySelectionActivity.class);
-			startActivityForResult(intent, 1);
-			return true;
-		} else {
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 	/**
@@ -122,6 +108,11 @@ public class GasPricesActivity extends Activity {
 		updateView();
 		preferences
 				.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+	}
+
+	@OptionsItem(R.id.ShowFeedData)
+	void showFeedDataSelected() {
+		GasPricesFeedActivity_.intent(this).start();
 	}
 
 	/**
