@@ -5,6 +5,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.widget.TextView;
  * @author Archimedes Trajano (developer@trajano.net)
  * 
  */
+@SuppressLint("Registered")
 @EActivity(R.layout.feed)
 @OptionsMenu(R.menu.feedmenu)
 public class GasPricesFeedActivity extends Activity {
