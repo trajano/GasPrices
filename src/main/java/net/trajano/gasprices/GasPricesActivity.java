@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -54,6 +55,18 @@ public class GasPricesActivity extends Activity {
 		startActivityForResult(intent, 1);
 	}
 
+	@AfterViews
+	void enableStrictMode() {
+		if (BuildConfig.DEBUG) {
+			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+					.detectDiskReads().detectDiskWrites().detectNetwork()
+					.penaltyLog().build());
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+					.detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
+					.penaltyLog().penaltyDeath().build());
+		}
+	}
+
 	@OptionsItem(R.id.UpdateMenuItem)
 	void forceUpdateSelected() {
 		forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
@@ -65,7 +78,7 @@ public class GasPricesActivity extends Activity {
 	 * Called when the activity is first created.
 	 */
 	@AfterViews
-	public void initialLoad() {
+	void initialLoad() {
 		preferences = new PreferenceAdaptor(this);
 		if (!preferences.isDataPresent() || preferences.isUpdateNeeded()) {
 			forcedUpdateDialog = ProgressDialog.show(this, "", getResources()
