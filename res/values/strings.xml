@@ -25,6 +25,7 @@
     <string name="force_update">Force Update</string>
     <string name="feed_data">Feed Data</string>
     <string name="show_feed_data">Feed Data</string>
+    <string name="widget_image_description">Gas Prices data loading</string>
     <string name="select_a_different_city">Select a Different City</string>
     <string name="problem_loading_format">here was a problem loading the data from the Internet. Exception message:  %s.</string>
 

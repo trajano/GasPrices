@@ -2,9 +2,7 @@ package net.trajano.gasprices;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
 import android.widget.ListView;
 
@@ -27,11 +25,6 @@ public class CitySelectionActivity extends ListActivity {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (Build.PRODUCT.endsWith("sdk")
-				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-			StrictMode.enableDefaults();
-		}
-		preferences = new PreferenceAdaptor(this);
 		setListAdapter(new CityListAdapter(this));
 	}
 

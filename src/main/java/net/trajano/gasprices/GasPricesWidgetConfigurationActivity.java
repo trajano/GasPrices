@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RemoteViews;
@@ -25,7 +24,7 @@ public class GasPricesWidgetConfigurationActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		if (Build.PRODUCT.endsWith("sdk")
 				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-			StrictMode.enableDefaults();
+			// StrictMode.enableDefaults();
 		}
 		setResult(RESULT_CANCELED);
 
