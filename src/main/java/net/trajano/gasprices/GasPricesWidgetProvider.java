@@ -108,7 +108,7 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 
 		c.drawText(city.getName(), xPos, yPos1, p2);
 
-		setGreen(remoteViews);
+		setBlue(remoteViews);
 		if (city.isTomorrowsGasPriceAvailable()) {
 			if (city.isTomorrowsGasPriceUp()) {
 				setRed(remoteViews);
