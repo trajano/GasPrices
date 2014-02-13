@@ -236,6 +236,9 @@
 							<sign>
 								<debug>false</debug>
 							</sign>
+							<proguard>
+								<skip>false</skip>
+							</proguard>
 							<zipalign>
 								<skip>false</skip>
 							</zipalign>
