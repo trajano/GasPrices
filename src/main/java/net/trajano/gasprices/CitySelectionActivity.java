@@ -25,6 +25,7 @@ public class CitySelectionActivity extends ListActivity {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		preferences = new PreferenceAdaptor(this);
 		setListAdapter(new CityListAdapter(this));
 	}
 

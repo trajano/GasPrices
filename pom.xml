@@ -255,7 +255,7 @@
 								</goals>
 								<phase>package</phase>
 								<configuration>
-									<executable>${ANDROID_HOME}/tools/zipalign</executable>
+									<executable>${android.sdk.path}/tools/zipalign</executable>
 									<arguments>
 										<argument>-f</argument>
 										<argument>4</argument>
