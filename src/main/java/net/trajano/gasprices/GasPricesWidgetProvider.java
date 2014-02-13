@@ -81,7 +81,7 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 
 		final Paint p2;
 		p2 = new Paint();
-		p2.setColor(Color.GRAY);
+		p2.setColor(Color.LTGRAY);
 		p2.setAntiAlias(true);
 		p2.setTextAlign(Align.CENTER);
 		p2.setTypeface(rb);
