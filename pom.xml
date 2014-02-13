@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.trajano.gasprices</groupId>
 	<artifactId>gasprices</artifactId>
@@ -13,8 +14,8 @@
 		<url>https://github.com/trajano/GasPrices</url>
 		<connection>scm:git:git://github.com/trajano/GasPrices.git</connection>
 		<developerConnection>scm:git:git@github.com:trajano/GasPrices.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 	<properties>
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 		<platform.version>4.1.1.4</platform.version>
@@ -147,21 +148,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>downloads-maven-plugin</artifactId>
-				<version>0.4</version>
-				<configuration>
-					<description>${project.version} release of ${project.name}</description>
-					<override>true</override>
-					<includeAttached>true</includeAttached>
-					<includes>
-						<include>*.apk</include>
-					</includes>
-				</configuration>
-			</plugin>
-
 		</plugins>
 
 		<pluginManagement>
@@ -211,12 +197,11 @@
 			<id>release</id>
 			<activation>
 				<property>
-					<name>keystore</name>
+					<name>jarsign.keystore</name>
 				</property>
 			</activation>
 			<build>
 				<plugins>
-
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-jarsigner-plugin</artifactId>
@@ -232,36 +217,12 @@
 								<configuration>
 									<archiveDirectory />
 									<includes>
-										<include>target/*.apk</include>
+										<include>target/${project.finalName}.apk</include>
 									</includes>
 									<keystore>${jarsign.keystore}</keystore>
 									<storepass>${jarsign.password}</storepass>
 									<keypass>${jarsign.password}</keypass>
 									<alias>${jarsign.alias}</alias>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.1.1</version>
-						<executions>
-							<execution>
-								<id>zipalign</id>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-								<phase>package</phase>
-								<configuration>
-									<executable>${android.sdk.path}/tools/zipalign</executable>
-									<arguments>
-										<argument>-f</argument>
-										<argument>4</argument>
-										<argument>target/${project.build.finalName}.apk</argument>
-										<argument>target/${project.build.finalName}-zipped.apk</argument>
-									</arguments>
 								</configuration>
 							</execution>
 						</executions>
@@ -275,7 +236,18 @@
 							<sign>
 								<debug>false</debug>
 							</sign>
+							<zipalign>
+								<skip>false</skip>
+							</zipalign>
 						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>zipalign</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
