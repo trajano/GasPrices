@@ -234,10 +234,10 @@
 									<includes>
 										<include>target/*.apk</include>
 									</includes>
-									<keystore>${keystore}</keystore>
-									<storepass>${password}</storepass>
-									<keypass>${password}</keypass>
-									<alias>${alias}</alias>
+									<keystore>${jarsign.keystore}</keystore>
+									<storepass>${jarsign.password}</storepass>
+									<keypass>${jarsign.password}</keypass>
+									<alias>${jarsign.alias}</alias>
 								</configuration>
 							</execution>
 						</executions>
