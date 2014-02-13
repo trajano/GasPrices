@@ -116,6 +116,7 @@ public class GasPricesUpdateService extends IntentService {
 			editor.removeLastError();
 		} catch (final IOException e) {
 			Log.e("GasPrices", e.getMessage() + " and cry");
+			@SuppressWarnings("deprecation")
 			final Notification notification = new Notification.Builder(this)
 					.setSmallIcon(R.drawable.ic_launcher)
 					.setAutoCancel(true)

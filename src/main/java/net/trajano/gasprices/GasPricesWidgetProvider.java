@@ -15,6 +15,12 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
+/**
+ * Widget provider.
+ * 
+ * @author Archimedes
+ * 
+ */
 public class GasPricesWidgetProvider extends AppWidgetProvider {
 	private static Intent getLaunchIntent(final Context context,
 			final int appWidgetId) {
