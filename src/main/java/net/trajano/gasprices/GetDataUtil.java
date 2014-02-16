@@ -74,6 +74,10 @@ public final class GetDataUtil {
 			while (c != -1) {
 				cacheFileStream.write(c);
 			}
+		} catch (final IOException e) {
+			// TODO alert the user that a previously cached data is going to
+			// be used.
+			Log.e("GasPrices", e.getMessage(), e);
 		} finally {
 			if (cacheFileStream != null) {
 				cacheFileStream.close();
