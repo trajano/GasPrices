@@ -111,7 +111,8 @@ public class GasPricesUpdateService extends IntentService {
 			if (!backgroundEnabled) {
 				return;
 			}
-			editor.setJsonData(GetDataUtil.getGasPricesDataFromInternet());
+			editor.setJsonData(GetDataUtil
+					.getGasPricesDataFromInternet(getCacheDir()));
 			notificationManager.cancel(1);
 			editor.removeLastError();
 		} catch (final IOException e) {

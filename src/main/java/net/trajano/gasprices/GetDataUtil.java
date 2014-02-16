@@ -1,6 +1,10 @@
 package net.trajano.gasprices;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
@@ -19,15 +23,19 @@ public final class GetDataUtil {
 	 * be done if there is a parse error, but the {@link IOException} is still
 	 * thrown for any communication errors.
 	 * 
+	 * @param cacheDir
+	 *            cache directory
+	 * 
 	 * @return a parsed JSONObject.
 	 * @throws IOException
 	 *             I/O error.
 	 */
-	public static JSONObject getGasPricesDataFromInternet() throws IOException {
+	public static JSONObject getGasPricesDataFromInternet(final File cacheDir)
+			throws IOException {
 		try {
 			// Read the JSON data, skip the first character since it
 			// breaks the parsing.
-			final String jsonData = getRawGasPricesDataFromInternet();
+			final String jsonData = getRawGasPricesDataFromInternet(cacheDir);
 			final Object value = new JSONTokener(jsonData).nextValue();
 			if (value instanceof JSONObject) {
 				return (JSONObject) value;
@@ -44,18 +52,39 @@ public final class GetDataUtil {
 	 * This connects to the site to get the data as is. Used for the situation
 	 * where an error had occured.
 	 * 
+	 * @param cacheDir
+	 *            cache directory
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
-	public static String getRawGasPricesDataFromInternet() throws IOException {
+	public static String getRawGasPricesDataFromInternet(final File cacheDir)
+			throws IOException {
+		final File cacheFile = new File(cacheDir, "cached");
 		final HttpURLConnection urlConnection = (HttpURLConnection) new URL(
 				"http://www.tomorrowsgaspricetoday.com/mobile/json_mobile_data.php")
 				.openConnection();
+		FileOutputStream cacheFileStream = null;
 		try {
-			return new Scanner(urlConnection.getInputStream())
-					.useDelimiter("\\A").next().substring(1);
+			final InputStream networkStream = urlConnection.getInputStream();
+			// Skip the first character.
+			networkStream.read();
+			cacheFileStream = new FileOutputStream(cacheFile);
+			final int c = networkStream.read();
+			while (c != -1) {
+				cacheFileStream.write(c);
+			}
 		} finally {
+			if (cacheFileStream != null) {
+				cacheFileStream.close();
+			}
 			urlConnection.disconnect();
+		}
+		final FileInputStream cacheInputStream = new FileInputStream(cacheFile);
+		try {
+			return new Scanner(cacheInputStream).useDelimiter("\\A").next();
+		} finally {
+			cacheInputStream.close();
 		}
 	}
 

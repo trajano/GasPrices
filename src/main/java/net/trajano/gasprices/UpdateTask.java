@@ -26,7 +26,8 @@ public class UpdateTask extends AsyncTask<Void, Void, Exception> {
 		final PreferenceAdaptorEditor editor = preferences.edit();
 
 		try {
-			final JSONObject data = GetDataUtil.getGasPricesDataFromInternet();
+			final JSONObject data = GetDataUtil
+					.getGasPricesDataFromInternet(context.getCacheDir());
 			editor.setJsonData(data);
 			editor.setLastUpdatedToNow();
 			return null;
@@ -34,8 +35,8 @@ public class UpdateTask extends AsyncTask<Void, Void, Exception> {
 			// TODO fix this is yucky
 			Log.e("GasPrices", e.getMessage() + " and cry");
 			try {
-				editor.setLastError(e.getMessage(),
-						GetDataUtil.getRawGasPricesDataFromInternet());
+				editor.setLastError(e.getMessage(), GetDataUtil
+						.getRawGasPricesDataFromInternet(context.getCacheDir()));
 			} catch (final IOException e2) {
 				editor.setLastError(e.getMessage(), "");
 				return e2;
