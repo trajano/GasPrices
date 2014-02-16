@@ -121,7 +121,31 @@
 							<destDir>${basedir}/res/drawable-xxhdpi</destDir>
 						</configuration>
 					</execution>
-				</executions>
+					<execution>
+						<id>amazon-small</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>rasterizer</goal>
+						</goals>
+						<configuration>
+							<width>114</width>
+							<height>114</height>
+							<destDir>${basedir}/target/amazon-small</destDir>
+						</configuration>
+					</execution>
+					<execution>
+						<id>amazon-large</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>rasterizer</goal>
+						</goals>
+						<configuration>
+							<width>512</width>
+							<height>512</height>
+							<destDir>${basedir}/target/amazon-large</destDir>
+						</configuration>
+					</execution>
+									</executions>
 			</plugin>
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>

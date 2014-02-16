@@ -22,6 +22,29 @@ import android.widget.RemoteViews;
  * 
  */
 public class GasPricesWidgetProvider extends AppWidgetProvider {
+	private static final Paint BIG_WIDGET_TEXT;
+
+	private static final Paint SMALL_WIDGET_TEXT;
+
+	static {
+		final Typeface rb = Typeface
+				.create("Roboto Condensed", Typeface.NORMAL);
+
+		SMALL_WIDGET_TEXT = new Paint();
+		SMALL_WIDGET_TEXT.setColor(Color.LTGRAY);
+		SMALL_WIDGET_TEXT.setAntiAlias(true);
+		SMALL_WIDGET_TEXT.setTextAlign(Align.CENTER);
+		SMALL_WIDGET_TEXT.setTypeface(rb);
+		SMALL_WIDGET_TEXT.setTextSize(38);
+
+		BIG_WIDGET_TEXT = new Paint();
+		BIG_WIDGET_TEXT.setColor(Color.WHITE);
+		BIG_WIDGET_TEXT.setAntiAlias(true);
+		BIG_WIDGET_TEXT.setTextAlign(Align.CENTER);
+		BIG_WIDGET_TEXT.setTextSize(78);
+		BIG_WIDGET_TEXT.setTypeface(rb);
+	}
+
 	private static Intent getLaunchIntent(final Context context,
 			final int appWidgetId) {
 		final PackageManager manager = context.getPackageManager();
@@ -50,18 +73,6 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 				R.drawable.red_bg);
 	}
 
-	//
-	// public Bitmap createCustomView(){
-	//
-	// Bitmap bitmap = Bitmap.createBitmap(BITMAP_WIDTH, BITMAP_HEIGHT,
-	// Bitmap.Config.ARGB_8888);
-	// Canvas canvas = new Canvas(bitmap);
-	// // draw on the canvas:
-	// // ...
-	//
-	// return bitmap;
-	// }
-	//
 	/**
 	 * This will update the app widgets provided that an update is not needed.
 	 * Because if an update is neded then there isn't a point of changing the UI
@@ -82,37 +93,22 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 		}
 
 		final CityInfo city = preferences.getWidgetCityInfo(appWidgetId);
-		final Typeface rb = Typeface
-				.create("Roboto Condensed", Typeface.NORMAL);
-
-		final Paint p2;
-		p2 = new Paint();
-		p2.setColor(Color.LTGRAY);
-		p2.setAntiAlias(true);
-		p2.setTextAlign(Align.CENTER);
-		p2.setTypeface(rb);
-		p2.setTextSize(38);
-
-		final Paint p3;
-		p3 = new Paint();
-		p3.setColor(Color.WHITE);
-		p3.setAntiAlias(true);
-		p3.setTextAlign(Align.CENTER);
-		p3.setTextSize(78);
-		p3.setTypeface(rb);
 		final Bitmap bitmap = Bitmap.createBitmap(400, 180,
 				Bitmap.Config.ARGB_8888);
 
 		final Canvas c = new Canvas(bitmap);
-		final float xPos = c.getWidth() / 2;
-		final float yPos1 = c.getHeight() / 8 - (p2.descent() + p2.ascent())
-				/ 2;
-		final float yPos = c.getHeight() / 2 - (p3.descent() + p3.ascent()) / 2;
+		final float xPos = c.getWidth() / 2.0f;
+		final float yPos1 = c.getHeight() / 8.0f
+				- (SMALL_WIDGET_TEXT.descent() + SMALL_WIDGET_TEXT.ascent())
+				/ 2.0f;
+		final float yPos = c.getHeight() / 2.0f
+				- (BIG_WIDGET_TEXT.descent() + BIG_WIDGET_TEXT.ascent()) / 2.0f;
 
-		final float yPos2 = c.getHeight() * 7 / 8
-				- (p2.descent() + p2.ascent()) / 2;
+		final float yPos2 = c.getHeight() * 7.0f / 8.0f
+				- (SMALL_WIDGET_TEXT.descent() + SMALL_WIDGET_TEXT.ascent())
+				/ 2.0f;
 
-		c.drawText(city.getName(), xPos, yPos1, p2);
+		c.drawText(city.getName(), xPos, yPos1, SMALL_WIDGET_TEXT);
 
 		setBlue(remoteViews);
 		if (city.isTomorrowsGasPriceAvailable()) {
@@ -122,7 +118,7 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 						context.getResources().getString(
 								R.string.widget_price_change_up_format,
 								city.getPriceDifferenceAbsoluteValue()), xPos,
-						yPos2, p2);
+						yPos2, SMALL_WIDGET_TEXT);
 
 			} else if (city.isTomorrowsGasPriceDown()) {
 				setGreen(remoteViews);
@@ -130,19 +126,19 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 						context.getResources().getString(
 								R.string.widget_price_change_down_format,
 								city.getPriceDifferenceAbsoluteValue()), xPos,
-						yPos2, p2);
+						yPos2, SMALL_WIDGET_TEXT);
 			} else {
 				setBlue(remoteViews);
 				c.drawText(
 						context.getResources().getString(
 								R.string.widget_price_unchanged), xPos, yPos2,
-						p2);
+						SMALL_WIDGET_TEXT);
 			}
 		}
 
 		c.drawText(
 				context.getResources().getString(R.string.widget_price_format,
-						city.getCurrentGasPrice()), xPos, yPos, p3);
+						city.getCurrentGasPrice()), xPos, yPos, BIG_WIDGET_TEXT);
 
 		remoteViews.setImageViewBitmap(R.id.widget_image, bitmap);
 
@@ -178,12 +174,14 @@ public class GasPricesWidgetProvider extends AppWidgetProvider {
 
 	@Override
 	public void onEnabled(final Context context) {
+		super.onEnabled(context);
 		GasPricesUpdateService.scheduleUpdate(context);
 	}
 
 	@Override
 	public void onUpdate(final Context context,
 			final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
+		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		final RemoteViews remoteViews = new RemoteViews(
 				context.getPackageName(), R.layout.widget_layout);
 
