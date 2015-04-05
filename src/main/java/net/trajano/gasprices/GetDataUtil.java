@@ -70,9 +70,10 @@ public final class GetDataUtil {
 			// Skip the first character.
 			networkStream.read();
 			cacheFileStream = new FileOutputStream(cacheFile);
-			final int c = networkStream.read();
+			int c = networkStream.read();
 			while (c != -1) {
 				cacheFileStream.write(c);
+				c = networkStream.read();
 			}
 		} catch (final IOException e) {
 			// TODO alert the user that a previously cached data is going to
