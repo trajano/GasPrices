@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Gas Prices</string>
+    <string name="loading">Loading. Please wait…</string>
+    <string name="default_price">---.--</string>
+    <string name="cents_per_liter_format">%.1f cents/litre</string>
+    <string name="widget_price_format">%.1f \u00A2/L</string>
+    <string name="widget_price_change_up_format">up %.1f \u00A2</string>
+    <string name="widget_price_change_down_format">down %.1f \u00A2</string>
+    <string name="widget_price_unchanged">unchanged tomorrow</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="last_updated">Last updated on: %s</string>
+    <string name="next_update">Next scheduled update on: %s</string>
+    <string name="error">Error</string>
+    <string name="problem_loading">There was a problem loading the data from the Internet.</string>
+    <string name="force_update">Force Update</string>
+    <string name="feed_data">Feed Data</string>
+    <string name="show_feed_data">Feed Data</string>
+    <string name="widget_image_description">Gas Prices data loading</string>
+    <string name="select_a_different_city">Select a Different City</string>
+    <string name="problem_loading_format">here was a problem loading the data from the Internet. Exception message:  %s.</string>
+
+</resources>

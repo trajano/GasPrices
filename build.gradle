@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+def AAVersion = '3.2'
+
+buildscript {
+    repositories {
+            jcenter()
+	        }
+		    dependencies {
+		            classpath 'com.android.tools.build:gradle:1.1.0'
+			            classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+				        }
+					}
+
+					allprojects {
+					    repositories {
+					            jcenter()
+						        }
+							}
+apt {
+    arguments {
+            androidManifestFile variant.outputs[0].processResources.manifestFile
+	            resourcePackageName 'net.trajano.gasprices'
+		        }
+			}
+
+			android {
+			    compileSdkVersion 21
+			        buildToolsVersion "21.1.2"
+
+				    defaultConfig {
+				            applicationId "net.trajano.gasprices"
+					            minSdkVersion 14
+						            targetSdkVersion 19
+							        }
+
+								    buildTypes {
+								            release {
+									                minifyEnabled false
+											            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+												            }
+													        }
+														}
+
+														dependencies {
+														    apt "org.androidannotations:androidannotations:$AAVersion"
+														        compile "org.androidannotations:androidannotations-api:$AAVersion"
+															}

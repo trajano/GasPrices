@@ -1,4 +1,7 @@
 *.iml
+local.properties
+.gradle/
+build/
 .DS_Store
 .checkstyle
 .classpath
