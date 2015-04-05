@@ -2,21 +2,18 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 def AAVersion = '3.2'
 
+
 buildscript {
 	repositories {
 		jcenter()
 	}
+
 	dependencies {
 		classpath 'com.android.tools.build:gradle:1.1.0'
 		classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
 	}
 }
 
-allprojects {
-	repositories {
-		jcenter()
-	}
-}
 apt {
 	arguments {
 		androidManifestFile variant.outputs[0].processResources.manifestFile
@@ -34,15 +31,35 @@ android {
 		targetSdkVersion 19
 	}
 
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+	// put the properties in .gradle/gradle.properties
+	if (project.hasProperty("RELEASE_STORE_FILE")) {
+		signingConfigs {
+			release {
+				storeFile file(RELEASE_STORE_FILE)
+				storePassword RELEASE_STORE_PASSWORD
+				keyAlias RELEASE_KEY_ALIAS
+				keyPassword RELEASE_KEY_PASSWORD
+			}
 		}
 	}
+
+	buildTypes {
+		if (project.hasProperty("RELEASE_STORE_FILE")) {
+			release {
+				minifyEnabled false
+				proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+				signingConfig signingConfigs.release
+			}
+		}
+	}
+
 	testOptions { 
 		unitTests.returnDefaultValues = true
 	}
+}
+
+repositories {
+	jcenter()
 }
 
 dependencies {
