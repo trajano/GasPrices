@@ -1,11 +1,12 @@
 package net.trajano.gasprices.test;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class SanityTest extends TestCase {
+public class SanityTest {
 	/**
 	 * Prove the test framework works.
 	 */
+	@Test
 	public void testNothing() {
 
 	}

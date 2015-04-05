@@ -1,16 +1,16 @@
 package net.trajano.gasprices.test;
 
-import net.trajano.gasprices.GasPricesUpdateService;
+import net.trajano.gasprices.GasPricesUpdateService_;
 import android.content.Intent;
 import android.test.ServiceTestCase;
 
-public class UpdateServiceTest extends ServiceTestCase<GasPricesUpdateService> {
+public class UpdateServiceTest extends ServiceTestCase<GasPricesUpdateService_> {
 	/**
 	 * Must set up a default constructor where the class is passed to the super
 	 * class constructor.
 	 */
 	public UpdateServiceTest() {
-		super(GasPricesUpdateService.class);
+		super(GasPricesUpdateService_.class);
 	}
 
 	/**
@@ -24,8 +24,6 @@ public class UpdateServiceTest extends ServiceTestCase<GasPricesUpdateService> {
 	 * This tests starting the service.
 	 */
 	public void testStartService() {
-		final Intent startIntent = new Intent(getContext(),
-				GasPricesUpdateService.class);
-		getContext().startService(startIntent);
+		getService();
 	}
 }
