@@ -59,7 +59,7 @@ public class GasPricesActivity extends Activity {
 	void enableStrictMode() {
 		if (BuildConfig.DEBUG) {
 			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-					.detectDiskReads().detectDiskWrites().detectNetwork()
+					.detectDiskWrites().detectNetwork()
 					.penaltyLog().build());
 			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
 					.detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
