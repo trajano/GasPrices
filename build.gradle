@@ -62,8 +62,8 @@ android {
 sonarRunner {
     sonarProperties {
         property "sonar.host.url", SONAR_HOST_URL
-        property "sonar.host.username", SONAR_HOST_USERNAME
-        property "sonar.host.password", SONAR_HOST_PASSWORD
+        property "sonar.login", SONAR_HOST_USERNAME
+        property "sonar.password", SONAR_HOST_PASSWORD
         property "sonar.jdbc.url", SONAR_JDBC_URL
         property "sonar.jdbc.driverClassName", SONAR_JDBC_DRIVERCLASSNAME
         property "sonar.jdbc.username", SONAR_JDBC_USERNAME
