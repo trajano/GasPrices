@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-apply plugin: 'sonar'
+apply plugin: 'sonar-runner'
 
 def AAVersion = '3.2'
 
@@ -59,28 +59,14 @@ android {
 	}
 }
 
-if (project.hasProperty("SONAR_HOST_URL")) {
-    sonar {
-        server {
-            url = SONAR_HOST_URL
-        }
-        database {
-            url = SONAR_JDBC_URL
-            driverClassName = SONAR_JDBC_DRIVERCLASSNAME
-            username = SONAR_JDBC_USERNAME
-            password = SONAR_JDBC_PASSWORD
-        }
+sonarRunner {
+    sonarProperties {
+        property "sonar.host.url", SONAR_HOST_URL
+        property "sonar.jdbc.url", SONAR_JDBC_URL
+        property "sonar.jdbc.driverClassName", SONAR_JDBC_DRIVERCLASSNAME
+        property "sonar.jdbc.username", SONAR_JDBC_USERNAME
+        property "sonar.jdbc.password", SONAR_JDBC_PASSWORD
     }
-/*
-    sonarRunner {
-        sonarProperties {
-            property "sonar.host.url", SONAR_HOST_URL
-            property "sonar.jdbc.url", SONAR_JDBC_URL
-            property "sonar.jdbc.driverClassName", SONAR_JDBC_DRIVERCLASSNAME
-            property "sonar.jdbc.username", SONAR_JDBC_USERNAME
-            property "sonar.jdbc.password", SONAR_JDBC_PASSWORD
-        }
-    }*/
 }
 
 repositories {
