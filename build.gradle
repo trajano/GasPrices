@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-def AAVersion = '3.2'
+apply plugin: 'sonar'
 
+def AAVersion = '3.2'
 
 buildscript {
 	repositories {
@@ -9,7 +10,7 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'com.android.tools.build:gradle:1.1.0'
+		classpath 'com.android.tools.build:gradle:1.1.3'
 		classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
 	}
 }
@@ -17,7 +18,7 @@ buildscript {
 apt {
 	arguments {
 		androidManifestFile variant.outputs[0].processResources.manifestFile
-		resourcePackageName 'net.trajano.gasprices'
+		resourcePackageName rootProject.name
 	}
 }
 
@@ -26,9 +27,9 @@ android {
 	buildToolsVersion "21.1.2"
 
 	defaultConfig {
-		applicationId "net.trajano.gasprices"
+		applicationId rootProject.name
 		minSdkVersion 14
-		targetSdkVersion 19
+		targetSdkVersion 21
 	}
 
 	// put the properties in .gradle/gradle.properties
@@ -46,7 +47,7 @@ android {
 	buildTypes {
 		if (project.hasProperty("RELEASE_STORE_FILE")) {
 			release {
-				minifyEnabled false
+				minifyEnabled true
 				proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 				signingConfig signingConfigs.release
 			}
@@ -56,6 +57,30 @@ android {
 	testOptions { 
 		unitTests.returnDefaultValues = true
 	}
+}
+
+if (project.hasProperty("SONAR_HOST_URL")) {
+    sonar {
+        server {
+            url = SONAR_HOST_URL
+        }
+        database {
+            url = SONAR_JDBC_URL
+            driverClassName = SONAR_JDBC_DRIVERCLASSNAME
+            username = SONAR_JDBC_USERNAME
+            password = SONAR_JDBC_PASSWORD
+        }
+    }
+/*
+    sonarRunner {
+        sonarProperties {
+            property "sonar.host.url", SONAR_HOST_URL
+            property "sonar.jdbc.url", SONAR_JDBC_URL
+            property "sonar.jdbc.driverClassName", SONAR_JDBC_DRIVERCLASSNAME
+            property "sonar.jdbc.username", SONAR_JDBC_USERNAME
+            property "sonar.jdbc.password", SONAR_JDBC_PASSWORD
+        }
+    }*/
 }
 
 repositories {
